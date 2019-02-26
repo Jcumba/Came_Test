@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition>
+    <p:dialog id="updatePar"
+              widgetVar="updateParticipante"
+              modal="true"
+              resizable="false"
+              appendTo="@(body)"
+              header="Actualizar Datos"
+              responsive="true"
+              closeOnEscape="true">
+        <h:form id="updateParticipantes">
+            <center>
+                <p:panel style="width: 800px; height: 500px; border: none">
+
+                    <div class="row">
+                        <div class="col-md-12 ">
+
+                            <ul class="nav nav-tabs tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tab01"
+                                       role="tab">DATOS PERSONALES</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab02" role="tab">DATOS EMPRESA</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab03" role="tab">DATOS ACADÉMICOS</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab04" role="tab">EMERGENCIA</a>
+
+                                </li>
+                            </ul>
+                            <div class="tab-content tabs-center-content card-block ">
+                                <div class="tab-pane active" id="tab01" role="tabpanel">
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label" style="font-weight: bold">Nombres:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.nomPer}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Apellidos:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.apePer}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Fecha Nacimiento</label><br/>
+                                                <p:inputMask value="#{participanteC.selectPer.fecNac}" mask="99/99/9999"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Lugar Nacimiento:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.lugNac}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Estado Civil:</label><br/>
+                                                <p:selectOneMenu value="#{participanteC.selectPer.estCivil}"
+                                                                 style="width: 100%">
+                                                    <f:selectItem itemLabel="Selecciona:" itemValue=""/>
+                                                    <f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)"/>
+                                                    <f:selectItem itemLabel="Soltero(a)" itemValue="Soltero(a)"/>
+                                                    <f:selectItem itemLabel="Viudo(a)" itemValue="Viudo(a)"/>
+                                                    <f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Celular/Teléfono:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.celPer}"
+                                                             style="width: 100%">
+                                                    <p:keyFilter regEx="[0-9]/i"/>
+                                                </p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Domicilio:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.dirPer}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label" style="font-weight: bold">Cónyuge:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.CONYUGE}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Profesión del Conyuge:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.PROFCONY}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Número de hijos a agregar:</label><br/>
+                                                <p:inputText value="#{participanteC.numhijos}" style="width: 100%">
+                                                    <p:ajax event="keyup" listener="#{participanteC.listahijos()}"
+                                                            update="pnlhijos"/>
+                                                </p:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <h:panelGroup id="pnlhijos">
+                                                <ui:repeat value="#{participanteC.pardet.hijos}" var="hijo"
+                                                           rendered="#{participanteC.pardet.hijos.size() > 0 ? true:false}">
+
+                                                    <center><p:panelGrid columns="4">
+                                                        <p:outputLabel for="@next" value="Fecha de nacimiento de Hijo"/>
+                                                        <p:inputMask value="#{hijo.FECNACHIJ}" mask="99/99/9999"/>
+
+                                                        <p:outputLabel for="@next" value="Sexo"/>
+                                                        <p:selectOneMenu value="#{hijo.SEXHIJ}" style="width: 100%">
+                                                            <f:selectItem itemLabel="Selecciona:" itemValue=""/>
+                                                            <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                                            <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                                        </p:selectOneMenu>
+                                                    </p:panelGrid>
+                                                    </center>
+                                                </ui:repeat>
+                                            </h:panelGroup>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab02" role="tabpanel">
+                                    <br/>
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label" style="font-weight: bold">Empresa:</label><br/>
+                                                <p:autoComplete dropdown="true" maxResults="10"
+                                                                forceSelection="true"
+                                                                value="#{participanteC.selectPer.empresaM.NOMBEMP}"
+                                                                completeMethod="#{participanteC.completeTextEmpresa}"
+                                                                emptyMessage="No existe"
+                                                                style="width: 100%" required="true"
+                                                                requiredMessage="Se requiere la empresa"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Teléfono/Anexo:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.TELFTRAB}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Email trabajo:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.EMAILTRAB}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Área del participante:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.AREATRAB}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Años en el puesto:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.YEARPUESTO}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Número de personas a cargo:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.NUMPERCARGO}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Nombre del jefe:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.JEFEMP}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Cargo del jefe:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.JEFCARGO}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Teléfono del jefe:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.JEFTELF}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Email del jefe:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.JEFEMAIL}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Actividades importantes(Participante)</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.ACTPER}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Tiene auto(Participante):</label><br/>
+                                                <p:selectOneMenu value="#{participanteC.selectPer.personaDet.AUTOPER}"
+                                                                 style="width: 100%">
+                                                    <f:selectItem itemLabel="Selecciona:" itemValue=""/>
+                                                    <f:selectItem itemLabel="Sí" itemValue="S"/>
+                                                    <f:selectItem itemLabel="No" itemValue="N"/>
+                                                </p:selectOneMenu>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Marca:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.MARCAUT}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Placa:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.PLACAUT}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab03" role="tabpanel">
+                                    <br/>
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Grado Académico:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.GRAPER}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Universidad:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.UNIPER}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Especialidad:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.ESPPER}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">1.Programa:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.PROACA1}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Duración:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.DURACA1}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Institución:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.INSACA1}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">2.Programa:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.PROACA2}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Duración:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.DURACA2}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Institución:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.INSACA2}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">3.Programa:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.PROACA3}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Duración:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.DURACA3}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Institución:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.INSACA3}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab04" role="tabpanel">
+                                    <br/>
+                                    <div class="row">
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Seguro Particular:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.SEGURO}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Teléfono del Seguro:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.TELFSEGURO}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Nombre de la persona para llamar en caso de emergencia:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.EMERNOMB}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label"
+                                                       style="font-weight: bold">Teléfono de la persona:</label><br/>
+                                                <p:inputText value="#{participanteC.selectPer.personaDet.EMERTELF}"
+                                                             style="width: 100%"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <p:commandButton value="Actualizar"
+                                                         actionListener="#{participanteC.actualizar()}"
+                                                         update=":listarPostulante updateParticipantes"
+                                                         oncomplete="handleSubmit(args,'updateParticipante');"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </p:panel>
+            </center>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>
+

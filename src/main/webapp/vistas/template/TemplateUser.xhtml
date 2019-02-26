@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Came</title>
+        <f:event type="preRenderView" listener="#{personaC.securitySessionParticipante()}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
+
+        <link href="#{sessionService.linkProyecto}/resources/css/Styles_2.css" rel="stylesheet" type="text/css"/>
+        <link href="#{sessionService.linkProyecto}/resources/css/Colores_Materialize.css" rel="stylesheet" type="text/css"/>
+
+        <h:outputStylesheet name="css/themify-icons.css"/>
+        <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+        <link href="#{sessionService.linkProyecto}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+        <h:outputStylesheet name="css/components.css"/>
+        <h:outputStylesheet name="css/theme-dark-green.css"/>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <h:outputScript name="js/jsfcrud.js"/>
+    </h:head>
+
+    <h:body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" listener="#{personaC.finishSession()}"/>
+        </p:idleMonitor>
+
+        <p:growl showDetail="true"><p:autoUpdate/></p:growl>
+
+        <div class="theme-loader">
+            <div class="loader-track">
+                <div class="preloader-wrapper">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pcoded" class="pcoded iscollapsed" vertical-nav-type="offcanvas">
+            <div class="pcoded-overlay-box"></div>
+            <div class="pcoded-container navbar-wrapper">
+                <nav class="navbar header-navbar pcoded-header" style="background: #448AFF;">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-logo">
+
+                            <a href="index.html">
+                                <img class="img-fluid" src="#{sessionService.linkProyecto}/resources/img/CAME.png"
+                                     alt="Theme-Logo"
+                                     width="157px" height="25px"/>
+                            </a>
+                            <a class="mobile-options waves-effect waves-light">
+                                <i class="ti-more"></i>
+                            </a>
+                        </div>
+
+                        <h:form>
+                            <div class="navbar-container container-fluid">
+                                <ul class="nav-left">
+                                    <li>
+                                        <div class="sidebar_toggle">
+                                            <a href="javascript:void(0)">
+                                                <i class="ti-menu"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="nav-right">
+                                    <li class="">
+                                        <a style="cursor: pointer" class="displayChatbox waves-effect waves-light">
+                                            <i class="ti-bell"></i>
+                                            <h:panelGroup rendered="#{empty personaC.listHbHoy ? false : true}">
+                                                <span class="badge bg-c-green"></span>
+                                            </h:panelGroup>
+                                        </a>
+                                    </li>
+                                    <li class="user-profile header-notification">
+                                        <a class="waves-effect waves-light pointer">
+                                            <img onerror="this.onerror=null;this.src='#{sessionService.linkProyecto}/resources/img/man.png';"
+                                                 src="#{sessionService.linkRepositorioImg}/#{personaC.usuario.dniPer}.jpg"
+                                                 class="img-radius" alt="User-Profile-Image"
+                                                 style="width: 2.8em; height: 2.8em;"/>
+                                            <span>#{personaC.usuario.nomPer}</span>
+                                            <i class="ti-angle-down"></i>
+                                        </a>
+                                        <ul class="show-notification profile-notification">
+                                            <li class="waves-effect waves-light">
+                                                <a class="pointer" onclick="PF('UpMyPass').show();">
+                                                    <i class="ti-key"></i>Cambiar Contraseña
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect waves-light">
+                                            <p:commandLink actionListener="#{participanteC.obtenerDatosParticipante()}"
+                                                           oncomplete="PF('actualizarParticipante').show();"
+                                                           update=":updateParticipantes">
+                                                <i class="ti-pencil-alt"></i> Actualizar Datos
+                                            </p:commandLink>
+                                    </li>
+                                    <li class="waves-effect waves-light">
+                                    <h:commandLink class="waves-effect waves-light"
+                                                   actionListener="#{personaC.finishSession()}">
+                                        <i class="ti-power-off"></i>
+                                        <span>Cerrar Sesión</span>
+                                    </h:commandLink>
+                                    </li>
+                                </ul>
+                                </li>
+                                </ul>
+                            </div>
+                        </h:form>
+
+                    </div>
+                </nav>
+
+                <div id="sidebar" class="users p-chat-user showChat">
+                    <div class="had-container">
+                        <div class="card card_main p-fixed users-main">
+                            <h4 style="margin: 10px">Notificaciones</h4>
+                            <div class="user-box">
+                                <div class="main-friend-list">
+                                    <h:panelGroup rendered="#{personaC.listHbHoy.size()>0 or
+                                                              personaC.listHbMan.size()>0 or
+                                                              personaC.listHbPm.size()>0 or
+                                                              personaC.listHb7.size()>0}">
+                                        <h5 style="margin: 10px; font-size: 1.3em;">Cumpleaños</h5>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{empty personaC.listHbHoy 
+                                                              and empty personaC.listHbMan 
+                                                              and empty personaC.listHbPm
+                                                              and empty personaC.listHb7
+                                                              and empty personaC.lstNotificacionParticipante}">
+                                        <label style="margin: 10px; font-size: 1.3em;">No hay ninguna notificación para mostrar</label>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{empty personaC.listHbHoy ? false : true}">
+                                        <h6 style="margin: 15px">Hoy</h6>
+                                        <ui:repeat value="#{personaC.listHbHoy}" var="hbHoy">
+                                            <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                                 data-status="online" data-username="#{hbHoy.nomPer}" data-toggle="tooltip"
+                                                 data-placement="left" title="#{hbHoy.nomPer}">
+                                                <a class="media-left" style="cursor: pointer">
+                                                    <img class="media-object img-radius img-radius"
+                                                         src="#{hbHoy.imgPer == null ? '../../resources/img/man.png' : sessionService.linkRepositorioImg.concat('/').concat(hbHoy.imgPer)}"/>
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="f-13 chat-header">#{hbHoy.nomPer}</div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{empty personaC.listHbMan ? false : true}">
+                                        <h6 style="margin: 15px">Mañana</h6>
+                                        <ui:repeat value="#{personaC.listHbMan}" var="hbMan">
+                                            <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                                 data-status="online" data-username="#{hbMan.nomPer}" data-toggle="tooltip"
+                                                 data-placement="left" title="#{hbMan.nomPer}">
+                                                <a class="media-left" style="cursor: pointer">
+                                                    <img class="media-object img-radius img-radius"
+                                                         src="#{hbMan.imgPer == null ? '../../resources/img/man.png' : sessionService.linkRepositorioImg.concat('/').concat(hbMan.imgPer)}"/>
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="f-13 chat-header">#{hbMan.nomPer}</div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{empty personaC.listHbPm ? false : true}">
+                                        <h6 style="margin: 15px">Pasado mañana</h6>
+                                        <ui:repeat value="#{personaC.listHbPm}" var="hbPm">
+                                            <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                                 data-status="online" data-username="#{hbPm.nomPer}" data-toggle="tooltip"
+                                                 data-placement="left" title="#{hbPm.nomPer}">
+                                                <a class="media-left" style="cursor: pointer">
+                                                    <img class="media-object img-radius img-radius"
+                                                         src="#{hbPm.imgPer == null ? '../../resources/img/man.png' : sessionService.linkRepositorioImg.concat('/').concat(hbPm.imgPer)}"/>
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="f-13 chat-header">#{hbPm.nomPer}</div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{empty personaC.listHb7 ? false : true}">
+                                        <h6 style="margin: 15px">Próximos</h6>
+                                        <ui:repeat value="#{personaC.listHb7}" var="hb7">
+                                            <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                                 data-status="online" data-username="#{hb7.nomPer}" data-toggle="tooltip"
+                                                 data-placement="left" title="#{hb7.nomPer}">
+                                                <a class="media-left" style="cursor: pointer">
+                                                    <img class="media-object img-radius img-radius"
+                                                         src="#{hb7.imgPer == null ? '../../resources/img/man.png' : sessionService.linkRepositorioImg.concat('/').concat(hb7.imgPer)}"/>
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="f-13 chat-header">#{hb7.nomPer}</div>
+                                                    <span class="form-text text-muted text-right">#{hb7.fecNac}</span>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{personaC.lstNotificacionParticipante.size() > 0}">
+                                        <h5 style="margin: 10px; font-size: 1.3em;">Avisos</h5>
+                                        <p:repeat value="#{personaC.lstNotificacionParticipante}" var="notifi">
+                                            <div class="media userlist-box waves-effect waves-light" data-toggle="tooltip" title="#{notifi.fecNot}">
+                                                <div class="media-body">
+                                                    <span>#{notifi.menNot}</span>
+                                                    <span class="form-text text-muted text-right">#{notifi.fecNot}</span>
+                                                </div>
+                                            </div>
+                                        </p:repeat>
+                                    </h:panelGroup>
+                                    <div class="py-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcoded-main-container">
+                    <ui:insert name="content"></ui:insert>
+                </div>
+            </div>
+        </div>
+        <ui:include src="updatePassword.xhtml"/>
+        <ui:insert name="nav-active"></ui:insert>
+        <h:outputScript name="js/jquery-ui.min.js"/>
+        <h:outputScript name="js/bootstrap.min.js"/>
+        <h:outputScript name="js/jquery.slimscroll.js"/>
+        <h:outputScript name="js/vertical-layout.min.js"/>
+        <h:outputScript name="js/jquery.mCustomScrollbar.concat.min.js"/>
+        <h:outputScript name="js/pcoded.min.js"/>
+        <h:outputScript name="js/script.js"/>
+    </h:body>
+</html>

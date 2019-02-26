@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form id="formListEntrevista">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Participantes</h5>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">PROGRAMA Y GENERACIÓN</label><br/>
+                                <p:selectOneMenu value="#{entrevistaC.CODPROG}" style="width: 100%">
+                                    <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                    <f:selectItems value="#{participanteC.listaCbGenPostulante}" var="cbProg" itemLabel="#{cbProg.nomProg}" itemValue="#{cbProg.codDetProg}"/> 
+                                    <p:ajax event="change" listener="#{entrevistaC.listarPostulantesE()}" update="cbPostulantes"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Postulantes</label><br/>
+                                <p:selectOneMenu value="#{entrevistaC.CODPER}" id="cbPostulantes" style="width: 100%">
+                                    <f:selectItem itemLabel="Seleccione un participante" noSelectionOption="true"/>
+                                    <f:selectItems value="#{entrevistaC.listPar}" var="cbPos" itemLabel="#{cbPos.nomPer} #{cbPos.apePer}" itemValue="#{cbPos.dniPer}"/>
+                                    <p:ajax event="change" listener="#{entrevistaC.listarEntrevista(entrevistaC.CODPER)}" update=":formCreateEntrevista"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </h:form>
+
+    </ui:composition>
+</html>
+

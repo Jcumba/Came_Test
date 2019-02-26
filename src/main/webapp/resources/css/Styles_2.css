@@ -1,0 +1,159 @@
+/*Extra small*/
+@media (max-width: 576px) {
+    .hidden-extra-small {
+        display: none !important;
+    }
+}
+
+.component-disable {
+    background: crimson !important;
+    color: white;
+}
+
+.component-encuesta {
+    background: #00C853 !important;
+    color: white;
+}
+
+.component-participante-inscritos {
+    color: #FF0000 !important;
+}
+
+.component-prog-espera {
+    background: crimson !important;
+    color: white;
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    .ui-dialog.responsive { /*Tamano Personalizado*/
+        width: 100% !important;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    .ui-dialog.responsive { /*Tamano Personalizado*/
+        width: 100% !important;
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .ui-dialog.responsive { /*Tamano Personalizado*/
+        width: 100% !important;
+    }
+}
+
+/*Extra large devisces (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .ui-dialog.responsive { /*Tamano Personalizado*/
+        width: 100% !important;
+    }
+}
+
+/*----------------------------------------
+    Clases
+------------------------------------------*/
+.ocultar {
+    display: none !important;
+}
+
+.input-block {
+    display: block;
+    width: 100%
+}
+
+.negrita {
+    font-weight: bold !important;
+}
+
+.center {
+    text-align: center !important;
+}
+
+/*----------------------------------------
+    Validaciones
+------------------------------------------*/
+/*Label Comun*/
+label.ui-outputlabel.ui-state-error {
+    color: #FF0000 !important;
+}
+
+/*Input Text*/
+input.ui-inputfield.ui-state-error { /*Input*/
+    background-image: linear-gradient(to bottom, #FF0000, #FF0000), linear-gradient(to bottom, #FC6262, #FC6262) !important;
+}
+
+input.ui-inputfield.ui-state-error ~ label { /*Label Comun*/
+    color: #FF0000 !important;
+}
+
+/* Input TextArea */
+textarea.ui-inputfield.ui-state-error { /*Input*/
+    background-image: linear-gradient(to bottom, #FF0000, #FF0000), linear-gradient(to bottom, #FC6262, #FC6262) !important;
+}
+
+/* Select One Menu*/
+div.ui-selectonemenu.ui-state-error { /*Input*/
+    background-image: linear-gradient(to bottom, #FF0000, #FF0000), linear-gradient(to bottom, #FC6262, #FC6262) !important;
+}
+
+div.ui-selectonemenu.ui-state-error > label.ui-selectonemenu-label { /*Label*/
+    color: #FF0000 !important;
+}
+
+div.ui-selectonemenu.ui-state-error > div > span { /*Icono*/
+    color: #FF0000 !important;
+}
+
+/* Auto Complete -> label es comun*/
+span > input.ui-inputfield.ui-state-error { /*Input*/
+    background-image: linear-gradient(to bottom, #FF0000, #FF0000), linear-gradient(to bottom, #FC6262, #FC6262) !important;
+}
+
+span > input.ui-inputfield.ui-state-error ~ button > span { /*Icono*/
+    color: #FF0000 !important;
+}
+
+/*----------------------------------------
+    Efectos Permanentes
+------------------------------------------*/
+table.table-no-padding > tbody > tr > th,table.table-no-padding > tbody > tr > td {
+    padding: unset !important;
+}
+
+.ui-separator {
+    border: none !important;
+}
+
+.ui-selectonemenu {
+    width: 100% !important;
+}
+
+.ui-autocomplete-input, .ui-autocomplete {
+    width: 100% !important;
+}
+
+div.ui-selectcheckboxmenu-trigger.ui-state-default.ui-corner-right {
+    margin-top: unset !important;
+}
+
+.cuadradoLeyendaVerde {
+    width: 12px;
+    height: 12px;
+    background: #00C853 !important;
+    color: white;
+}
+
+.cuadradoLeyendaRojo {
+    width: 12px;
+    height: 12px;
+    background: crimson !important;
+    color: white;
+}
+
+.texto-espacio {
+    font-size: 14px;
+    text-indent: 0.2cm;
+}  

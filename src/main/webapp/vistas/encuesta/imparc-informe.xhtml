@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_estado_imparc" value="active"/>
+            <ui:param name="active_trigger_evaluaciones" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Impacto Parcial</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+            <ui:define name="content">
+                <style type="text/css">
+                    .ui-column-title {
+                        font-size: 12px;
+
+                    }
+
+                    .label-green {
+                        background: greenyellow;
+                    }
+
+                    .label-cerrado {
+                        color: #afb5bb !important;
+                        font-weight: bold !important;
+                    }
+                </style>
+                <div class="card">
+                    <div class="card-header">
+                        <h5 style="font-weight: bold ; font-size: 1.3em">ESTADO DE EVALUACIONES PARCIALES</h5>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <h:form id="frmConfig">
+                                    <p:outputLabel value="PROGRAMA Y GENERACIÓN"/>
+                                    <p:selectOneMenu id="oneMenuConfig" value="#{evalImpParcC.CODDETPROG}" style="width: 100%"
+                                                     required="true" requiredMessage="Seleccione Programa">
+                                        <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                        <f:selectItems value="#{sesionC.listaCbGen}" var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                                       itemValue="#{cbProg.codDetProg}"/>
+                                        <p:ajax event="change" listener="#{evalImpParcC.lstEstadoEvaluParc()}" update="data"/>
+                                    </p:selectOneMenu>
+                                    <br/><br/><br/>
+                                    <p:dataTable id="data" value="#{evalImpParcC.lstEstEvalParc}" var="estEva"
+                                                 paginator="false" emptyMessage="No se encontraron registros o seleccionar programa"
+                                                 sortBy="#{estEva.NOMFASE_EST}" expandableRowGroups="true">
+                                        <p:headerRow>
+                                            <p:column colspan="2" >
+                                                <h:outputText value="#{estEva.NOMFASE_EST}"/>
+                                            </p:column>
+                                        </p:headerRow>
+
+                                        <p:column headerText="PARTICIPANTE" style="width:47%">
+                                            <p:outputLabel value="#{estEva.PERSONA_EST}"/>
+                                        </p:column>
+                                        <p:column headerText="ESTADO" style="width:15%; text-align: center">
+                                            <p:tooltip value="#{estEva.FECEVAIMP}" for="@next" position="top"/>
+                                            <p:outputLabel value="#{estEva.ESTADO_EST}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

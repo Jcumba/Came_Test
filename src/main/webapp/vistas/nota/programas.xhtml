@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_nota_programa" value="active"/>
+            <ui:param name="active_trigger_notas" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Notas Programa</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+            <ui:define name="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Notas por Programa</h5>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-12">
+                                <h:form id="form">
+                                    <p:growl id="message" showDetail="true"/>
+                                    <p:outputLabel value="PROGRAMA Y GENERACIÓN"/>
+                                    <p:selectOneMenu value="#{notasC.CODDETPROG}" style="width: 100%"
+                                                     required="true" requiredMessage="Seleccione Programa">
+                                        <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true" />
+                                        <f:selectItems value="#{sesionC.listaCbGen}" var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                                       itemValue="#{cbProg.codDetProg}"/>
+                                        <p:ajax event="change" listener="#{notasC.listarPromProg()}" update="form"/>
+                                    </p:selectOneMenu>
+                                    <br/><br/>
+
+                                    <!--                                    SELECCIONA EL TIPO DE EXPORTACIÓN-->
+                                    <p:outputLabel value="CRITERIOS DE BÚSQUEDA"/> 
+                                        <p:selectOneMenu  value="#{generateReportController.orden}" class="input-block" 
+                                                          required="true" requiredMessage="" style="width: 100%">
+                                            <f:selectItem itemLabel="Seleccione un criterio" noSelectionOption="true"/>            
+                                            <f:selectItem itemLabel="NOTAS ASCENDENTES" itemValue="1"/>
+                                            <f:selectItem itemLabel="NOTAS DESCENDENTES" itemValue="2" />
+                                            <f:selectItem itemLabel="PARTICIPANTES ASCENDENTES" itemValue="3"/>
+                                            <f:selectItem itemLabel="PARTICIPANTES DESCENDENTES" itemValue="4" />
+                                        </p:selectOneMenu>
+                                    <br/>
+                                    <center>
+                                        <p:commandButton value="Descargar" ajax="false" actionListener="#{generateReportController.descargarPDFNotasPorPrograma(notasC.CODDETPROG)}"/>
+                                    </center>
+                                    <br/><br/><br/>
+
+
+                                    <center>
+                                        <div class="col-8">
+                                            <p:dataTable var="prom" value="#{notasC.lstPromProg}" id="data">
+                                                <p:column headerText="PARTICIPANTE" sortBy="#{prom.nomPer}">
+                                                    <h:outputText value="#{prom.nomPer} #{prom.apePer}"/>
+                                                </p:column>
+                                                <p:column headerText="PROMEDIO FINAL" width="115" class="center"
+                                                          sortBy="#{prom.PROM_PROG}">
+                                                    <h:outputText value="#{prom.PROM_PROG}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                            <br/>
+
+                                            <p:commandButton value="Cerrar Programa" actionListener="#{notasC.cerrarPrograma()}"
+                                                             update="form form:message"
+                                                             rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                                <p:confirm header="Confirmación"
+                                                           message="¿Seguro que quieres cerrar el programa?"
+                                                           icon="ui-icon-alert"/>
+                                            </p:commandButton>
+                                        </div>
+                                    </center>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

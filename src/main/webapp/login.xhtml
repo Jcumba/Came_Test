@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Came</title>
+    <f:event type="preRenderView" listener="#{personaC.securityLogin()}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
+
+    <link href="resources/css/themify-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="resources/css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css"/>
+    <h:outputStylesheet library="css" name="components.css"/>
+    <h:outputStylesheet library="css" name="theme-dark-green.css"/>
+    <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+</h:head>
+<body themebg-pattern="theme1">
+<section class="login-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p:idleMonitor timeout="60000">
+                    <p:ajax event="idle" onstart="location.reload();"/>
+                </p:idleMonitor>
+                <p:growl><p:autoUpdate/></p:growl>
+                <h:form id="formLogin" class="md-float-material form-material">
+                    <div class="text-center">
+                        <img src="resources/img/CAME.png" alt="logo.png" width="157px" height="50px"/>
+                    </div>
+                    <div class="auth-box card">
+                        <div class="card-block">
+                            <div class="row m-b-20">
+                                <div class="col-md-12">
+                                    <h3 class="text-center">Login</h3>
+                                </div>
+                            </div>
+                            <div class="form-group form-primary">
+                                <p:inputText class="form-control" value="#{personaC.user}" placeholder="user"/>
+                                <span class="form-bar"></span>
+                                <label class="float-label">USUARIO</label>
+                            </div>
+                            <div class="form-group form-primary">
+                                <p:password class="form-control" value="#{personaC.psw}" placeholder="*****"/>
+                                <span class="form-bar"></span>
+                                <label class="float-label">CONTRASEÑA</label>
+                            </div>
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <p:commandButton id="btnLogin" value="INICIAR SESIÓN"
+                                                     class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20"
+                                                     actionListener="#{personaC.iniciarSesion()}" ajax="true"
+                                                     style="background-color:#448aff " update=":formRoles"/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <p class="text-inverse text-left m-b-0">Sistema</p>
+                                    <p class="text-inverse text-left">
+                                        <a href="http://came.edu.pe/">
+                                            <b>Came 2018</b>
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-md-2">
+                                    <img src="resources/img/CAME-1.png" alt="small-logo.png" width="45px"
+                                         height="45px"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p:blockUI block="formLogin" trigger="btnLogin">
+                        LOADING<br/>
+                        <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                    </p:blockUI>
+                </h:form>
+                <!-- Modal -->
+                <p:dialog widgetVar="roles"
+                          closable="false"
+                          resizable="false"
+                          closeOnEscape="false"
+                          showEffect="faded"
+                          hideEffect="faded"
+                          modal="true"
+                          minHeight="500">
+                    <h:form id="formRoles">
+                        <div class="container-fluid">
+                            <p:selectOneButton value="#{personaC.usuario.tipoPer}">
+                                <f:selectItems value="#{personaC.usuario.listRoles}" var="rol"
+                                               itemLabel="#{rol.descripcion}" itemValue="#{rol.tipo}"/>
+                                <p:ajax event="change" listener="#{personaC.selectRol()}"/>
+                            </p:selectOneButton>
+                        </div>
+                    </h:form>
+                </p:dialog>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+

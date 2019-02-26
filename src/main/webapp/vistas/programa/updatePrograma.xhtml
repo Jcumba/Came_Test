@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UpdateProg"
+                  header="Actualizar Programa"
+                  widgetVar="UpProg"
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  resizable="false"
+                  responsive="true"
+                  modal="true"  
+                  showEffect="fade"
+                  hideEffect="fade"
+                  width="50%"
+                  onHide="clearProg()">
+            <h:form id="formActualizarPrograma">
+                <center><p:panelGrid columns="2" style="width: 100%">
+                        <p:outputLabel value="Programa"/>
+                        <p:inputText id="inputNom" style="width: 100%"  value="#{programaC.programa.nomProg}" required="true" requiredMessage="Ingrese su Nombre"/>
+                        <p:outputLabel value="Iniciales"/>
+                        <p:inputText id="inputIni" style="width: 100%"  value="#{programaC.programa.iniProg}" required="true" requiredMessage="Ingrese las iniciales del programa"/>
+                        <p:outputLabel value="Tipo"/>
+                        <p:selectOneMenu class="form-control" value="#{programaC.programa.codTipPg}" style="width: 100%" required="true" requiredMessage="Ingrese el tipo de programa">
+                            <f:selectItems value="#{programaC.listCbTipoPg}" var="prog" itemLabel="#{prog.nomTipPg}" itemValue="#{prog.codTipPg}"/>
+                            <p:ajax event="change" update="formActualizarPrograma"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Empresa" rendered="#{programaC.programa.codTipPg == '3' ? true:false}"/>
+                        <p:autoComplete dropdown="true" maxResults="10" rendered="#{programaC.programa.codTipPg == '3' ? true:false}"
+                                        value="#{programaC.programa.nombEmp}"
+                                        completeMethod="#{programaC.completeTextEmpre}" emptyMessage="No existe"
+                                        style="width: 100%" required="true" requiredMessage="Se requiere la Empresa"/>
+                    </p:panelGrid>
+                    <br/>
+                    <p:remoteCommand name="clearProg" actionListener="#{programaC.limpiar()}" immediate="true"/>
+                    <p:commandButton value="Actualizar" 
+                                     actionListener="#{programaC.updatePrograma()}" 
+                                     update="formActualizarPrograma :formLista :formCreate" 
+                                     oncomplete="updateTablaProg();handleSubmit(args,'UpProg');"
+                                     style="width: 20%" />
+                </center>
+            </h:form> 
+        </p:dialog>
+    </ui:composition>
+</html>
+

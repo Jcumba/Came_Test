@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <h:form id="formListaBiblioteca">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Buscar Documentos</h5>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Nombre del documento:</label><br/>
+                                <p:inputText value="#{bibliotecaC.doc}" style="width: 100%"/>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <br/>
+                            <p:commandButton value="Listar" actionListener="#{bibliotecaC.listar()}" update="formListaBiblioteca" style="width: 100%"/>
+                        </div>
+                    </div>
+                    <p:dataTable var="bi" value="#{bibliotecaC.lstbi}" id="data" rowKey="#{bi.cod}"
+                                 class="animation fadeIn"
+                                 reflow="true" rows="10"
+                                 emptyMessage="No se encontró ningún registro">
+
+                        <p:column headerText="Nombre" width="25%">
+                            <a style="color: blue; text-decoration: underline" href="#{sessionService.linkRepositorio}/#{bi.ubicacion}/#{bi.nomb}" target="_blank">#{bi.nomb}</a>
+                        </p:column>
+
+                        <p:column headerText="Tamaño" class="text-center" width="10%">
+                            <h:outputText value="#{bi.tamano}" />
+                        </p:column>
+
+                        <p:column headerText="Fecha" width="15%">
+                            <h:outputText value="#{bi.fecha}" />
+                        </p:column>
+
+                        <p:column headerText="Tipo" width="15%">
+                            <h:outputText value="#{bi.tipocont}" />
+                        </p:column>
+                        
+                        <p:column headerText="Dirigido a" width="15%">
+                            <h:outputText value="#{bi.privilegioMask}" />
+                        </p:column>
+                        
+                        <p:column  width="70" headerText="Editar" class="text-center" rendered="#{sessionService.administrador || sessionService.operaciones}">
+                            <p:commandButton icon="ui-icon-pencil" update="updateBiblioteca" oncomplete="PF('updateDocumento').show()">
+                                <f:setPropertyActionListener value="#{bi}" target="#{bibliotecaC.select}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+        <ui:include src="updateDoc.xhtml"/>
+    </ui:composition>
+</html>
+
+
+

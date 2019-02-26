@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="updateBi"
+                  widgetVar="updateDocumento"
+                  modal="true"                  
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Actualizar Datos"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="updateBiblioteca">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Programa"/>
+                    <p:selectOneMenu value="#{bibliotecaC.select.programa}"  required="true" requiredMessage="Seleccione el programa" style="width: 100%">
+                        <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                        <f:selectItems value="#{programaC.listCbTipoPg}" var="cbProg" itemLabel="#{cbProg.nomTipPg}" itemValue="#{cbProg.codTipPg}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <br/>
+                <p:commandButton value="Actualizar" actionListener="#{bibliotecaC.actualizar()}" oncomplete="handleSubmit(args,'updateDocumento');cleanrSesion();" update=":formListaBiblioteca updateBiblioteca"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,1135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Came-FichaInscripcionDelSistema" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24122438-2610-42b6-b5a9-c5c22bff8a94">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CAME_CLOUD"/>
+	<parameter name="CodPerFicIns" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select
+ENTRE.CODPER,
+PERSONA.IMGPER,
+PROGRAMA.NOMPROG,
+TO_CHAR(ASIGNACION.FECREG,'dd/mm/yyyy')AS FECREG, --FECHA DE INSCRIPCION
+------INFORMACION PERSONAL
+Persona.Nomper,
+Persona.Apeper,
+TO_CHAR(Persona.Fechper,'dd/mm/yyyy')AS NACIMIENTO,
+Persona.Lugnac,
+Persona.Estciv,
+Persona.Sexper,
+Persona.Dniper,
+Persona.Dirper,
+UBIGEO.DISTUBI AS DISPER, -- DISTRITO REGION
+Persona_Det.Telfseguro AS TEL_PER,
+PERSONA.CELPER,
+Persona.Emailper,
+Persona_Det.Conyuge AS NOM_CONYUGE,
+Persona_Det.PROFCONY AS PORF_CONYUGE,
+(SELECT Count(*) FROM Persona_Hijos where Persona_Hijos.CODPERDET = Persona_Det.CODPERDET)AS NUM_HIJOS, 
+(select  listagg(f_edadhijos(CODHIJ),' - ') WITHIN GROUP (ORDER BY Persona_Hijos.FECNACHI) from Persona_Hijos where Persona_Hijos.CODPERDET = Persona_Det.CODPERDET ) AS NACI_HIJOS,
+------INFORMACION LABORAL -----
+Empresa.Nombemp,
+Empresa.Rucemp,
+Empresa.Diremp,
+UBIGEO.DISTUBI AS DISEMP,--DISTRITO/REGION
+Persona_Det.TELFTRAB AS TEL_EMPRE,
+Persona_Det.EMAILTRAB AS EMAIL_EMPRE,
+EMPRESA.ACTEMP AS ACTIVI_EMPRE,
+UBIGEO.DEPUBI AS DEPEMP, -- DEPARTAMENTO
+Persona_Det.AREATRAB, -- PUESTO ACTUAL
+Persona_Det.YEARPUESTO,
+Persona_Det.NUMPERCARGO,
+Persona_Det.JEFEMP, -- JEFE INMEDIATO
+Persona_Det.JEFCARGO,
+Persona_Det.JEFTELF,
+Persona_Det.JEFEMAIL,
+Persona_Det.ACTPER,
+Persona_Det.GERENCIA, --Gerencia
+Persona_Det.JEFATURA, --Jefaturas 
+Persona_Det.SUPERVISOR, --Supervisores
+Persona_Det.IMGORG as Organigrama, --Organigrama
+Persona_Det.MARCAUT,
+Persona_Det.PLACAUT,
+--------INFORMACION ACADEMICA------
+Persona_Det.GRAPER,
+Persona_Det.UNIPER,
+Persona_Det.ESPPER,
+PERSONA_DET.PROACA1,
+PERSONA_DET.PROACA2,
+PERSONA_DET.PROACA3,
+Persona_Det.DURACA1,
+Persona_Det.DURACA2,
+Persona_Det.DURACA3,
+Persona_Det.INSACA1,
+Persona_Det.INSACA2,
+Persona_Det.INSACA3,
+Persona_Det.CO1,
+Persona_Det.CO2,
+Persona_Det.CO3,
+Persona_Det.CO4,
+Persona_Det.CO5,
+Persona_Det.INT1,
+Persona_Det.INT2,
+Persona_Det.INT3,
+Persona_Det.INT4,
+Persona_Det.INT5,
+Persona_Det.SEGURO,
+Persona_Det.TELFSEGURO,
+Persona_Det.EMERNOMB AS NOMB_PER_EMER,
+Persona_Det.EMERTELF,
+(CASE
+    WHEN Persona_Det.ENVIODATOS LIKE '1' THEN 'X'
+    WHEN Persona_Det.ENVIODATOS LIKE '0' THEN NULL
+END)AS AUTORIZACION , -- Autorizacion informacion academica
+--------------------------FORMA DE PAGO -----------
+(CASE
+WHEN PAGOS.ASUMPAG LIKE 'E' THEN 'Empresa'
+WHEN PAGOS.ASUMPAG LIKE 'P' THEN 'Participante' 
+end)AS ASUMPAG,
+PAGOS.CANTDES,
+PAGOS.CONDPAG,
+PAGOS.OBSEPAG,
+(select  listagg(TO_CHAR(PAGOS_DET.FECPAG,'dd/mm/yyyy'),' - ') WITHIN GROUP (ORDER BY PAGOS_DET.CODPAG) from PAGOS_DET where PAGOS_DET.CODPAG = PAGOS.CODPAG ) AS FECPAG,
+PAGOS.ENCPAG,
+PAGOS.EMAILENC,
+PAGOS.TELFENC,
+--------------------PREGUNTA AL CANDIDATO-------
+ENTREVISTA.PRE1,
+ENTREVISTA.PRE2,
+----------------COMENTARIO DE LA ENTREVISTA------
+ENTREVISTA.COMENT,
+(ENTRE.NOMPER || ', ' || ENTRE.APEPER) AS ENTREVISTADOR,
+TO_CHAR(ENTREVISTA.FECENT,'dd/mm/yyyy')AS FECENT
+from ASIGNACION
+left JOIN PERSONA ON PERSONA.CODPER = ASIGNACION.CODPER
+left JOIN ENTREVISTA ON ENTREVISTA.CODPER = PERSONA.CODPER
+left JOIN PERSONA ENTRE ON ENTRE.CODPER = ENTREVISTA.ENTREVISTADOR
+left JOIN PAGOS ON PAGOS.CODPER = PERSONA.CODPER
+left JOIN PAGOS_DET ON PAGOS_DET.CODPAG = PAGOS.CODPAG
+left JOIN PROG_DET ON PROG_DET.CODDETPROG = ASIGNACION.CODDETPROG
+left JOIN PROGRAMA ON PROGRAMA.CODPROG = PROG_DET.CODPROG
+left JOIN UBIGEO ON UBIGEO.CODUBI = PERSONA.CODUBI
+left Join EMPRESA On EMPRESA.Codemp =Persona.Codemp
+left Join Persona_Det On Persona_Det.Codper = Persona.Codper
+LEFT Join Persona_Hijos On Persona_Hijos.Codperdet = Persona_Det.Codperdet
+WHERE PERSONA.CODPER =  $P{CodPerFicIns}  and ROWNUM < 2]]>
+	</queryString>
+	<field name="CODPER" class="java.math.BigDecimal"/>
+	<field name="IMGPER" class="java.lang.String"/>
+	<field name="NOMPROG" class="java.lang.String"/>
+	<field name="FECREG" class="java.lang.String"/>
+	<field name="NOMPER" class="java.lang.String"/>
+	<field name="APEPER" class="java.lang.String"/>
+	<field name="NACIMIENTO" class="java.lang.String"/>
+	<field name="LUGNAC" class="java.lang.String"/>
+	<field name="ESTCIV" class="java.lang.String"/>
+	<field name="SEXPER" class="java.lang.String"/>
+	<field name="DNIPER" class="java.lang.String"/>
+	<field name="DIRPER" class="java.lang.String"/>
+	<field name="DISPER" class="java.lang.String"/>
+	<field name="TEL_PER" class="java.lang.String"/>
+	<field name="CELPER" class="java.lang.String"/>
+	<field name="EMAILPER" class="java.lang.String"/>
+	<field name="NOM_CONYUGE" class="java.lang.String"/>
+	<field name="PORF_CONYUGE" class="java.lang.String"/>
+	<field name="NUM_HIJOS" class="java.math.BigDecimal"/>
+	<field name="NACI_HIJOS" class="java.lang.String"/>
+	<field name="NOMBEMP" class="java.lang.String"/>
+	<field name="RUCEMP" class="java.lang.String"/>
+	<field name="DIREMP" class="java.lang.String"/>
+	<field name="DISEMP" class="java.lang.String"/>
+	<field name="TEL_EMPRE" class="java.lang.String"/>
+	<field name="EMAIL_EMPRE" class="java.lang.String"/>
+	<field name="ACTIVI_EMPRE" class="java.lang.String"/>
+	<field name="DEPEMP" class="java.lang.String"/>
+	<field name="AREATRAB" class="java.lang.String"/>
+	<field name="YEARPUESTO" class="java.lang.String"/>
+	<field name="NUMPERCARGO" class="java.lang.String"/>
+	<field name="JEFEMP" class="java.lang.String"/>
+	<field name="JEFCARGO" class="java.lang.String"/>
+	<field name="JEFTELF" class="java.lang.String"/>
+	<field name="JEFEMAIL" class="java.lang.String"/>
+	<field name="ACTPER" class="java.lang.String"/>
+	<field name="GERENCIA" class="java.lang.String"/>
+	<field name="JEFATURA" class="java.lang.String"/>
+	<field name="SUPERVISOR" class="java.lang.String"/>
+	<field name="ORGANIGRAMA" class="java.lang.String"/>
+	<field name="MARCAUT" class="java.lang.String"/>
+	<field name="PLACAUT" class="java.lang.String"/>
+	<field name="GRAPER" class="java.lang.String"/>
+	<field name="UNIPER" class="java.lang.String"/>
+	<field name="ESPPER" class="java.lang.String"/>
+	<field name="PROACA1" class="java.lang.String"/>
+	<field name="PROACA2" class="java.lang.String"/>
+	<field name="PROACA3" class="java.lang.String"/>
+	<field name="DURACA1" class="java.lang.String"/>
+	<field name="DURACA2" class="java.lang.String"/>
+	<field name="DURACA3" class="java.lang.String"/>
+	<field name="INSACA1" class="java.lang.String"/>
+	<field name="INSACA2" class="java.lang.String"/>
+	<field name="INSACA3" class="java.lang.String"/>
+	<field name="CO1" class="java.lang.String"/>
+	<field name="CO2" class="java.lang.String"/>
+	<field name="CO3" class="java.lang.String"/>
+	<field name="CO4" class="java.lang.String"/>
+	<field name="CO5" class="java.lang.String"/>
+	<field name="INT1" class="java.lang.String"/>
+	<field name="INT2" class="java.lang.String"/>
+	<field name="INT3" class="java.lang.String"/>
+	<field name="INT4" class="java.lang.String"/>
+	<field name="INT5" class="java.lang.String"/>
+	<field name="SEGURO" class="java.lang.String"/>
+	<field name="TELFSEGURO" class="java.lang.String"/>
+	<field name="NOMB_PER_EMER" class="java.lang.String"/>
+	<field name="EMERTELF" class="java.lang.String"/>
+	<field name="AUTORIZACION" class="java.lang.String"/>
+	<field name="ASUMPAG" class="java.lang.String"/>
+	<field name="CANTDES" class="java.math.BigDecimal"/>
+	<field name="CONDPAG" class="java.lang.String"/>
+	<field name="OBSEPAG" class="java.lang.String"/>
+	<field name="FECPAG" class="java.lang.String"/>
+	<field name="ENCPAG" class="java.lang.String"/>
+	<field name="EMAILENC" class="java.lang.String"/>
+	<field name="TELFENC" class="java.lang.String"/>
+	<field name="PRE1" class="java.lang.String"/>
+	<field name="PRE2" class="java.lang.String"/>
+	<field name="COMENT" class="java.lang.String"/>
+	<field name="ENTREVISTADOR" class="java.lang.String"/>
+	<field name="FECENT" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="802" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="160" height="60" uuid="70682c5a-efb6-482d-ac84-bd658d8b831e"/>
+				<imageExpression><![CDATA["Logo-CAME-web-.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="0" width="280" height="30" uuid="23f88bd4-db85-493e-8fed-e4267d979ca3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FICHA DE INSCRIPCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="33" width="280" height="30" uuid="5dd3d68f-60b4-40fd-b210-ff7177eb5e07"/>
+				<box leftPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[AGRADECEREMOS REGISTRAR TODOS LOS DATOS SOLICITADOS EN ESTE FORMATO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="79" height="30" uuid="8bd03ce6-5028-4b7c-8337-b7da564bc426"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre de Programa:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="79" y="70" width="210" height="26" uuid="8488db33-ed43-422a-b9d0-ab5e56637549"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMPROG}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="289" y="68" width="80" height="30" uuid="02d0a986-c7e2-4105-80c3-83a91c9ff75a"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Inscripción:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="369" y="68" width="74" height="30" uuid="c2672e5d-f219-4810-a9e0-b4a044804ad2"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECREG}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="154" width="190" height="26" uuid="4de414fe-13c4-4c3c-9560-9e000227dac0"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="154" width="173" height="26" uuid="e4365e69-d6bf-4578-a508-7fb1500b667a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1">
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APEPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="154" width="87" height="26" uuid="f206d3da-8091-47ea-9aa1-9f1d7bdf9980"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="450" y="154" width="105" height="26" uuid="a2e53f8d-0e95-40bf-bd13-6d85e3a7ece4"/>
+				<box leftPadding="1">
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LUGNAC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="133" width="190" height="21" uuid="c0bb29b4-0ee4-4d14-bd79-24a296614f6c"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="133" width="173" height="21" uuid="930cf16f-1369-48f1-8b84-4eaac8dc057f"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="133" width="87" height="21" uuid="07a1af30-e5ef-469a-9dee-0621cd18534d"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fec. Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="133" width="105" height="21" uuid="b542f77d-6aec-45f5-924d-b43abece0511"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="115" width="240" height="16" backcolor="#C7C7C7" uuid="d944d9e7-86f6-47ba-ade8-b439f5906715"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN PERSONAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="360" width="240" height="16" backcolor="#C7C7C7" uuid="dc86970e-bffb-4cf1-8d17-62eaa4f136b0"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN LABORAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="180" width="69" height="21" uuid="cb654577-2f20-4ba5-b2e6-ab5a753933ba"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado Civil:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="180" width="51" height="21" uuid="71fe070c-e7d3-4cbc-adac-ac47a51a8ade"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="180" width="70" height="21" uuid="07e66ce5-07ba-4ef2-8b29-226f3b740282"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="201" width="69" height="26" uuid="b9ddb9e5-bbc7-4ee5-8e74-a411af555e8a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTCIV}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="69" y="201" width="51" height="26" uuid="21b6268c-cd2e-4b7c-b312-566e5cada301"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEXPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="120" y="201" width="70" height="26" uuid="ca035114-da1f-4b08-b598-1fc9d37602fd"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DNIPER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="190" y="180" width="173" height="21" uuid="ba173a2a-7a06-4d0a-9b24-c1949e2d208e"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="180" width="192" height="21" uuid="c5f849dd-466a-429c-bd40-ae0e3457ba30"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Distrito / Región]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="201" width="173" height="26" uuid="29918da2-1897-45a8-802f-e77061459d65"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="201" width="192" height="26" uuid="bd1446f3-1223-4e9f-a46b-0aa4d4cc36a7"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISPER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="227" width="190" height="21" uuid="144d6078-4255-4d2d-a895-957c2bb84278"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono Fijo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="227" width="173" height="21" uuid="6b5c69dd-eaa5-439e-8a00-24233cfd6c56"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono Celular:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="227" width="192" height="21" uuid="ad5e3d88-8998-488d-83ea-bce1507b5c7f"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email personal:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="248" width="190" height="19" uuid="9dda20cb-323f-4d6a-91cc-3c7ae217305e"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{TEL_PER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="248" width="173" height="19" uuid="f9221f3e-7a33-4dc9-832f-ef7517b29a94"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{CELPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="248" width="192" height="19" uuid="759e457b-cfc5-4c78-b79c-cf4df4e7b1ec"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{EMAILPER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="190" y="267" width="173" height="21" uuid="e04bb3a3-8321-4062-b615-598d11c038bc"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Profesión / Ocupación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="267" width="190" height="21" uuid="ce4ae5e3-2691-44da-8957-c4f0ce04b931"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Cónyuge:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="267" width="77" height="21" uuid="2d4d660f-a9b6-4709-bfd7-4b9e086365ba"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° de Hijos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="267" width="115" height="21" uuid="c7a191c1-50f6-4448-b6c3-ab28d1cb938b"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edades de Hijos:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="288" width="189" height="26" uuid="6afe997a-63c4-48eb-bfae-f685c8e96e0f"/>
+				<box leftPadding="1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOM_CONYUGE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="288" width="173" height="26" uuid="212c3b42-c5b1-4cf1-aac0-5a01a61591a7"/>
+				<box leftPadding="1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PORF_CONYUGE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="288" width="77" height="26" uuid="a1be1a4a-285a-4dc5-8bf6-d0bd4462b85a"/>
+				<box leftPadding="1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUM_HIJOS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="440" y="288" width="115" height="26" uuid="31520d4f-5d88-4611-ad58-ea46711c9e50">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NACI_HIJOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="380" width="340" height="21" uuid="3b5f076a-4174-4585-9138-cfda29e20c05"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre de la Empresa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="380" width="215" height="21" uuid="e06e26e5-fbe5-4e08-9a14-5db6ddba0517"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="401" width="340" height="19" uuid="e360f95f-0139-40c8-9fe8-721dcccd1ceb"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{NOMBEMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="401" width="215" height="19" uuid="5ae6a0d2-87bc-46e1-aef0-e623bee84d57"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{RUCEMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="441" width="189" height="26" uuid="6fc5e109-ea2f-419c-9e84-08471ea1aa5a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIREMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="441" width="150" height="26" uuid="0de6b57b-1d70-4180-8f57-d5073efb4c08"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISEMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="441" width="100" height="26" uuid="0e9b70a4-31e9-460f-b0d5-b828c091bcf7"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TEL_EMPRE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="440" y="441" width="115" height="26" uuid="e2c3ef4f-8358-4ea2-9633-60b214398079"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMAIL_EMPRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="420" width="190" height="21" uuid="724047eb-2726-4462-bce8-aa7bbf6d5328"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domicilio Fiscal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="420" width="115" height="21" uuid="9985069a-755f-4c42-8517-32e965462cd6"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[e-mail trabajo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="420" width="150" height="21" uuid="fe430e87-f739-4eea-af31-9aca1cf83705"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Distrito / Región:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="420" width="100" height="21" uuid="1bca0002-c408-4f89-b5b7-057f49ba963f"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono / anexo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="467" width="190" height="21" uuid="1bb6bd3a-adb1-4457-8caf-ce645bfdfc5a"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad Económica Empresa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="467" width="100" height="21" uuid="f3440825-3887-4fdb-8e02-521e94152681"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Puesto Actual:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="467" width="150" height="21" uuid="6bd534f0-88b7-4d9d-abae-e9c64620e35a"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dpto. / Área]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="467" width="115" height="21" uuid="a1661940-1c28-4106-9e79-7812cc132138"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Personas a Cargo:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="488" width="189" height="26" uuid="c05ed5fc-6d1c-4a77-8a38-7f018d97fad3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{ACTIVI_EMPRE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="488" width="150" height="26" uuid="73975075-19aa-4d32-8bc8-6ce3b8c8ebc0"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{DEPEMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="488" width="100" height="26" uuid="155328f4-9c21-4f80-a6b2-c2580e358aa0"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{AREATRAB}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="440" y="488" width="115" height="26" uuid="b3061648-1cea-4745-ad45-0586def23305"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{NUMPERCARGO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="514" width="190" height="21" uuid="c14e308d-a867-422c-8731-12a5ef86c65b"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jefe Inmediato (Nombres Completos):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="514" width="100" height="21" uuid="8e690543-fd01-457c-96a5-6ac335b8aeb7"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono / anexo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="514" width="150" height="21" uuid="8ea63b0b-5db8-4726-8b26-13ec5b233bc9"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="514" width="115" height="21" uuid="5d675be1-cf22-4eca-9af8-f55be7bbb6fb"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[e-mail:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="535" width="190" height="26" uuid="a924ab35-c7b8-48a9-9116-6460c055f184">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{JEFEMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="535" width="150" height="26" uuid="169ac3b3-7645-4a61-bf43-0e294db90c38"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{JEFCARGO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="535" width="100" height="26" uuid="a128176b-8713-420f-979f-bc1f11d284e9"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{JEFTELF}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="440" y="535" width="115" height="26" uuid="24eb2420-43da-4bb7-949c-1445366cdca3"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{JEFEMAIL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="561" width="553" height="21" uuid="04a8a9ba-6ca8-4477-95ed-1b491a3217e3"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Las Actividades más importantes de mi puesto son:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="582" width="553" height="26" uuid="c80f150b-6d65-4da7-8965-f9eba3073246">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{ACTPER}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" onErrorType="Blank">
+				<reportElement x="-1" y="626" width="479" height="174" uuid="616bfe07-22ff-4b00-aba0-bc082cb9764a"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<imageExpression><![CDATA["http://developers.vallegrande.edu.pe/RepositorioCAME/"+"org/"+$F{ORGANIGRAMA}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Opaque" x="-1" y="610" width="240" height="16" backcolor="#C7C7C7" uuid="d109907c-fde1-46bb-969a-a5ba6bfd5bbf"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[ORGANIGRAMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="314" width="278" height="21" uuid="59a3b98b-e145-4167-bcf2-17f42926f12b"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MARCA DE AUTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="314" width="276" height="21" uuid="27eb67df-2546-4e62-b35b-c2f3b6958299"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLACA DE AUTO:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="335" width="278" height="26" uuid="62fe59ba-f809-4f30-978c-0d3e388decf8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{MARCAUT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="335" width="277" height="26" uuid="c07ef153-cba9-4335-8647-5684de217ac6"/>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{PLACAUT}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" onErrorType="Blank">
+				<reportElement x="443" y="0" width="111" height="100" uuid="5cf55319-738f-4dbd-a459-3ac20dbb97da"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<imageExpression><![CDATA["http://35.231.16.77/RepositorioCAME/"+"img/"+$F{IMGPER}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="478" y="626" width="76" height="21" uuid="e63c58c2-c527-4e21-bbb1-fa8a7d06f05f"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerencias:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="666" width="76" height="21" uuid="ce5594bd-1a05-4b61-bcf7-13392644d93d"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jefaturas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="706" width="76" height="21" uuid="fc0fa222-0bf0-41b3-a214-e383fe31f96f"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Supervisores:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="478" y="647" width="76" height="19" uuid="c61d7d16-8c8a-4ad1-9c64-00dea81c38ea"/>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GERENCIA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="478" y="687" width="76" height="19" uuid="178e4e07-8c0a-4fe6-82c5-ba9d7e9e4921"/>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JEFATURA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="478" y="727" width="76" height="19" uuid="a50ca608-44c1-4ec0-a5f6-3bbdf429424d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUPERVISOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="276" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="155" width="240" height="16" backcolor="#C7C7C7" uuid="25c9dbdc-1a94-4a29-a07b-522280ba44b4"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[EN CASO DE EMERGENCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="240" height="16" backcolor="#C7C7C7" uuid="20ef5d58-4273-4f9f-b789-6ae83ceaadb8"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN ACADÉMICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="56" width="554" height="21" uuid="21501fa4-c733-42d7-9fdb-fd91af5ce1a4"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[He tomado o estoy tomando el (los ) Programa(s) o Postgrado(s):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="16" width="155" height="21" uuid="ac71ef11-e216-41b5-b60c-dbfb3250b23a"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especialidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="16" width="210" height="21" uuid="e5416755-d6a2-411a-9242-702f78972212"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grado Académico (o estudios realizados):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="16" width="190" height="21" uuid="1d6d4b35-32ee-416b-9e62-6a360ea9c977"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre de la Universidad / Instituto:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="37" width="210" height="19" uuid="d06fe6ad-d17f-4c78-a8c5-03c81567fc78">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{GRAPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="37" width="190" height="19" uuid="1dd92725-56ec-4674-94a6-b7146a4224fd"/>
+				<textFieldExpression><![CDATA[$F{UNIPER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="37" width="155" height="19" uuid="cf857464-c844-4654-987e-ad8ab2b912a4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{ESPPER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="25" y="77" width="213" height="21" uuid="2e2605ef-a412-4ec4-be7f-33eda4006352"/>
+				<box leftPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROGRAMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="77" width="215" height="21" uuid="9edc12fd-ddcf-4c5b-a25d-305bc9e1ec6c"/>
+				<box leftPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="77" width="102" height="21" uuid="f4010f9c-8104-41e5-bb67-0cdde3ca31ff"/>
+				<box leftPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DURACIÓN]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="25" y="98" width="213" height="19" uuid="b149f455-b8be-4783-805f-dbb97bdeded5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PROACA1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="238" y="98" width="102" height="19" uuid="dab9de13-6a6b-4877-b1c7-4f1f601306c1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DURACA1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="98" width="215" height="19" uuid="72040ac0-2dd1-4598-8bb0-a418ed34ec7c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{INSACA1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="25" y="117" width="213" height="19" uuid="e95a1b5f-0d8a-40f8-b129-e34d7820e189"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PROACA2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="238" y="117" width="102" height="19" uuid="301f3b6c-806d-47c1-9f55-6bead56b1a8c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DURACA2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="117" width="215" height="19" uuid="b87098b3-05f9-455f-bde9-b1dcc409404f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{INSACA2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="25" y="136" width="213" height="19" uuid="71989e05-1487-4f13-97a3-8201af342a13"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PROACA3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="238" y="136" width="102" height="19" uuid="2044e6ad-6d41-4cfb-91e7-fa60eb1a7e2e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DURACA3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="136" width="215" height="19" uuid="74649c3d-04ce-4253-823c-989b30341f94">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{INSACA3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="98" width="25" height="19" uuid="b585cb6a-26a0-4895-b8f8-e74e93076b3f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="117" width="25" height="19" uuid="2f3706ee-8301-48e8-9c26-ef00b1bcfe7e"/>
+				<box leftPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="136" width="25" height="19" uuid="d7639042-065c-4640-9adf-d497300eafd9"/>
+				<box leftPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="172" width="266" height="15" uuid="868d4996-5f92-4a7e-8ad6-f0c629efb0fe"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Seguro particular (Especifique):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="266" y="172" width="286" height="15" uuid="02120088-bc13-4add-81af-d0650bba87ee"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono del Seguro para llamar en caso de emergencia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="207" width="266" height="21" uuid="9f72804b-defd-4641-8f68-e353f6c0e8b6"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[En caso de emergencia llamar a:(familiar)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="266" y="207" width="286" height="21" uuid="dbb65b58-3f35-4f12-84cd-d81487823956"/>
+				<box leftPadding="1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="188" width="266" height="19" uuid="b5d1e64e-0b39-41a4-92ca-f43a2f663d77">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{SEGURO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="266" y="188" width="286" height="19" uuid="a833a271-d158-4bea-9462-051b1860936f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{TELFSEGURO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="228" width="266" height="19" uuid="ece54e66-e446-4758-a746-94a6d7403228">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{NOMB_PER_EMER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="266" y="228" width="286" height="19" uuid="031bb0f3-1fce-4b84-af1d-841513c2ace5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1"/>
+				<textFieldExpression><![CDATA[$F{EMERTELF}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="254" width="45" height="16" uuid="bd6b7b5e-d006-4d42-ba5e-7b73ab96308b"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTORIZACION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="248" width="402" height="28" uuid="7d49ce5a-3e69-4801-a49e-467dce63c91b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autorizo a CAME a enviarme información sobre sus Seminarios Internacionales, Nuevos Diplomados y Programas de Pefeccionamiento Directivo]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="30">
+			<textField pattern="MM, dd, yyyy">
+				<reportElement x="1" y="0" width="100" height="30" uuid="6322bdb8-7cb3-4273-b82b-f069a415b651"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

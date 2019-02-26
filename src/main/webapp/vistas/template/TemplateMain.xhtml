@@ -1,0 +1,697 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Came</title>
+        <f:event type="preRenderView" listener="#{personaC.securitySessionAdministrativo()}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
+
+        <link href="#{sessionService.linkProyecto}/resources/css/Styles_2.css" rel="stylesheet" type="text/css"/>
+        <link href="#{sessionService.linkProyecto}/resources/css/Colores_Materialize.css" rel="stylesheet" type="text/css"/>
+
+        <h:outputStylesheet name="css/themify-icons.css"/>
+        <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+        <link href="#{sessionService.linkProyecto}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+        <h:outputStylesheet name="css/components.css"/>
+        <h:outputStylesheet name="css/theme-dark-green.css"/>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <h:outputScript name="js/jsfcrud.js"/>
+    </h:head>
+    <body>
+
+    <p:growl showDetail="true"><p:autoUpdate/></p:growl>
+
+    <p:idleMonitor timeout="600000">
+        <p:ajax event="idle" listener="#{personaC.finishSession()}"/>
+    </p:idleMonitor>
+
+    <h:form>
+        <p:remoteCommand global="true" name="listarComboPrograma" actionListener="#{sesionC.listarCbGeneracion()}"/>
+        <p:remoteCommand global="true" name="cleanrSesion" actionListener="#{sesionC.clean()}"/>
+        <p:remoteCommand global="true" name="listarComboProgramaParticipante"
+                         actionListener="#{participanteC.listarCbGeneracionPostulante()}"/>
+        <p:confirmDialog global="true" appendTo="@(body)" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+        </p:confirmDialog>
+    </h:form>
+
+    <div class="theme-loader">
+        <div class="loader-track">
+            <div class="preloader-wrapper">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            <nav class="navbar header-navbar pcoded-header">
+                <div class="navbar-wrapper">
+                    <div class="navbar-logo">
+                        <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
+                            <i class="ti-menu"></i>
+                        </a>
+
+                        <a href="index.html">
+                            <img class="img-fluid" src="#{sessionService.linkProyecto}/resources/img/CAME.png"
+                                 alt="Theme-Logo" width="157px" height="25px"/>
+                        </a>
+                        <a class="mobile-options waves-effect waves-light">
+                            <i class="ti-more"></i>
+                        </a>
+                    </div>
+
+                    <h:form>
+                        <div class="navbar-container container-fluid">
+                            <ul class="nav-left">
+                                <li>
+                                    <div class="sidebar_toggle">
+                                        <a href="javascript:void(0)">
+                                            <i class="ti-menu"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="nav-right">
+                                <li class="">
+                                    <a style="cursor: pointer" class="displayChatbox waves-effect waves-light">
+                                        <i class="ti-bell"></i>
+                                        <h:panelGroup rendered="#{empty personaC.listHbHoy ? false : true}">
+                                            <span class="badge bg-c-green"></span>
+                                        </h:panelGroup>
+                                    </a>
+                                </li>
+                                <li class="user-profile header-notification">
+                                    <a class="waves-effect waves-light pointer">
+                                        <img onerror="this.onerror=null;this.src='#{sessionService.linkProyecto}/resources/img/man.png';"
+                                             src="#{sessionService.linkRepositorioImg}/#{personaC.usuario.dniPer}.jpg"
+                                             class="img-radius" alt="User-Profile-Image"/>
+                                        <span>#{personaC.usuario.nomPer}</span>
+                                        <i class="ti-angle-down"></i>
+                                    </a>
+                                    <ul class="show-notification profile-notification">
+                                        <li class="waves-effect waves-light">
+                                            <a class="pointer" onclick="PF('UpMyPass').show();">
+                                                <i class="ti-key"></i>Cambiar Contraseña
+                                            </a>
+                                        </li>
+                                        <li class="waves-effect waves-light">
+                                        <h:commandLink class="waves-effect waves-light"
+                                                       actionListener="#{personaC.finishSession()}">
+                                            <i class="ti-power-off"> </i>
+                                            <span>Cerrar Sesión</span>
+                                        </h:commandLink>
+                                </li>
+                            </ul>
+                            </li>
+                            </ul>
+                        </div>
+                    </h:form>
+
+                </div>
+            </nav>
+
+            <div id="sidebar" class="users p-chat-user showChat">
+                <div class="had-container">
+                    <div class="card card_main p-fixed users-main">
+                        <h4 style="margin: 10px">Notificaciones</h4>
+                        <div class="user-box">
+                            <div class="main-friend-list">
+                                <h:panelGroup rendered="#{personaC.listHbHoy.size()>0 or
+                                                          personaC.listHbMan.size()>0 or
+                                                          personaC.listHbPm.size()>0 or
+                                                          personaC.listHb7.size()>0}">
+                                    <h5 style="margin: 10px; font-size: 1.3em;">Cumpleaños</h5>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{empty personaC.listHbHoy 
+                                                          and empty personaC.listHbMan 
+                                                          and empty personaC.listHbPm
+                                                          and empty personaC.listHb7}">
+                                    <label style="margin: 10px; font-size: 1.3em;">No hay ninguna notificación para mostrar</label>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{empty personaC.listHbHoy ? false : true}">
+                                    <h6 style="margin: 15px">Hoy</h6>
+                                    <ui:repeat value="#{personaC.listHbHoy}" var="hbHoy">
+                                        <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                             data-status="online" data-username="#{hbHoy.nomPer}" data-toggle="tooltip"
+                                             data-placement="left" title="#{hbHoy.nomPer}">
+                                            <a class="media-left" style="cursor: pointer">
+                                                <img class="media-object img-radius img-radius"
+                                                     src="#{hbHoy.imgPer == null ? sessionService.linkProyecto.concat('/resources/img/man.png') : sessionService.linkRepositorioImg.concat('/').concat(hbHoy.imgPer)}"/>
+                                            </a>
+                                            <div class="media-body">
+                                                <div class="f-13 chat-header">#{hbHoy.nomPer}</div>
+                                                <span>#{hbHoy.edadPer} años</span>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{empty personaC.listHbMan ? false : true}">
+                                    <h6 style="margin: 15px">Mañana</h6>
+                                    <ui:repeat value="#{personaC.listHbMan}" var="hbMan">
+                                        <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                             data-status="online" data-username="#{hbMan.nomPer}" data-toggle="tooltip"
+                                             data-placement="left" title="#{hbMan.nomPer}">
+                                            <a class="media-left" style="cursor: pointer">
+                                                <img class="media-object img-radius img-radius"
+                                                     src="#{hbMan.imgPer == null ? sessionService.linkProyecto.concat('/resources/img/man.png') : sessionService.linkRepositorioImg.concat('/').concat(hbMan.imgPer)}"/>
+                                            </a>
+                                            <div class="media-body">
+                                                <div class="f-13 chat-header">#{hbMan.nomPer}</div>
+                                                <span>#{hbMan.edadPer} años</span>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{empty personaC.listHbPm ? false : true}">
+                                    <h6 style="margin: 15px">Pasado mañana</h6>
+                                    <ui:repeat value="#{personaC.listHbPm}" var="hbPm">
+                                        <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                             data-status="online" data-username="#{hbPm.nomPer}" data-toggle="tooltip"
+                                             data-placement="left" title="#{hbPm.nomPer}">
+                                            <a class="media-left" style="cursor: pointer">
+                                                <img class="media-object img-radius img-radius"
+                                                     src="#{hbPm.imgPer == null ? sessionService.linkProyecto.concat('/resources/img/man.png') : sessionService.linkRepositorioImg.concat('/').concat(hbPm.imgPer)}"/>
+                                            </a>
+                                            <div class="media-body">
+                                                <div class="f-13 chat-header">#{hbPm.nomPer}</div>
+                                                <span>#{hbPm.edadPer} años</span>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{empty personaC.listHb7 ? false : true}">
+                                    <h6 style="margin: 15px">Próximos</h6>
+                                    <ui:repeat value="#{personaC.listHb7}" var="hb7">
+                                        <div class="media userlist-box waves-effect waves-light" data-id="1"
+                                             data-status="online" data-username="#{hb7.nomPer}" data-toggle="tooltip"
+                                             data-placement="left" title="#{hb7.nomPer}">
+                                            <a class="media-left" style="cursor: pointer">
+                                                <img class="media-object img-radius img-radius"
+                                                     src="#{hb7.imgPer == null ? sessionService.linkProyecto.concat('/resources/img/man.png') : sessionService.linkRepositorioImg.concat('/').concat(hb7.imgPer)}"/>
+                                            </a>
+                                            <div class="media-body">
+                                                <div class="f-13 chat-header">#{hb7.nomPer}</div>
+                                                <span>#{hb7.edadPer} años</span>
+                                                <span class="form-text text-muted text-right">#{hb7.fecNac}</span>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                </h:panelGroup>
+                                <div class="py-3"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <nav class="pcoded-navbar">
+
+                        <div class="pcoded-inner-navbar main-menu">
+                            <div class="">
+                                <div class="main-menu-header">
+                                    <img class="img-80 img-radius"
+                                         onerror="this.onerror=null;this.src='#{sessionService.linkProyecto}/resources/img/man.png';"
+                                         src="#{sessionService.linkRepositorioImg}/#{personaC.usuario.dniPer}.jpg"
+                                         alt="User-Profile-Image"/>
+                                    <div class="user-details">
+                                        <span>
+                                            #{personaC.usuario.nomPer} #{personaC.usuario.apePer}
+                                            <br></br>
+                                            #{personaC.usuario.tipoPerPintado}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pcoded-navigation-label">ADMINISTRAR</div>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li id="li-dashboard" class="#{active_dashboard}">
+                                    <a href="/Came/dashboard" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon">
+                                            <i class="ti-home"></i>
+                                            <b>D</b>
+                                        </span>
+                                        <span class="pcoded-mtext">Dashboard</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <ui:fragment
+                                    rendered="#{sessionService.administrador || sessionService.directores || sessionService.promocion || sessionService.operaciones}">
+                                    <li class="pcoded-hasmenu #{active_trigger_mantenimiento}">
+                                        <a class="waves-effect waves-dark pointer">
+                                            <span class="pcoded-micon"><i class="ti-package"></i><b>MT</b></span>
+                                            <span class="pcoded-mtext">Mantenimiento</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <ui:fragment
+                                                rendered="#{sessionService.operaciones || sessionService.directores || sessionService.administrador}">
+                                                <li class="#{active_programa}">
+                                                    <a href="/Came/programas" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Programas</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.directores || sessionService.administrador}">
+                                                <li class="#{active_user}">
+                                                    <a href="/Came/personas" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Usuarios </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.promocion || sessionService.operaciones}">
+                                                <li class="#{active_empresa}">
+                                                    <a href="/Came/empresas" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Empresas </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                        </ul>
+                                    </li>
+                                </ui:fragment>
+
+                                <li class="pcoded-hasmenu #{active_trigger_programa}">
+                                    <a class="waves-effect waves-dark pointer">
+                                        <span class="pcoded-micon"><i class="ti-agenda"></i><b>PR</b></span>
+                                        <span class="pcoded-mtext">Programa</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="#{active_detprog}">
+                                            <a href="/Came/detalle/programas" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext"> Programas</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="#{active_modulo}">
+                                            <a href="/Came/configuracion/pesos" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext">   &nbsp;&nbsp; > Módulos </span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="#{active_sesiones}">
+                                            <a href="/Came/configuracion/sesiones" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext"> &nbsp;&nbsp;&nbsp;&nbsp;>> Sesiones </span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="pcoded-hasmenu #{active_trigger_participante}">
+                                    <a class="waves-effect waves-dark pointer">
+                                        <span class="pcoded-micon"><i class="ti-user"></i><b>PT</b></span>
+                                        <span class="pcoded-mtext">Participante</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+
+                                        <ui:fragment
+                                            rendered="#{sessionService.administrador || sessionService.directorPrograma || sessionService.profesor || sessionService.coach || sessionService.monitor}">
+                                            <li>
+                                                <a href="/Came/faces/vistas/publico/participante.xhtml"
+                                                   class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Registro </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ui:fragment>
+                                        <ui:fragment
+                                            rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.entrevistador || sessionService.promocion || sessionService.administracion || sessionService.promocion}">
+                                            <li class="#{active_entrevista}">
+                                                <a href="/Came/inscripcion/entrevista" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Entrevista </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ui:fragment>
+                                        <ui:fragment
+                                            rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.promocion || sessionService.administracion || sessionService.promocion}">
+                                            <li class="#{active_administrativo}">
+                                                <a href="/Came/inscripcion/pago" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Administrativo </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ui:fragment>
+                                        <li class="#{active_postulante}">
+                                            <a href="/Came/faces/vistas/inscripcion/participante/participantes.xhtml" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext">Inscripción </span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <ui:fragment
+                                    rendered="#{sessionService.profesor || sessionService.entrevistador ? false:true }">
+                                    <li class="pcoded-hasmenu #{active_trigger_notas}">
+                                        <a class="waves-effect waves-dark pointer">
+                                            <span class="pcoded-micon"><i class="ti-book"></i><b>NT</b></span>
+                                            <span class="pcoded-mtext">Notas</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.coach || sessionService.monitor || sessionService.operaciones}">
+                                                <li class="#{active_nota_sesion}">
+                                                    <a href="/Came/notas/sesiones" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Sesión </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.operaciones}">
+                                                <li class="#{active_nota_fase}">
+                                                    <a href="/Came/notas/fases" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Módulo </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.promocion || sessionService.administracion || sessionService.operaciones}">
+                                                <li class="#{active_nota_programa}">
+                                                    <a href="/Came/notas/programas" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Programa </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                        </ul>
+                                    </li>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                    rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.profesor || sessionService.operaciones}">
+                                    <li id="li-dashboard" class="#{active_biblioteca}">
+                                        <a href="/Came/faces/vistas/biblioteca/biblioteca.xhtml"
+                                           class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-harddrives"></i></span>
+                                            <span class="pcoded-mtext">Biblioteca </span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                    rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.operaciones||sessionService.coach}">
+                                    <li class="pcoded-hasmenu #{active_trigger_coach}">
+                                        <a class="waves-effect waves-dark pointer">
+                                            <span class="pcoded-micon"><i class="ti-headphone-alt"></i><b>CH</b></span>
+                                            <span class="pcoded-mtext">Coach</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.operaciones}">
+                                                <li class="#{active_asignacion_coach}">
+                                                    <a href="/Came/asignacion/Coach" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Asignación </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+
+
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.coach || sessionService.operaciones}">
+                                                <ui:fragment rendered="#{sessionService.coach}">
+                                                    <li class="#{active_coach_coaching}">
+                                                        <a href="/Came/coach/coach" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext">Registro Coaching </span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                </ui:fragment>
+                                                <li class="#{active_coach_Viewcoaching}">
+                                                    <a href="/Came/coach/Coachings" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Resultado Coaching </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                        </ul>
+                                    </li>
+                                </ui:fragment>
+
+                                <ui:fragment rendered="#{sessionService.entrevistador ? false:true}">
+                                    <li id="li-encuestas" class="pcoded-hasmenu" dropdown-icon="style3"
+                                        subitem-icon="style7">
+                                        <a class="waves-effect waves-dark pointer">
+                                            <span class="pcoded-micon"><i class="ti-user"></i><b>EN</b></span>
+                                            <span class="pcoded-mtext">Profesor</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu" style="display: none;">
+                                            <li>
+                                                <a href="/Came/faces/vistas/publico/docente.xhtml"
+                                                   class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext">Inscripción </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                    rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.monitor || sessionService.operaciones}">
+                                    <li class="pcoded-hasmenu #{active_trigger_monitor}">
+                                        <a class="waves-effect waves-dark pointer">
+                                            <span class="pcoded-micon"><i class="ti-id-badge"></i><b>MR</b></span>
+                                            <span class="pcoded-mtext">Monitor</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.operaciones}">
+                                                <li class="#{active_asignacion_monitor}">
+                                                    <a href="/Came/asignacion/Monitor" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Asignación </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.monitor || sessionService.operaciones}">
+                                                <li class="#{active_sesion_monitor}">
+                                                    <a href="/Came/monitor/sesiones" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Sesiones </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                        </ul>
+                                    </li>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                    rendered="#{sessionService.coach || sessionService.monitor || sessionService.entrevistador ? false:true}">
+                                    <li class="pcoded-hasmenu #{active_trigger_evaluaciones}">
+                                        <a class="waves-effect waves-dark pointer">
+                                            <span class="pcoded-micon"><i class="ti-files"></i><b>EN</b></span>
+                                            <span class="pcoded-mtext">Evaluaciones</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <ui:fragment
+                                                rendered="#{sessionService.coach || sessionService.monitor || sessionService.entrevistador || sessionService.promocion ? false:true}">
+                                                <li class="#{active_evaluaciones}">
+                                                    <a href="/Came/evaluaciones" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Evaluación </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.administracion || sessionService.operaciones}">
+                                                <li>
+                                                    <a href="/Came/formulario/inpacto/parcial"
+                                                       class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext">Impacto parcial </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.administracion || sessionService.operaciones}">
+                                                <li class="#{active_estado_imparc}">
+                                                    <a href="/Came/formulario/inpacto/parcial/estado"
+                                                       class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext"> > Estado </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ui:fragment>
+                                            <!--                                            <ui:fragment
+                                                                                            rendered="false">
+                                                                                            <li class=" ">
+                                                                                                <a href="#" class="waves-effect waves-dark">
+                                                                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                                                                    <span class="pcoded-mtext">Impacto final </span>
+                                                                                                    <span class="pcoded-mcaret"></span>
+                                                                                                </a>
+                                                                                            </li>
+                                                                                        </ui:fragment>-->
+                                        </ul>
+                                    </li>
+                                </ui:fragment>
+
+                                <ui:fragment
+                                    rendered="#{sessionService.administrador || sessionService.directores || sessionService.directorPrograma || sessionService.promocion || sessionService.administracion || sessionService.operaciones}">
+                                    <li class="#{active_reportes}">
+                                        <a href="/Came/faces/vistas/reporte/reporte.xhtml" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon">
+                                                <i class="ti-files"></i>
+                                                <b>R</b>
+                                            </span>
+                                            <span class="pcoded-mtext">Reportes</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
+                                </ui:fragment>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <div class="pcoded-content">
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="page-header-title">
+                                            <ui:insert name="header">Content</ui:insert>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="/Came/dashboard">
+                                                    <i class="fas fa-home"></i>
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item">
+                                                <a href="/Came/dashboard">Dashboard</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <div class="page-body">
+                                        <ui:insert name="content">Content</ui:insert>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ui:include src="updatePassword.xhtml"/>
+    <ui:insert name="nav-active"></ui:insert>
+    <h:outputScript name="js/jquery-ui.min.js"/>
+    <h:outputScript name="js/bootstrap.min.js"/>
+    <h:outputScript name="js/jquery.slimscroll.js"/>
+    <h:outputScript name="js/vertical-layout.min.js"/>
+    <h:outputScript name="js/jquery.mCustomScrollbar.concat.min.js"/>
+    <h:outputScript name="js/pcoded.min.js"/>
+    <h:outputScript name="js/script.js"/>
+</body>
+</html>

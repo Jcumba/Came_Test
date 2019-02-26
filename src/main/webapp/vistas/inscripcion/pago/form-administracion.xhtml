@@ -1,0 +1,672 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+
+        <h:form id="formCreateAdministracion">
+            <h:panelGroup rendered="#{pagosC.CODPER == null ? false:true}">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Forma de Pago</h5>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12 ">
+
+                                <ul class="nav nav-tabs tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab">ADMINISTRACIÓN</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab2" role="tab">ENTREVISTA</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab3" role="tab">INFORMACIÓN PERSONAL</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab4" role="tab">INFORMACIÓN LABORAL</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab5" role="tab">INFORMACIÓN ACADÉMICA</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab6" role="tab">EN CASO DE EMERGENCIA</a>
+
+                                    </li>
+                                </ul>
+                                <div class="tab-content tabs-center-content card-block ">
+
+                                    <div class="tab-pane active" id="tab1" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <label class="col-form-label">Administrador:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <h:outputLabel style="font-weight: bold" value="#{personaC.usuario.nomPer} #{personaC.usuario.apePer}"/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <label class="col-form-label">Fecha:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12 text-center">
+                                                <p:clock pattern="dd/MM/yyyy" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <label class="col-form-label">Precio:</label><br/>
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:selectOneRadio layout="responsive" columns="2"  value="#{pagosC.pa.ESTPAG}">
+                                                        <f:selectItem itemLabel="Normal" itemValue="N" />
+                                                        <f:selectItem itemLabel="% de Descuento" itemValue="D" />
+                                                        <p:ajax event="change" update="formCreateAdministracion"/>
+                                                    </p:selectOneRadio>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <h:panelGroup id="pnldescuento" rendered="#{pagosC.pa.ESTPAG == 'D' ? true:false}">
+
+                                                <p:panelGrid columns="2">
+
+                                                    <p:outputLabel for="@next" value="Porcentaje"/>
+                                                    <p:inputText value="#{pagosC.pa.CANTDES}" maxlength="3">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
+                                                </p:panelGrid>
+                                            </h:panelGroup>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <label class="col-form-label">El costo del programa lo asume:</label><br/>
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <p:selectOneRadio layout="responsive" columns="2"  value="#{pagosC.pa.ASUMPAG}">
+                                                    <f:selectItem itemLabel="Empresa" itemValue="E" />
+                                                    <f:selectItem itemLabel="Participante" itemValue="P" />
+                                                    <f:ajax event="change" execute="@this"/>
+                                                </p:selectOneRadio>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-4 col-sm-12">
+                                                <label class="col-form-label">Condiciones:</label><br/>
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{pagosC.pa.CONDPAG}" maxlength="200">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <label class="col-form-label">Observaciones:</label><br/>
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{pagosC.pa.OBSEPAG}" maxlength="200">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <label class="col-form-label">Número de Fechas de Pago acordadas:</label><br/>
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{pagosC.numpagos}">
+                                                        <p:ajax event="keyup" listener="#{pagosC.listapagos()}" update="pnlpagos"/>
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <h:panelGroup id="pnlpagos">
+                                                <ui:repeat value="#{pagosC.pa.numpagos}" var="pago" rendered="#{pagosC.pa.numpagos.size() > 0 ? true:false}">
+                                                    <p:panelGrid columns="4">
+                                                        <p:outputLabel value="Fecha de Pago:"/>
+                                                        <p:inputMask value="#{pago.FECPAG}" mask="99/99/9999">
+                                                            <f:ajax event="blur" execute="@this"/>
+                                                        </p:inputMask>
+
+                                                        <p:outputLabel value="Monto:"/>
+                                                        <p:inputNumber value="#{pago.MONTPAG}">
+                                                            <f:ajax event="blur" execute="@this"/>
+                                                        </p:inputNumber>
+                                                    </p:panelGrid>   
+                                                </ui:repeat>
+                                            </h:panelGroup>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label class="col-form-label">Nombre y Cargo de la persona encargada del pago del Programa:</label><br/>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{pagosC.pa.ENCPAG}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <label class="col-form-label">Email:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{pagosC.pa.EMAILENC}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <label class="col-form-label">Teléfono:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{pagosC.pa.TELFENC}" maxlength="20">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </div>                            
+                                            </div>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <div class="col-md-12 col-sm-12" align="center">
+
+                                                <p:commandButton value="Registrar" class="btn btn-primary btn-block" actionListener="#{pagosC.addPagos(personaC.usuario.codPer)}" update="formCreateAdministracion :formListPago"/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab2" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">¿Cómo se enteró del programa?</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PREGUNTA1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">¿Por qué desea seguir el programa?</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PREGUNTA2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Comentarios</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.COMENTARIOS}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Entrevistador:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.ENTREVISTADOR}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Estado:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.ESTENT}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Registrado</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.FECHAREGE}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab3" role="tabpanel">
+
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Foto:</label><br/>
+                                                    <img src="#{sessionService.dominioBib}/RepositorioCAME/img/#{pagosC.listabloqadm.FOTO}" height="200" width="200"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">DNI:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.DNI}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Nombres:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.NOMBRE}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Apellidos:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.APELLIDO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Fecha Nacimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.NACIMIENTO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Lugar Nacimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.LUGARNAC}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Estado Civil:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.ESTADOCIVIL}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Sexo:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.SEXO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Celular/Teléfono:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CELULAR}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Domicilio:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.DOMICILIO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Distrito:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.DISTRITO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Nombre del cónyuge:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CONYUGE}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Profesión del cónyuge:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.PROFCONYUGE}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane text-center" id="tab4" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Empresa:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.EMPRESA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">RUC:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.RUC}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Domicilio Fiscal:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.DOMICILIOFISCAL}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.TELETRAB}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email trabajo:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.EMAILTRABA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Actividad Empresa:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.ACTIEMP}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Área:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.AREA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Puesto:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PUESTO}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Años en el puesto:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.YEARPUES}"/>                                              
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">N° Personas:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.NPERSONAS}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Jefe:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.JEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Cargo Jefe:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.CARGOJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono Jefe:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.TELFJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email Jefe:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.EMAILJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Actividades:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.ACTIVIDADPER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Auto:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.AUTO}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Marca:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.MARCA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Placa:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PLACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Organigrama:</label><br/>
+                                                    <img src="#{sessionService.dominioBib}/RepositorioCAME/org/#{pagosC.listabloqadm.ORGANIGRAMA}" height="500" width="500"/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane text-center" id="tab5" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Grado Académico:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.GRADOACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Universidad:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.UNIVACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Especialidad:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.ESPACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">1.Programa:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PRO1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.DURA1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.INST1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">2.Programa:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PRO2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.DURA2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.INST2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">3.Programa:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PRO3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.DURA3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.INST3}"/>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12 col-sm-12" style="font-weight: bold">GRADO DE CONOCIMIENTO E INTERÉS POR ÁREAS:  (1-5),  1 = Menor,  5 = Mayor  y  0 = NULO</div>
+
+                                            <br/>
+                                            <br/>
+
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Comercial/Marketing:</label><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Operaciones/Logística:</label><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Recursos Humanos:</label><br/><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Contabilidad/Finanzas:</label><br/><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Dirección/Liderazgo:</label><br/><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CON1}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.INTE1}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CON2}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.INTE2}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CON3}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.INTE3}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CON4}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.INTE4}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.CON5}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{pagosC.listabloqadm.INTE5}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane text-center" id="tab6" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Seguro:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.SEGUROPER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono Seguro:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.TELEFONOSEG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Persona en caso de Emergencia:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.PEREMER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono de la persona:</label><br/>
+                                                    <h:outputLabel value="#{pagosC.listabloqadm.TELFEMER}"/>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>  
+
+                    </div>
+
+                </div>
+            </h:panelGroup>
+        </h:form>
+
+    </ui:composition>
+</html>
+
+
+

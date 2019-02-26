@@ -1,0 +1,634 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Came | Formulario de evaluación al participante</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
+        <h:outputStylesheet name="css/themify-icons.css"/>
+        <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+        <h:outputStylesheet name="css/style.css"/>
+        <h:outputStylesheet name="css/components.css"/>
+        <h:outputStylesheet name="css/theme-dark-green.css"/>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+        <h:outputScript name="js/jsfcrud.js"/>
+    </h:head>
+    <h:body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" onstart="location.reload();"/>
+        </p:idleMonitor>
+
+        <f:metadata>
+            <f:viewParam name="idPart" value="#{fParticipanteC.model.codSes}"/>
+        </f:metadata>
+        <f:event type="preRenderView" listener="#{fParticipanteC.verificarUrlFParticipante()}"/>
+        <f:event type="preRenderView" listener="#{encuestaC.listarDetSesion(fParticipanteC.model.codSes)}"/>
+        <style type="text/css">
+            body {
+                font-size: .875em;
+                overflow-x: hidden;
+                color: #455a64;
+            }
+        </style>
+
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="page-body">
+                                <div class="container">
+                                    <div>
+                                        <h:form id="formValidacion">
+                                            <h:panelGroup id="pngValidacion" rendered="#{fParticipanteC.verificarPer}">
+                                                <div class="container" style="max-width: 580px; padding: 100px 35px 45px;">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Para verificar que eres un participante del CAME, ingresa tu DNI
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="form-group">
+                                                                <p:messages showDetail="true" closable="true">
+                                                                    <p:autoUpdate/>
+                                                                </p:messages>
+                                                                <p:outputLabel for="txtDni" value="N° DNI"/>
+                                                                <p:inputText id="txtDni" value="#{fParticipanteC.dniPer}"
+                                                                             placeholder="Ingresa el número de tu DNI"
+                                                                             maxlength="8" style="width: 100%;"
+                                                                             required="true"
+                                                                             requiredMessage="Ingrese su DNI">
+                                                                    <p:keyFilter regEx="/[\d]/"/>
+                                                                </p:inputText>
+                                                                <p:focus for="txtDni"/>
+                                                                <div style="padding-top: 10px;"></div>
+                                                                <p:commandButton value="Validar" style="width: 100%;"
+                                                                                 actionListener="#{fParticipanteC.verificarParticipante()}"
+                                                                                 update="formValidacion FormEncFParticipante formReady"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </h:panelGroup>
+                                        </h:form>
+
+                                        <h:form id="FormEncFParticipante">
+                                            <h:panelGroup id="pngFormPart"
+                                                          rendered="#{fParticipanteC.verificarForm == true}">
+                                                <div class="card">
+                                                    <div class="row invoice-contact">
+                                                        <div class="col-md-12">
+                                                            <div class="invoice-box row">
+                                                                <div class="col-md-4 col-sm-12">
+                                                                    <table class="table table-responsive invoice-table table-borderless">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png"
+                                                                                         class="m-b-10" alt=""/>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Jr. Costa Rica 157, Jesús María
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <a target="_top">
+                                                                                        <span class="__cf_email__">came@came.edu.pe</span>
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Telf. (511) 461-6050</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="col-md-8 col-sm-12">
+                                                                    <table class="table table-responsive invoice-table table-borderless">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h5 class="font-weight-bold">#{encuestaC.encuesta.nomProg}</h5>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h6 class="font-weight-bold">#{encuestaC.encuesta.nomSes}: #{encuestaC.encuesta.decSes}</h6>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td></td> 
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Fecha de evaluación: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.fechaSes}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Director de programa: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.director}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Profesor: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.profesor}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="card-block" style="padding-top: 0px;">
+                                                                <hr/>
+                                                                <h:panelGroup>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <h5>1. Profesor</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Profesor</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio id="rdQ1"
+                                                                                                      layout="responsive"
+                                                                                                      columns="5"
+                                                                                                      value="#{fParticipanteC.model.profRpt}">
+                                                                                        <f:selectItem itemLabel="Mal"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Regular"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Bien"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Muy bien"
+                                                                                                      itemValue="4"/>
+                                                                                        <f:selectItem itemLabel="Excelente"
+                                                                                                      itemValue="5"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Sugerencias</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <p:inputText id="rdQ2"
+                                                                                                 value="#{fParticipanteC.model.profSug}"
+                                                                                                 placeholder="Tu respuesta"
+                                                                                                 style="width: 100%" maxlength="500"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </h:panelGroup>
+
+                                                                <hr/>
+
+                                                                <h:panelGroup>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <h5>2. Tema</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Tema</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.temRpt}"
+                                                                                        id="rdQ3" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem itemLabel="Mal"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Regular"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Bien"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Muy bien"
+                                                                                                      itemValue="4"/>
+                                                                                        <f:selectItem itemLabel="Excelente"
+                                                                                                      itemValue="5"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Sugerencias</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <p:inputText id="rdQ4"
+                                                                                                 value="#{fParticipanteC.model.temSug}"
+                                                                                                 placeholder="Tu respuesta"
+                                                                                                 style="width: 100%" maxlength="500"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </h:panelGroup>
+
+                                                                <hr/>
+
+                                                                <h:panelGroup>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <h5>3. Sesión en su conjunto</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Sesión en conjunto</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.seCoRpt}"
+                                                                                        id="rdQ5" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem itemLabel="Mal"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Regular"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Bien"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Muy bien"
+                                                                                                      itemValue="4"/>
+                                                                                        <f:selectItem itemLabel="Excelente"
+                                                                                                      itemValue="5"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>¿Por qué?</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <p:inputText id="rdQ6"
+                                                                                                 value="#{fParticipanteC.model.seCoRpt1}"
+                                                                                                 placeholder="Tu respuesta"
+                                                                                                 style="width: 100%" maxlength="500"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>¿Cómo aplicarías los aprendizajes de esta sesión en tu trabajo?</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <p:inputText id="rdQ7"
+                                                                                                 value="#{fParticipanteC.model.seCoRpt2}"
+                                                                                                 placeholder="Tu respuesta"
+                                                                                                 style="width: 100%" maxlength="500"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </h:panelGroup>
+
+                                                                <hr/>
+
+                                                                <h:panelGroup>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <h5>4. Caso</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Análisis personal del caso</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.casoRpt1}"
+                                                                                        id="rdQ8" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem itemLabel="Mal"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Regular"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Bien"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Muy bien"
+                                                                                                      itemValue="4"/>
+                                                                                        <f:selectItem itemLabel="Excelente"
+                                                                                                      itemValue="5"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Calidad de discusión en equipo</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.casoRpt2}"
+                                                                                        id="rdQ9" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem itemLabel="Mal"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Regular"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Bien"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Muy bien"
+                                                                                                      itemValue="4"/>
+                                                                                        <f:selectItem itemLabel="Excelente"
+                                                                                                      itemValue="5"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-12">
+                                                                            <h5 style="font-size: 1.2em">Estudio del caso</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Tiempo dedicado</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.casoRpt3}"
+                                                                                        id="rdQ10" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem
+                                                                                            itemLabel="Menos de 1 hora"
+                                                                                            itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="1 hora"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="2 horas"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem
+                                                                                            itemLabel="Más de 2 horas"
+                                                                                            itemValue="4"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </h:panelGroup>
+
+                                                                <hr/>
+
+                                                                <h:panelGroup>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <h5>5. Autoevaluación</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Puntualidad</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.autRpt1}"
+                                                                                        id="rdQ11" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem
+                                                                                            itemLabel="Más de 15' tarde"
+                                                                                            itemValue="1"/>
+                                                                                        <f:selectItem
+                                                                                            itemLabel="Hasta 10' tarde"
+                                                                                            itemValue="2"/>
+                                                                                        <f:selectItem
+                                                                                            itemLabel="Más de 5' tarde"
+                                                                                            itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="A tiempo"
+                                                                                                      itemValue="4"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-12">
+                                                                            <h5 style="font-size: 1.2em">Participación en la sesión</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Participación</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio required="true" requiredMessage="llenar participación"
+                                                                                        value="#{fParticipanteC.model.autRpt2}"
+                                                                                        id="rdQ12" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem itemLabel="Nula"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Baja"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Media"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Alta"
+                                                                                                      itemValue="4"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </h:panelGroup>
+
+                                                                <hr/>
+
+                                                                <h:panelGroup>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <h5>6. Servicios</h5>
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Coffee Break:</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8" align="center">
+                                                                                    <p:selectOneRadio
+                                                                                        value="#{fParticipanteC.model.servRpt1}"
+                                                                                        id="rdQ13" layout="responsive"
+                                                                                        columns="5">
+                                                                                        <f:selectItem itemLabel="Mal"
+                                                                                                      itemValue="1"/>
+                                                                                        <f:selectItem itemLabel="Regular"
+                                                                                                      itemValue="2"/>
+                                                                                        <f:selectItem itemLabel="Bien"
+                                                                                                      itemValue="3"/>
+                                                                                        <f:selectItem itemLabel="Muy bien"
+                                                                                                      itemValue="4"/>
+                                                                                        <f:selectItem itemLabel="Excelente"
+                                                                                                      itemValue="5"/>
+                                                                                    </p:selectOneRadio>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Sugerencias</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <p:inputText id="rdQ14"
+                                                                                                 value="#{fParticipanteC.model.sugerencias}"
+                                                                                                 placeholder="Tu respuesta"
+                                                                                                 style="width: 100%" maxlength="1000"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="row" style="padding-top: 1em">
+                                                                                <div class="col-md-4">
+                                                                                    <h6>Quejas</h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <p:inputText id="rdQ15"
+                                                                                                 value="#{fParticipanteC.model.quejas}"
+                                                                                                 placeholder="Tu respuesta"
+                                                                                                 style="width: 100%" maxlength="1000"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </h:panelGroup>
+                                                                <div style="padding-top: 2em"/>
+                                                                <div align="right">
+                                                                    <p:commandButton value="Cancelar" class="red-btn" icon="ui-icon-close"
+                                                                                     actionListener="#{fParticipanteC.clean()}"
+                                                                                     style="margin-right: 10px;"
+                                                                                     update="formValidacion FormEncFParticipante"/>
+                                                                    <p:commandButton value="Enviar respuestas" icon="ui-icon-send" iconPos="right"
+                                                                                     actionListener="#{fParticipanteC.registrarEncFParticipante()}"
+                                                                                     update="FormEncFParticipante formReady"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </h:panelGroup>
+                                        </h:form>
+
+                                        <h:form id="formReady">
+                                            <h:panelGroup id="pngReady"
+                                                          rendered="#{fParticipanteC.verificarForm == false and fParticipanteC.verificarPer == false}">
+                                                <div class="card">
+                                                    <div class="row invoice-contact">
+                                                        <div class="col-md-12">
+                                                            <div class="invoice-box row">
+                                                                <div class="col-md-4 col-sm-12">
+                                                                    <table class="table table-responsive invoice-table table-borderless">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png"
+                                                                                         class="m-b-10" alt=""/>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Jr. Costa Rica 157, Jesús María
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <a target="_top">
+                                                                                        <span class="__cf_email__">came@came.edu.pe</span>
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Telf. (511) 461-6050</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="col-md-8 col-sm-12">
+                                                                    <table class="table table-responsive invoice-table table-borderless">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h5 class="font-weight-bold">#{encuestaC.encuesta.nomProg}</h5>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h6 class="font-weight-bold">#{encuestaC.encuesta.nomSes}: #{encuestaC.encuesta.decSes}</h6>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td></td> 
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Fecha de evaluación: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.fechaSes}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Director de programa: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.director}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Profesor: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.profesor}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="card-block" style="padding-top: 0px;">
+                                                                <hr/>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h4>Completado</h4>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-8" align="left">
+                                                                                <h6>
+                                                                                    Ya has respondido este formulario.
+                                                                                </h6>
+                                                                                <h:form>
+                                                                                    <p:commandButton value="Volver"
+                                                                                                     class="btn"
+                                                                                                     actionListener="#{fParticipanteC.clean()}"
+                                                                                                     update="formValidacion FormEncFParticipante formReady"/>
+                                                                                </h:form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </h:panelGroup>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </h:body>
+</html>
+

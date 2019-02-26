@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition>
+
+    <div class="card-block">
+        <div class="row">
+
+            <h:form id="agregarPersona">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Nombres</label>
+                            <p:inputText id="inputNom" class="form-control capital" value="#{personaC.persona.nomPer}"
+                                         required="true" requiredMessage="Ingrese su Nombre"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Apellidos</label>
+                            <p:inputText id="inputApe" class="form-control upper" value="#{personaC.persona.apePer}"
+                                         required="true" requiredMessage="Ingrese su Apellidos"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-form-label">Email</label>
+                            <p:inputText id="inputCorreo" class="form-control" value="#{personaC.persona.emailPer}"
+                                         required="true" requiredMessage="Ingrese su Correo"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label">DNI</label>
+                            <p:inputText id="inputDni" class="form-control" value="#{personaC.persona.dniPer}"
+                                         maxlength="8" required="true" requiredMessage="Ingrese su DNI">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label">Celular</label>
+                            <p:inputText id="inputCel" class="form-control" value="#{personaC.persona.celPer}"
+                                         maxlength="9" required="true" requiredMessage="Ingrese su Celular">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-form-label">Dirección</label>
+                            <p:inputText id="inputDire" class="form-control capital" value="#{personaC.persona.dirPer}"
+                                         required="true" requiredMessage="Ingrese su Direccion"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Sexo</label>
+                            <p:selectOneMenu id="menuSexo" value="#{personaC.persona.sexPer}" style="width:100%"
+                                             required="true" requiredMessage="Ingrese su Sexo">
+                                <f:selectItem itemLabel="Seleccionar sexo" itemDisabled="true"
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Tipos de Usuario</label>
+                            <p:selectManyCheckbox id="tipoPer" value="#{personaC.persona.rolesPer}" layout="grid"
+                                                  columns="1" required="true"
+                                                  requiredMessage="Seleccione los tipos de Usuario">
+                                <f:selectItem itemLabel="Administrador" itemValue="AD"/>
+                                <f:selectItem itemLabel="Directores" itemValue="DI"/>
+                                <f:selectItem itemLabel="Director de Programa" itemValue="DP"/>
+                                <f:selectItem itemLabel="Operaciones" itemValue="OP"/>
+                                <f:selectItem itemLabel="Profesor" itemValue="PR"/>
+                                <f:selectItem itemLabel="Coach" itemValue="CO"/>
+                                <f:selectItem itemLabel="Monitor" itemValue="MO"/>
+                                <f:selectItem itemLabel="Entrevistador" itemValue="EN"/>
+                                <f:selectItem itemLabel="Administración" itemValue="AM"/>
+                                <f:selectItem itemLabel="Promoción" itemValue="PM"/>
+                            </p:selectManyCheckbox>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputUsu">Usuario</label>
+                            <p:inputText id="inputUsu" class="form-control" value="#{personaC.persona.userPer}"
+                                         required="true" requiredMessage="Ingrese su Usuario"
+                                         autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-form-label" for="inputPass">Password</label>
+                            <p:password id="inputPass" class="form-control" value="#{personaC.persona.passPer}"
+                                        required="true" requiredMessage="Ingrese su Password"
+                                        autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="autComplete">Distrito</label>
+                            <p:autoComplete id="autComplete"
+                                            value="#{personaC.persona.nomUbi}"
+                                            emptyMessage="No se encontro ningún registro"
+                                            completeMethod="#{personaC.autocompleteUbigeo}"
+                                            forceSelection="true" maxlength="50"
+                                            scrollHeight="300"
+                                            style="width: 100%" required="true" requiredMessage="Ingrese su Distrito"/>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p:commandButton class="btn btn-primary btn-block" value="Registrar"
+                                 actionListener="#{personaC.agregarPersona()}" update="agregarPersona :listarPersona"/>
+
+            </h:form>
+        </div>
+    </div>
+
+
+</ui:composition>
+</html>
+

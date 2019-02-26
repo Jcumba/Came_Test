@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+    <ui:composition template="./../template/TemplateUser.xhtml">
+
+        <ui:define name="content">
+
+            <style type="text/css">
+                div.eq-c {
+                    font-size: 25px;
+                }
+
+                .fraction {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0 0.2em 0.4ex;
+                    text-align: center;
+                }
+
+                .fraction > span {
+                    display: block;
+                    padding-top: 0.15em;
+                }
+
+                .fraction span.fdn {
+                    border-top: thin solid black;
+                }
+
+                .fraction span.bar {
+                    display: none;
+                }
+
+                body {
+                    background: #eff5f7;
+                }
+
+                .little-font {
+                    font-size: .8em;
+                }
+
+                .big-font {
+                    font-size: 1.5em;
+                }
+            </style>
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="cover-profile">
+                            <div class="profile-bg-img">
+                                <img class="profile-bg-img img-fluid"
+                                     src="#{sessionService.linkProyecto}/resources/img/bg-img2.jpg" alt="bg-img"/>
+                                <div class="card-block user-info">
+                                    <div class="col-md-12">
+                                        <div class="media-left">
+                                            <a href="#" class="profile-image">
+                                                <img class="user-img img-radius"
+                                                     onerror="this.onerror=null;this.src='#{sessionService.linkProyecto}/resources/img/man.png';"
+                                                     src="#{sessionService.linkRepositorioImg}/#{personaC.usuario.dniPer}.jpg"
+                                                     alt="user-img" width="150" height="150"/>
+                                            </a>
+                                        </div>
+                                        <div class="media-body row">
+                                            <div class="col-lg-12">
+                                                <div class="user-title">
+                                                    <h2>#{personaC.usuario.nomPer} #{personaC.usuario.apePer}</h2>
+                                                    <span class="text-white">#{personaC.usuario.tipoPerPintado}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-block">
+                        <h:form>
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <p:selectOneMenu disabled="#{sessionService.retirado}" value="#{sesionC.CODDETPROG}" style="width: 100%;">
+                                        <f:selectItems value="#{sesionC.listaCbGen}" var="progen"
+                                                       itemLabel="#{progen.nomProg}" itemValue="#{progen.codDetProg}"/>
+                                        <p:ajax event="change"
+                                                listener="#{coachC.contarSesionesCoaching(sesionC.CODDETPROG)}"
+                                                update=":formData"/>
+                                        <p:ajax event="change" listener="#{sesionC.listarSesiones(sesionC.CODDETPROG)}"
+                                                update=":formListFiles"/>
+                                        <p:ajax event="change" listener="#{personaC.traerResultados(sesionC.CODDETPROG)}"
+                                                update=":formData"/>
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="col-12 col-lg-1 center">
+                                    <p:commandButton id="btn_horario" icon="fa fa-calendar" styleClass="btn-block"
+                                                     oncomplete="PF('Horario').show();"/>
+                                    <p:tooltip value="Horario" for="btn_horario" position="bottom"/>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="ui-inputgroup">
+                                        <p:commandButton rendered="#{sessionService.retirado}" disabled="#{sessionService.retirado}" id="btnViewDirecInac"  icon="fa fa-address-card" value="Inactivo"
+                                                         actionListener="#{personaC.listarDirectorioParticipante(sesionC.CODDETPROG)}"
+                                                         style="width: 100%" update=":formListDirectorio">
+                                            <f:passThroughAttribute name="data-toggle" value="modal"/>
+                                            <f:passThroughAttribute name="data-target" value="#exampleModal"/>
+                                        </p:commandButton>
+                                        <p:commandButton rendered="#{sessionService.estudiante}" id="btnViewDirec"  icon="fa fa-address-card" value="Directorio"
+                                                         actionListener="#{personaC.listarDirectorioParticipante(sesionC.CODDETPROG)}"
+                                                         style="width: 100%" update=":formListDirectorio">
+                                            <f:passThroughAttribute name="data-toggle" value="modal"/>
+                                            <f:passThroughAttribute name="data-target" value="#exampleModal"/>
+                                        </p:commandButton>
+                                        <p:tooltip for="btnViewDirec" value="Ver directorio de programa" position="bottom"/>
+                                        <p:commandButton disabled="#{sessionService.retirado}" id="btnDirecDownload" icon="fa fa-download" class="teal" value=""
+                                                         ajax="false"
+                                                         actionListener="#{generateReportController.descargarPDFDirectorio(sesionC.CODDETPROG)}"/>
+                                        <p:tooltip for="btnDirecDownload" value="Descargar directorio de programa"
+                                                   position="bottom"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-2">
+                                    <p:commandButton disabled="#{sessionService.retirado}" id="btn_descargarFicha" value="Descargar" styleClass="btn-block"
+                                                     ajax="false"
+                                                     actionListener="#{generateReportController.descargarPDFInscripcion()}"/>
+                                    <p:tooltip value="Ficha de inscripción" for="btn_descargarFicha" position="top"/>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <p:separator/>
+
+                <h:form id="formData">
+                    <div class="tab-pane" role="tabpanel">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-12 col-lg-12">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="card b-l-success business-info services m-b-20">
+                                                <div class="card-header pointer">
+                                                    <div class="service-header">
+                                                        <h5 class="card-header-text">
+                                                            <p:outputLabel id="inasistencias"
+                                                                           value="Inasistencias : #{personaC.usuario.inasistencias}"/>
+                                                            <p:tooltip for="inasistencias"
+                                                                       rendered="#{personaC.ltsInasistencias.size() > 0 ? true:false}">
+                                                                <ui:repeat value="#{personaC.ltsInasistencias}" var="ina">
+                                                                    <h:outputText value="#{ina.tipo} - #{ina.descripcion}"
+                                                                                  escape="false"/>
+                                                                    <br/>
+                                                                </ui:repeat>
+                                                            </p:tooltip>
+                                                            <br/><br/>
+                                                            <p:outputLabel id="tardanzas" value="Tardanzas : #{personaC.usuario.tardanzas}"/>
+                                                            <p:tooltip for="tardanzas"
+                                                                       rendered="#{personaC.ltsTardanzas.size() > 0 ? true:false}">
+                                                                <ui:repeat value="#{personaC.ltsTardanzas}" var="tar">
+                                                                    <h:outputText value="#{tar.tipo} - #{tar.descripcion}"
+                                                                                  escape="false"/>
+                                                                    <br/>
+                                                                </ui:repeat>
+                                                            </p:tooltip>
+                                                            <br/>
+                                                            <br/>
+                                                        </h5>
+                                                        <br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="card b-l-success business-info services m-b-20">
+                                                <div class="card-header pointer">
+                                                    <div class="service-header">
+                                                        <h5 class="card-header-text">N° Sesiones de coaching</h5>
+                                                        <br/>
+                                                    </div>
+                                                    <div align="right">
+                                                        <p:outputLabel value="#{coachC.contadorCoaching}" id="lbl_contadorCoaching"
+                                                                       style="font-size: 2.5em; cursor: pointer;"/>
+                                                        <p:tooltip for="lbl_contadorCoaching" position="bottom" style="width: 20%;">
+                                                            <p:dataTable value="#{personaC.lstSesionCoach}" var="sescoach" sortBy="#{sescoach.COACH}">
+                                                                <p:column headerText="Coach" groupRow="true" style="color: #000">
+                                                                    <h:outputText value="#{sescoach.COACH}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha" style="color: #000">
+                                                                    <h:outputText value="#{sescoach.FECHA}"/>
+                                                                </p:column>
+                                                            </p:dataTable>
+                                                        </p:tooltip>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p:accordionPanel value="#{personaC.lstfase}" var="fase">
+                                                <p:tab title="#{fase.NOMFASE} = #{fase.PROMFASE}">
+                                                    <table class="table table-card table-no-padding">
+                                                        <TR>
+                                                            <TH>Descripción</TH>
+                                                            <TH class="center">Peso</TH>
+                                                            <TH class="center">Promedio</TH>
+                                                        </TR>
+                                                        <ui:fragment
+                                                            rendered="#{fase.formula.PESOCASO == '0' ? false:true}">
+                                                            <TR>
+                                                                <TD>Casos</TD>
+                                                                <TD class="center">#{fase.formula.PESOCASO}</TD>
+                                                                <TD class="center negrita">#{fase.formula.PROMCASO}</TD>
+                                                            </TR>
+                                                        </ui:fragment>
+                                                        <ui:fragment
+                                                            rendered="#{fase.formula.PESOPART == '0' ? false:true}">
+                                                            <TR>
+                                                                <TD>Participación</TD>
+                                                                <TD class="center">#{fase.formula.PESOPART}</TD>
+                                                                <TD class="center negrita">#{fase.formula.PROMPART}</TD>
+                                                            </TR>
+                                                        </ui:fragment>
+                                                        <ui:fragment
+                                                            rendered="#{fase.formula.PESOTRAB == '0' ? false:true}">
+                                                            <TR>
+                                                                <TD>Trabajo</TD>
+                                                                <TD class="center">#{fase.formula.PESOTRAB}</TD>
+                                                                <TD class="center negrita">#{fase.formula.PROMTRAB}</TD>
+                                                            </TR>
+                                                        </ui:fragment>
+                                                        <ui:fragment
+                                                            rendered="#{fase.formula.PESOPARC == '0' ? false:true}">
+                                                            <TR>
+                                                                <TD>Ex. Parcial</TD>
+                                                                <TD class="center">#{fase.formula.PESOPARC}</TD>
+                                                                <TD class="center negrita">#{fase.formula.PROMPARC}</TD>
+                                                            </TR>
+                                                        </ui:fragment>
+                                                        <ui:fragment
+                                                            rendered="#{fase.formula.PESOFINA == '0' ? false:true}">
+                                                            <TR>
+                                                                <TD>Ex. Final</TD>
+                                                                <TD class="center">#{fase.formula.PESOFINA}</TD>
+                                                                <TD class="center negrita">#{fase.formula.PROMFINA}</TD>
+                                                            </TR>
+                                                        </ui:fragment>
+                                                    </table>
+                                                </p:tab>
+                                            </p:accordionPanel>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="card b-l-success business-info services m-b-20">
+                                                <div class="card-header pointer">
+                                                    <div class="service-header">
+                                                        <h5 class="card-header-text">Promedio Final</h5>
+                                                        <br/>
+                                                    </div>
+                                                    <div align="right">
+                                                        <p:outputLabel value="#{personaC.usuario.promedioGeneral}"
+                                                                       style="font-size: 2.5em; cursor: pointer;"/>
+                                                    </div>
+                                                    <label style="font-size: 12px">Promedio mínimo 13</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+                <p:separator/>
+
+                <h:form id="formListFiles">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p:outputLabel value="Sesión"/>
+                                    <p:inputText disabled="#{sessionService.retirado}" class="input-block" value="#{sesionC.NOMB}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <p:outputLabel value="Fecha"/>
+                                    <p:inputMask disabled="#{sessionService.retirado}" class="input-block" mask="99/99/9999" value="#{sesionC.FECH}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <p:commandButton disabled="#{sessionService.retirado}" class="btn-block" value="Buscar"
+                                                     actionListener="#{sesionC.listarSesiones(sesionC.CODDETPROG)}"
+                                                     update="data"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h:panelGroup rendered="#{sessionService.retirado}">
+                        <div class="card text-center">
+                            <h1 class="red-text">PARTICIPANTE RETIRADO</h1>
+                        </div>
+                    </h:panelGroup>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p:dataTable var="se" value="#{sesionC.lstSes}" id="data" sortBy="#{se.fase.NOMFASE}"
+                                                 expandableRowGroups="true">
+                                        <p:headerRow>
+                                            <p:column colspan="2">
+                                                <h:outputText value="#{se.fase.NOMFASE}"/>
+                                            </p:column>
+                                        </p:headerRow>
+                                        <p:column groupRow="true" headerText="PROGRAMA">
+                                            <h:outputText value="#{se.NOMSES}: #{se.DECSES}"
+                                                          style="font-size: 12px;font-weight: bold"/><br/>
+                                            <h:outputText value="#{se.FECHASES}" style="font-size: 12px;"/>
+                                        </p:column>
+                                        <p:column headerText="DOCUMENTO">
+                                            <h:panelGroup
+                                                rendered="#{se.biblioteca.nomb.length() > 0 and se.biblioteca.privilegio == 'E' }">
+                                                <a href="#{sessionService.linkRepositorio}/#{se.biblioteca.ubicacion}/#{se.biblioteca.nomb}"
+                                                   target="_blank"
+                                                   style="font-size: 12px;font-weight: bold">#{se.biblioteca.nomb}</a> <br/>
+                                                <h:outputText
+                                                    value="Fecha : #{se.biblioteca.fecha} | Tamaño : #{se.biblioteca.tamano}"
+                                                    style="font-size: 10px;"/>
+                                            </h:panelGroup>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+
+                <p:dialog widgetVar="Horario"
+                          modal="true"
+                          appendTo="@(body)">
+
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel styleClass="negrita" value="Fecha de Inicio :"/>
+                        <h:outputText value="#{personaC.horario.fechIni}"/>
+
+                        <p:outputLabel styleClass="negrita"  value="Fecha de Fin : "/>
+                        <h:outputText value="#{personaC.horario.fechFin}"/>
+
+                        <p:outputLabel styleClass="negrita"  value="Frecuencia : "/>
+                        <h:outputText value="#{personaC.horario.frecDetProgMasc}"/>
+
+                        <p:outputLabel styleClass="negrita"  value="Horas : "/>
+                        <h:outputText value="#{personaC.horario.horIniFin}"/>
+                    </p:panelGrid>
+
+                </p:dialog>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('a.ui-rowgroup-toggler').click();
+                        // $('div.ui-accordion-header').click();
+                    });
+                </script>
+
+                <br/>
+                <br/>
+                <br/>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">DIRECTORIO DE PARTICIPANTES</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h:form id="formListDirectorio">
+                                <p:repeat value="#{personaC.lstDirectorioDirec.get(distinct)}" var="dir">
+                                    <div class="card-deck">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-2">
+                                                        <img onerror="this.onerror=null;this.src='#{sessionService.linkProyecto}/resources/img/man.png';"
+                                                             src="#{sessionService.linkRepositorioImg}/#{dir.imgPer}"
+                                                             style="width: 100px;height: 100px;"/>
+                                                    </div>
+                                                    <div class="col-12 col-lg-10">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <h5 class="card-title">#{dir.nomPer}</h5>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h6 class="text-muted text-right">DIRECTOR DEL PROGRAMA</h6>
+                                                            </div>
+                                                        </div>
+                                                        <hr/>
+                                                        <div class="row">
+                                                            <div class="col-6 col-lg-6">
+                                                                <p class="card-text">
+                                                                    <span class="font-weight-bold">Empresa: </span><p:outputLabel value="#{dir.empresaM.NOMBEMP}"/>
+                                                                <br/>
+                                                                <span class="font-weight-bold">Cargo: </span><p:outputLabel value="#{dir.cargPer}"/>
+                                                                <br/>
+                                                                <span class="font-weight-bold">Email: </span><p:outputLabel value="#{dir.emailPer}"/>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-6 col-lg-6">
+                                                                <p class="card-text">
+                                                                    <span class="font-weight-bold">Celular: </span><p:outputLabel value="#{dir.celPer}"/>
+                                                                <br/>
+                                                                <span class="font-weight-bold">Cumpleaños: </span><p:outputLabel value="#{dir.fecNac}"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p:repeat>
+                                <p:repeat value="#{personaC.lstDirectorioPart}" var="directorio">
+                                    <div class="card-deck">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-2">
+                                                        <img onerror="this.onerror=null;this.src='#{sessionService.linkProyecto}/resources/img/man.png';"
+                                                             src="#{sessionService.linkRepositorioImg}/#{directorio.imgPer}"
+                                                             style="width: 100px;height: 100px"/>
+                                                    </div>
+                                                    <div class="col-12 col-lg-10">
+                                                        <h5 class="card-title">#{directorio.nomPer}</h5>
+                                                        <hr/>
+                                                        <div class="row">
+                                                            <div class="col-6 col-lg-6">
+                                                                <p class="card-text">
+                                                                    <span class="font-weight-bold">Empresa: </span><p:outputLabel value="#{directorio.empresaM.NOMBEMP}"/>
+                                                                <br/>
+                                                                <span class="font-weight-bold">Cargo: </span><p:outputLabel value="#{directorio.cargPer}"/>
+                                                                <br/>
+                                                                <span class="font-weight-bold">Email: </span><p:outputLabel value="#{directorio.emailPer}"/>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-6 col-lg-6">
+                                                                <p class="card-text">
+                                                                    <span class="font-weight-bold">Celular: </span><p:outputLabel value="#{directorio.celPer}"/>
+                                                                <br/>
+                                                                <span class="font-weight-bold">Cumpleaños: </span><p:outputLabel value="#{directorio.fecNac}"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p:repeat>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ui:include src="update.xhtml"/>
+        </ui:define>
+
+    </ui:composition>
+
+</body>
+</html>

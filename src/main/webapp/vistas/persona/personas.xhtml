@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<body>
+
+<ui:composition template="./../template/TemplateMain.xhtml">
+    <ui:param name="active_user" value="active"/>
+    <ui:param name="active_trigger_mantenimiento" value="active pcoded-trigger"/>
+
+    <ui:define name="header">
+        <h5 class="m-b-10">Persona</h5>
+        <p class="m-b-0">Sistema Came 2018</p>
+    </ui:define>
+    <ui:define name="content">
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Personas</h5>
+            </div>
+            <div class="card-block">
+                <div class="row">
+
+                    <ui:fragment rendered="#{sessionService.administrador}">
+                        <div class="col-md-4">
+                            <ui:include src="create.xhtml"/>
+                        </div>
+                    </ui:fragment>
+
+                    <div class="#{sessionService.administrador ? 'col-md-8':'col-md-12'} animation fadeIn">
+                        <div class="card">
+                            <div class="card-content">
+                                <h:form id="listarPersona">
+
+                                    <p:dataTable id="dataPer"
+                                                 value="#{personaC.listaPersona}"
+                                                 var="lstPer"
+                                                 reflow="true"
+                                                 filteredValue="#{personaC.listaFilterPersona}"
+                                                 rowKey="#{lstPer.codPer}"
+                                                 selectionMode="single"
+                                                 selection="#{personaC.persona}"
+                                                 paginator="true"
+                                                 rows="10">
+
+                                        <p:column width="7%" class="hidden-small">
+                                            <p:rowToggler/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombres" width="40%"
+                                                  filterBy="#{lstPer.nomPer} #{lstPer.apePer}"
+                                                  filterMatchMode="contains">
+                                            <p:outputLabel id="lblNombre" value="#{lstPer.nomPer} #{lstPer.apePer}"/>
+
+                                            <p:tooltip id="toolTipNombre" for="lblNombre" showEffect="clip"
+                                                       position="botton">
+                                                <h:outputText value="#{lstPer.nomPer}"/>
+                                                <div class="row d-md-none">
+                                                    <div class="col-md-4">
+                                                        <h:outputText value="Celular" style="font-weight: bold"/>
+                                                        <h:outputText value=": #{lstPer.celPer}"/>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <h:outputText value="Dirección:"
+                                                                      style="font-weight: bold"/><br/>
+                                                        <h:outputText value="#{lstPer.dirPer}"/>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h:outputText value="Sexo" style="font-weight: bold"/>
+                                                        <h:outputText value=": #{lstPer.sexPer}"/>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <h:outputText value="Ubigeo:" style="font-weight: bold"/><br/>
+                                                        <h:outputText value="#{lstPer.codUbi}"/>
+                                                    </div>
+                                                </div>
+                                            </p:tooltip>
+                                        </p:column>
+
+                                        <p:column headerText="Dni" width="13%" filterBy="#{lstPer.dniPer}"
+                                                  filterMatchMode="contains">
+                                            <p:outputLabel value="#{lstPer.dniPer}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Email" width="20%" filterBy="#{lstPer.emailPer}"
+                                                  filterMatchMode="contains">
+                                            <p:outputLabel id="lblEmail" value="#{lstPer.emailPer}"/>
+                                            <p:tooltip id="toolTipEmail" for="lblEmail" showEffect="clip"
+                                                       position="botton">
+                                                <h:outputText value="#{lstPer.emailPer}"/>
+                                            </p:tooltip>
+                                        </p:column>
+
+                                        <p:rowExpansion>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label style="font-weight: bold">Celular</label>
+                                                    <p:outputLabel value=": #{lstPer.celPer}"/>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label style="font-weight: bold">Dirección</label>
+                                                    <p:outputLabel value=": #{lstPer.dirPer}"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label style="font-weight: bold">Sexo</label>
+                                                    <p:outputLabel value=": #{lstPer.sexPer}"/>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label style="font-weight: bold">Ubigeo</label>
+                                                    <p:outputLabel value=": #{lstPer.codUbi}"/>
+                                                </div>
+                                            </div>
+                                        </p:rowExpansion>
+
+                                    </p:dataTable>
+
+                                    <p:contextMenu for="dataPer" rendered="#{sessionService.administrador}">
+                                        <p:menuitem value="Editar" oncomplete="PF('UpPer').show();"
+                                                    update="formActualizarPersona"/>
+                                        <p:menuitem value="Cambiar Contraseña" oncomplete="PF('UpPass').show();"
+                                                    update="formPass"/>
+                                        <p:menuitem value="Eliminar" actionListener="#{personaC.deletePersona()}"
+                                                    oncomplete="updatePersona();">
+                                            <p:confirm header="Confirmación" message="¿Desea eliminar Persona?"
+                                                       icon="ui-icon-alert"/>
+                                        </p:menuitem>
+                                    </p:contextMenu>
+
+                                    <p:remoteCommand name="updatePersona" update="dataPer"/>
+
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ui:include src="update.xhtml"/>
+                    <ui:include src="updatePassword.xhtml"/>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</body>
+</html>

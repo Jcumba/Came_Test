@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="updateVi"
+                  widgetVar="updateVideos"
+                  modal="true"                  
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Actualizar Datos"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="updateVideo">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Programa"/>
+                    <p:inputText value="#{bibliotecaC.selectVideo.nombVid}" required="true" requiredMessage="Se necesita un nombre" style="width: 100%"/>
+                    <p:outputLabel value="Duración"/>
+                    <p:inputMask value="#{bibliotecaC.selectVideo.durVid}" required="true" requiredMessage="Se necesita la duración del video" style="width: 100%" mask="99:99:99" placeholder="HH:MM:SS"/>
+                </h:panelGrid>
+                <br/>
+                <p:commandButton value="Actualizar" actionListener="#{bibliotecaC.actualizarVideo()}" oncomplete="handleSubmit(args,'updateVideos');cleanrSesion();" update=":formListaVideos updateVideo"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CameActividadSesion" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e3633863-69b3-4791-bdf0-0387f011bfa9">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CAME_CLOUD"/>
+	<parameter name="CodSesion" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+PROGRAMA.CODPROG,
+PROG_DET.CODDETPROG,
+SESION.CODSES,
+(PROGRAMA.NOMPROG || ' - ' || PROG_DET.GENDETPROG)AS PROGGENE,
+TO_CHAR(SESION.FECHASES, 'DAY DD "de" Month "del año" YYYY', 'NLS_DATE_LANGUAGE=SPANISH') as FECHASES,
+--TO_CHAR(SESION.FECHASES, 'dd/mm/yyyy')AS FECHASES, --PLAN DE TRABAJO
+FASE.NOMFASE,
+(SESION.NOMSES || ': ' || UPPER(SESION.DECSES)) AS NOMSES,
+INITCAP((PROF.APEPER || ', ' || PROF.NOMPER)) AS PROFE,
+(SESION_ACT.HORAINI || ' - ' || SESION_ACT.HORAFIN)AS HORINIFIN,
+SESION_ACT.DESCACT,
+LISTAGG((CASE
+    WHEN BIBLIOTECA.TIPCON like 'Presentaciones' THEN INITCAP(BIBLIOTECA.NOMB )
+end),' - ') WITHIN GROUP (ORDER BY BIBLIOTECA.NOMB) AS Pres,
+LISTAGG((CASE
+    WHEN BIBLIOTECA.TIPCON like 'Nota Técnica' THEN INITCAP(BIBLIOTECA.NOMB )
+end),' - ') WITHIN GROUP (ORDER BY BIBLIOTECA.NOMB) AS NotTec,
+LISTAGG((CASE
+    WHEN BIBLIOTECA.TIPCON like 'Ejercicio' THEN INITCAP(BIBLIOTECA.NOMB )
+end),' - ') WITHIN GROUP (ORDER BY BIBLIOTECA.NOMB) AS Ejer,
+LISTAGG((CASE
+    WHEN BIBLIOTECA.TIPCON like 'Caso' THEN INITCAP(BIBLIOTECA.NOMB )
+end),' - ') WITHIN GROUP (ORDER BY BIBLIOTECA.NOMB) AS Caso,
+LISTAGG((CASE
+    WHEN BIBLIOTECA.TIPCON like 'Video' THEN INITCAP(BIBLIOTECA.NOMB || '.' || BIBLIOTECA.TAM)
+end),' - ') WITHIN GROUP (ORDER BY BIBLIOTECA.NOMB) AS Vide,
+SESION.NOMSES as NUMSES,
+INITCAP((DIRE.APEPER || ', ' || DIRE.NOMPER)) AS DIRE
+FROM PROGRAMA
+LEFT JOIN PROG_DET ON PROG_DET.CODPROG = PROGRAMA.CODPROG
+LEFT JOIN FASE ON FASE.CODDETPROG = PROG_DET.CODDETPROG
+LEFT JOIN SESION ON SESION.CODFASE = FASE.CODFASE
+INNER JOIN SESION_ACT ON SESION_ACT.CODSES = SESION.CODSES
+LEFT JOIN SESION_ANEXO ON SESION_ANEXO.CODSES = SESION.CODSES
+LEFT JOIN BIBLIOTECA ON BIBLIOTECA.CODBIB = SESION_ANEXO.CODBIB
+LEFT JOIN PERSONA DIRE ON DIRE.CODPER = PROG_DET.CODPER
+LEFT JOIN PERSONA PROF ON PROF.CODPER = SESION.CODPROF
+WHERE SESION.CODSES =  $P{CodSesion} group by PROGRAMA.CODPROG, PROG_DET.CODDETPROG, SESION.CODSES, (PROGRAMA.NOMPROG || ' - ' || PROG_DET.GENDETPROG), TO_CHAR(SESION.FECHASES, 'DAY DD "de" Month "del año" YYYY', 'NLS_DATE_LANGUAGE=SPANISH'), 
+FASE.NOMFASE, (SESION.NOMSES || ': ' || UPPER(SESION.DECSES)), INITCAP((PROF.APEPER || ', ' || PROF.NOMPER)), (SESION_ACT.HORAINI || ' - ' || SESION_ACT.HORAFIN), SESION_ACT.DESCACT, 
+SESION.NOMSES, INITCAP((DIRE.APEPER || ', ' || DIRE.NOMPER))]]>
+	</queryString>
+	<field name="CODPROG" class="java.math.BigDecimal"/>
+	<field name="CODDETPROG" class="java.math.BigDecimal"/>
+	<field name="CODSES" class="java.math.BigDecimal"/>
+	<field name="PROGGENE" class="java.lang.String"/>
+	<field name="FECHASES" class="java.lang.String"/>
+	<field name="NOMFASE" class="java.lang.String"/>
+	<field name="NOMSES" class="java.lang.String"/>
+	<field name="PROFE" class="java.lang.String"/>
+	<field name="HORINIFIN" class="java.lang.String"/>
+	<field name="DESCACT" class="java.lang.String"/>
+	<field name="PRES" class="java.lang.String"/>
+	<field name="NOTTEC" class="java.lang.String"/>
+	<field name="EJER" class="java.lang.String"/>
+	<field name="CASO" class="java.lang.String"/>
+	<field name="VIDE" class="java.lang.String"/>
+	<field name="NUMSES" class="java.lang.String"/>
+	<field name="DIRE" class="java.lang.String"/>
+	<variable name="NOMSES1" class="java.lang.Integer" resetType="Group" resetGroup="SESION" calculation="Count">
+		<variableExpression><![CDATA[$F{NOMSES}]]></variableExpression>
+	</variable>
+	<group name="SESION">
+		<groupExpression><![CDATA[$F{NOMSES}]]></groupExpression>
+		<groupHeader>
+			<band height="26">
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="11" y="0" width="535" height="26" backcolor="#E8E8E8" uuid="906f1165-4148-48dd-9766-c293e085c292"/>
+					<box leftPadding="2" rightPadding="2">
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans Mono" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["SESIÓN "+$F{NOMSES}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Material">
+		<groupFooter>
+			<band height="156">
+				<staticText>
+					<reportElement x="11" y="0" width="535" height="26" uuid="b7aed1f9-34f0-4147-9309-bbc45d3a2bc2">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[MATERIAL DE LA SESIÓN:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="26" width="535" height="26" uuid="a78793c2-92cd-44c1-8fbd-73681b001589"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{PRES}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="52" width="535" height="26" uuid="f105b86f-f764-48e2-b1ee-414094663ee9">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{NOTTEC}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="78" width="535" height="26" uuid="a5d54165-564b-40ba-b454-297ef3481d74"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{EJER}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="104" width="535" height="26" uuid="e6c08621-120a-46d6-a58a-310c947d78fe"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{CASO}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="11" y="130" width="535" height="26" uuid="e655f907-44c3-4e13-8ec9-aea5c9037552"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{VIDE}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="144" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="160" height="60" uuid="b95a00f1-50e3-4204-ac5d-aab46dc90849"/>
+				<imageExpression><![CDATA["Logo-CAME-web-.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="170" y="0" width="380" height="30" uuid="6669a31a-ac0f-4eb8-bde5-eaabe1a98d1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAN DE TRABAJO]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="170" y="30" width="380" height="30" uuid="3ff70b10-d1d6-4f04-8279-0e19d5c354d4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PROGGENE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="11" y="119" width="230" height="25" uuid="fb41a656-18a5-4e3b-a00d-431e55881969">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHASES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="260" y="93" width="285" height="26" uuid="59caa087-9ce5-4fff-aea4-6cb2c8485548">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROFE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="260" y="67" width="285" height="26" uuid="5792f15e-bb04-43c0-9f53-b9f375bb729c"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROFESOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="67" width="249" height="26" uuid="e7771c5a-2696-4664-a5eb-e25ad6d9fba7"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECTOR DEL PROGRAMA:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="11" y="93" width="249" height="26" uuid="10598df5-55ff-4d45-9195-0f02a8453486"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{DIRE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="33" width="119" height="26" uuid="86dea55a-c8a9-4a88-8a65-0f2f3f72b63f"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="33" width="416" height="26" uuid="3fb59310-0f23-4311-af1d-37c767612444">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDAD]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="11" y="3" width="535" height="30" backcolor="#F0F0F0" uuid="c403515c-5b0a-45ca-9e11-1a214e963a07"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMFASE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="11" y="0" width="119" height="26" uuid="c3dda462-8315-4b59-947a-0cec80ab2f67"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HORINIFIN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="130" y="0" width="416" height="26" uuid="6b28ac32-c728-4ea9-8292-c5717f9e7400"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCACT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50"/>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,605 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Came | Formulario de evaluación al Director del Programa</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
+        <h:outputStylesheet name="css/themify-icons.css"/>
+        <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+        <h:outputStylesheet name="css/style.css"/>
+        <h:outputStylesheet name="css/components.css"/>
+        <h:outputStylesheet name="css/theme-dark-green.css"/>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+        <h:outputScript name="js/jsfcrud.js"/>
+    </h:head>
+
+    <p:idleMonitor timeout="600000">
+        <p:ajax event="idle" onstart="location.reload();"/>
+    </p:idleMonitor>
+
+    <h:body>
+        <f:metadata>
+            <f:viewParam name="idDir" value="#{fDProgramaC.model.codSes}"/>
+        </f:metadata>
+        <f:event type="preRenderView" listener="#{encuestaC.listarDetSesion(fDProgramaC.model.codSes)}"/>
+        <style type="text/css">
+            body {
+                font-size: .875em;
+                overflow-x: hidden;
+                color: #455a64;
+            }
+        </style>
+
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="page-body">
+                                <div class="container">
+                                    <div>
+                                        <div class="card">
+                                            <div class="row invoice-contact">
+                                                <div class="col-md-12">
+                                                    <div class="invoice-box row">
+                                                        <div class="col-md-4 col-sm-12">
+                                                            <table class="table table-responsive invoice-table table-borderless">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png"
+                                                                                 class="m-b-10" alt=""/>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Jr. Costa Rica 157, Jesús María
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a target="_top">
+                                                                                <span class="__cf_email__">came@came.edu.pe</span>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Telf. (511) 461-6050</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-md-8 col-sm-12">
+                                                            <table class="table table-responsive invoice-table table-borderless">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <h5 class="font-weight-bold">#{encuestaC.encuesta.nomProg}</h5>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <h6 class="font-weight-bold">#{encuestaC.encuesta.nomSes}: #{encuestaC.encuesta.decSes}</h6>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td></td> 
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Fecha de evaluación: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.fechaSes}"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Director de programa: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.director}"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Profesor: <p:outputLabel class="font-weight-bold" value="#{encuestaC.encuesta.profesor}"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <h:form id="FormEncFDPrograma">
+                                                        <div class="card-block" style="padding-top: 0px;">
+                                                            <hr/>
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>1. Profesor: *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Dominio del tema</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.profRpt1}"
+                                                                                    id="rdQ1" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Manejo del método</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.profRpt2}"
+                                                                                    id="rdQ2" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Involucramiento del grupo</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.profRpt3}"
+                                                                                    id="rdQ3" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Calidad del material de apoyo</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.profRpt4}"
+                                                                                    id="rdQ4" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <hr/>
+
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>Puntualidad *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Puntualidad al inicio</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.puntRpt1}"
+                                                                                    id="rdQ5" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Si"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="No"
+                                                                                                  itemValue="2"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Puntualidad al final</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.puntRpt2}"
+                                                                                    id="rdQ6" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Si"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="No"
+                                                                                                  itemValue="2"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-12">
+                                                                                <h6>Áreas de oportunidad del profesor</h6>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <p:inputText
+                                                                                    value="#{fDProgramaC.model.areaOporProf}"
+                                                                                    id="rdQ7" placeholder="Tu respuesta"
+                                                                                    style="width: 100%"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <hr/>
+
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>2. Director de Programa: *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Se dio retroalimentación al profesor</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.dircProgRpt1}"
+                                                                                    id="rdQ8" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Sí"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="No"
+                                                                                                  itemValue="2"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Puntualidad</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.dircProgRpt2}"
+                                                                                    id="rdQ9" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Sí"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="No"
+                                                                                                  itemValue="2"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <hr/>
+
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>3. Tema: *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Actualidad de los conceptos</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.temRpt1}"
+                                                                                    id="rdQ10" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Aplicabilidad de los conceptos</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.temRpt2}"
+                                                                                    id="rdQ11" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-12">
+                                                                                <h6>Sugerencias</h6>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <p:inputTextarea
+                                                                                    value="#{fDProgramaC.model.temSug}"
+                                                                                    id="rdQ12"
+                                                                                    placeholder="Tu respuesta"
+                                                                                    counter="display"
+                                                                                    counterTemplate="{0}/200 caracteres"
+                                                                                    maxlength="200"
+                                                                                    style="width: 100%"/>
+                                                                                <h:outputText id="display"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <hr/>
+
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>4. Participantes: *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Participación</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.partRpt1}"
+                                                                                    id="rdQ13" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Preparación para la sesión</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.partRpt2}"
+                                                                                    id="rdQ14" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <hr/>
+
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>5. Sesión *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>La sesión en su conjunto fue</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.sesRpt}"
+                                                                                    id="rdQ15" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <hr/>
+
+                                                            <h:panelGroup>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <h5>6. Servicios: *</h5>
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Instalaciones</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.servRpt1}"
+                                                                                    id="rdQ16" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-4">
+                                                                                <h6>Coffee break</h6>
+                                                                            </div>
+                                                                            <div class="col-md-8" align="center">
+                                                                                <p:selectOneRadio
+                                                                                    value="#{fDProgramaC.model.servRpt2}"
+                                                                                    id="rdQ17" layout="responsive"
+                                                                                    columns="5">
+                                                                                    <f:selectItem itemLabel="Mal"
+                                                                                                  itemValue="1"/>
+                                                                                    <f:selectItem itemLabel="Regular"
+                                                                                                  itemValue="2"/>
+                                                                                    <f:selectItem itemLabel="Bien"
+                                                                                                  itemValue="3"/>
+                                                                                    <f:selectItem itemLabel="Muy bien"
+                                                                                                  itemValue="4"/>
+                                                                                    <f:selectItem itemLabel="Excelente"
+                                                                                                  itemValue="5"/>
+                                                                                </p:selectOneRadio>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row" style="padding-top: 1em">
+                                                                            <div class="col-md-12">
+                                                                                <h6>Sugerencias</h6>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <p:inputTextarea
+                                                                                    value="#{fDProgramaC.model.sugerencia}"
+                                                                                    id="rdQ18"
+                                                                                    placeholder="Tu respuesta"
+                                                                                    counter="display2"
+                                                                                    counterTemplate="{0}/200 caracteres"
+                                                                                    maxlength="200"
+                                                                                    style="width: 100%"/>
+                                                                                <h:outputText id="display2"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </h:panelGroup>
+
+                                                            <div style="padding-top: 2em"/>
+                                                            <p:commandButton value="Enviar"
+                                                                             actionListener="#{fDProgramaC.registrarEncFDPrograma()}"
+                                                                             update="FormEncFDPrograma"/>
+                                                        </div>
+                                                    </h:form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </h:body>
+</html>
+

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="agregarmoduloid"
+                  widgetVar="Newmodulo"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Crear Módulo"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="frm">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="form-group form-default">
+                            <label class="col-form-label">Módulo</label>
+                            <p:inputText class="form-control" value="#{faseC.fase.NOMFASE}" placeholder="Ingresar Nombre del Módulo"/>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <center>
+                    <p:commandButton id="add" value="Agregar" actionListener="#{faseC.agregarFase(pesoC.CODDETPROG)}" update=":frmPeso" oncomplete="handleSubmit(args,'Newmodulo');"/>
+                </center>
+                <p:blockUI block="frm" trigger="add" >
+                    LOADING<br />
+                    <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                </p:blockUI>
+                <p:remoteCommand name="lstsesion" actionListener="#{sesionC.clean()}"  update=":frmPeso"/>
+                <p:remoteCommand name="lstpesos" actionListener="#{pesoC.listarFase()}" update=":frmPeso"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

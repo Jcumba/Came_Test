@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition>
+    <h:form id="formListaNota">
+
+        <p:blockUI block="formListaNota" trigger=":formCreateNota:btnAdd">
+            LOADING<br/>
+            <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+        </p:blockUI>
+
+        <p:dataTable value="#{notasC.listNewNotas}"
+                     var="notas"
+                     id="tblNotas"
+                     class="animation fadeIn"
+                     editable="#{sessionService.administrador || sessionService.directorPrograma || sessionService.operaciones ? 'true':'false'}"
+                     editMode="cell"
+                     emptyMessage="No se encontró ningún registro"
+                     rendered="#{notasC.listNewNotas != null}">
+
+            <p:ajax event="cellEdit" listener="#{notasC.editarNotas(notas)}"/>
+
+            <p:column headerText="N°" width="5%">
+                <p:outputLabel value="#{notasC.listNewNotas.indexOf(notas)+1}"/>
+            </p:column>
+            <p:column headerText="Participantes" width="30%">
+                <p:outputLabel value="#{notas.nomPer}"/>
+            </p:column>
+            <p:column headerText="Asistencia" rendered="#{notasC.nota.asistencia == 'A'}" width="10%">
+                <center>
+                    <p:triStateCheckbox style="" value="#{notas.notaAsis}" stateTwoIcon="ui-icon-check"
+                                        stateThreeIcon="ui-icon-minus" stateTwoTitle="Asistencia"
+                                        stateThreeTitle="Tardanza"
+                                        disabled="#{sessionService.administrador || sessionService.directorPrograma || sessionService.operaciones ? false:true}">
+                        <p:ajax event="change" listener="#{notasC.validacionAsis(notas)}" update="tblNotas"/>
+                    </p:triStateCheckbox>
+                </center>
+            </p:column>
+            <p:column headerText="Participación" rendered="#{notasC.nota.plenaria == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaPlenaria}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaPlenaria}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Caso" rendered="#{notasC.nota.caso == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaCaso}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaCaso}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Caso 2" rendered="#{notasC.nota.caso2 == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaCaso2}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaCaso2}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Control" rendered="#{notasC.nota.control == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaControl}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaControl}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Ex. Parcial" rendered="#{notasC.nota.examParc == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaExamParc}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaExamParc}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Ex. Final" rendered="#{notasC.nota.examFinal == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaExamFinal}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaExamFinal}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Trabajo" rendered="#{notasC.nota.trabajo == '1'}" width="10%">
+                <p:cellEditor disabled="#{notas.notaAsis == '0'}">
+                    <f:facet name="output"><h:outputText value="#{notas.notaTrabajo}"/></f:facet>
+                    <f:facet name="input"><p:inputNumber value="#{notas.notaTrabajo}" minValue="0"
+                                                         maxValue="20"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Promedios" width="10%"
+                      rendered="false"><!--{notasC.verified == false and notasC.nota.tipoSes eq 'S'}"-->
+                <p:outputLabel style="font-size: 1em;font-weight: bold" value="#{notas.promedio}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>
+</html>
+

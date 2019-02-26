@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form id="formCreateBiblioteca" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Subir Documentos</h5>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Archivo:</label><br/>
+                                <p:fileUpload value="#{bibliotecaC.file}" mode="simple" skinSimple="true" label="Subir" required="true" requiredMessage="Se necesita un documento"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de Contenido:</label><br/>
+                                <p:selectOneMenu value="#{bibliotecaC.model.tipocont}" style="width: 100%">
+                                    <f:selectItem itemLabel="Seleccione:" itemValue=""/>
+                                    <f:selectItem itemLabel="Nota Técnica" itemValue="Nota Técnica"/>
+                                    <f:selectItem itemLabel="Ejercicio" itemValue="Ejercicio"/>
+                                    <f:selectItem itemLabel="Caso" itemValue="Caso"/>
+                                    <f:selectItem itemLabel="Presentaciones" itemValue="Presentaciones"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de Programa:</label><br/>
+                                <p:selectOneMenu value="#{bibliotecaC.model.programa}"  required="true" requiredMessage="Seleccione el tipo de programa" style="width: 100%">
+                                    <f:selectItem itemLabel="Seleccione un tipo de programa" noSelectionOption="true"/>
+                                    <f:selectItems value="#{programaC.listCbTipoPg}" var="cbProg" itemLabel="#{cbProg.nomTipPg}" itemValue="#{cbProg.codTipPg}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Repositorio:</label><br/>
+                                <p:selectOneMenu value="#{bibliotecaC.model.ubicacion}" class="input-block" required="true">
+                                    <f:selectItem itemLabel="InveCame" itemValue="InveCame"/>
+                                    <f:selectItem itemLabel="Presentaciones" itemValue="Presentaciones"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Dirigido a:</label><br/>
+                                <p:selectOneMenu value="#{bibliotecaC.model.privilegio}" class="input-block" required="true">
+                                    <f:selectItem itemLabel="Participante" itemValue="E"/>
+                                    <f:selectItem itemLabel="Profesor" itemValue="P"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="offset-md-5 col-md-2 col-sm-12 center">
+                            <br/>
+                            <p:commandButton class="btn-block" value="Guardar" ajax="false" actionListener="#{bibliotecaC.guardar()}" oncomplete="cleanrSesion();"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:composition>
+</html>
+

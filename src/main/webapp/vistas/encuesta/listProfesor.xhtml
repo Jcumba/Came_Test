@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:carousel id="carRespProfe" value="#{fProfesorC.listRespFProfesor}" headerText="Profesor" var="carProfe" numVisible="1" style="width:100%" circular="true" responsive="true">
+            <div class="container-fluid">
+                <div style="padding-bottom: 30px"/>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>1. Director de Programa</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Información sobre el grupo</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carProfe.direProg1}" id="rdQ1" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.direProg1 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.direProg1 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.direProg1 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.direProg1 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.direProg1 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Retroalimentación</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p:selectOneRadio value="#{carProfe.direProg2}" id="rdQ2" layout="responsive" columns="5"  >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.direProg2 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.direProg2 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.direProg2 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.direProg2 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.direProg2 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Permanencia en la sesión</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p:selectOneRadio value="#{carProfe.direProg3}" id="rdQ3" layout="responsive" columns="5"  >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.direProg3 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.direProg3 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.direProg3 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.direProg3 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.direProg3 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Apoyo (entrega de notas, asistencia, etc)</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p:selectOneRadio value="#{carProfe.direProg4}" id="rdQ4" layout="responsive" columns="5"  >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.direProg4 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.direProg4 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.direProg4 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.direProg4 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.direProg4 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Puntualidad</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p:selectOneRadio value="#{carProfe.direProg5}" id="rdQ5" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.direProg5 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.direProg5 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.direProg5 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.direProg5 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.direProg5 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>2. Participantes</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Participación</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carProfe.part1}" id="rdQ6" layout="responsive" columns="5"  >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.part1 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.part1 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.part1 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.part1 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.part1 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Preparación para la sesión</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p:selectOneRadio value="#{carProfe.part2}" id="rdQ7" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.part2 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.part2 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.part2 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.part2 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.part2 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>3. Tema</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Actualidad del tema</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carProfe.tem1}" id="rdQ8" layout="responsive" columns="5"  >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.tem1 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.tem1 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.tem1 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.tem1 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.tem1 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Vínculo del caso con el tema</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p:selectOneRadio value="#{carProfe.tem2}" id="rdQ9" layout="responsive" columns="5"  >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carProfe.tem2 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carProfe.tem2 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carProfe.tem2 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carProfe.tem2 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carProfe.tem2 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>4. Sugerencias y comentarios</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-12">
+                                            <p id="rdQ10">
+                                                #{carProfe.sugerencia}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                    </div> 
+                </div>
+            </div>
+        </p:carousel>
+    </ui:composition>
+</html>
+

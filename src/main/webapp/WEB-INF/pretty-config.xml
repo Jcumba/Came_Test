@@ -1,0 +1,162 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+    <url-mapping id="Dashboard">
+        <pattern value="/dashboard" />
+        <view-id value="/faces/vistas/dashboard/dashboard.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Empresa">
+        <pattern value="/empresas" />
+        <view-id value="/faces/vistas/empresa/empresa.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Matricular">
+        <pattern value="/inscripcion/matricular" />
+        <view-id value="/faces/vistas/asignacion/asignacion.xhtml" />
+    </url-mapping>
+    
+    
+    <url-mapping id="Evaluaciones">
+        <pattern value="/evaluaciones" />
+        <view-id value="/faces/vistas/encuesta/respuestas.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Sesiones">
+        <pattern value="/notas/sesiones" />
+        <view-id value="/faces/vistas/nota/notas.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Fases">
+        <pattern value="/notas/fases" />
+        <view-id value="/faces/vistas/nota/fases.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Programas">
+        <pattern value="/notas/programas" />
+        <view-id value="/faces/vistas/nota/programas.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="ConfiguracionPesos">
+        <pattern value="/configuracion/pesos" />
+        <view-id value="/faces/vistas/peso/peso.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="ConfiguracionSesiones">
+        <pattern value="/configuracion/sesiones" />
+        <view-id value="/faces/vistas/configuracion/configuracion.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Personas">
+        <pattern value="/personas" />
+        <view-id value="/faces/vistas/persona/personas.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Programas">
+        <pattern value="/programas" />
+        <view-id value="/faces/vistas/programa/programas.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="ProgramasDetalle">
+        <pattern value="/detalle/programas" />
+        <view-id value="/faces/vistas/progdet/progdet.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="Modulos">
+        <pattern value="/modulos" />
+        <view-id value="/faces/vistas/fase/fase.xhtml" />
+    </url-mapping>
+    
+    <!--    <url-mapping id="Matriculas">
+        <pattern value="/matriculas" />
+        <view-id value="/faces/vistas/asignacion/asignacion.xhtml" />
+    </url-mapping>-->
+    
+    <!--<url-mapping id="Usuario">-->
+        <!--<pattern value="/user" />-->
+        <!--<view-id value="/faces/vistas/user/user.xhtml" />-->
+    <!--</url-mapping>-->
+    <url-mapping id="Coachings">
+        <pattern value="/coach/Coachings" />
+        <view-id value="/faces/vistas/coach/ViewCoaching.xhtml" />
+    </url-mapping>
+    <url-mapping id="AsignacionCoach">
+        <pattern value="/asignacion/Coach" />
+        <view-id value="/faces/vistas/asignacion/AsignacionCoach.xhtml" />
+    </url-mapping>
+    <url-mapping id="AsignacionMonitor">
+        <pattern value="/asignacion/Monitor" />
+        <view-id value="/faces/vistas/asignacion/AsignacionMonitor.xhtml" />
+    </url-mapping>
+    <url-mapping id="Monitoreo">
+        <pattern value="/monitor/sesiones" />
+        <view-id value="/faces/vistas/monitor/form-monitor.xhtml" />
+    </url-mapping>
+    <url-mapping id="Coachings">
+        <pattern value="/coach/coach" />
+        <view-id value="/faces/vistas/coach/coaching.xhtml" />
+    </url-mapping>
+    <!--***************************************
+                Vistas publicas
+    **************************************-->
+    <!--    <url-mapping id="FormularioPostulante">
+        <pattern value="/formulario/postulante" />
+        <view-id value="/faces/vistas/publico/postulante.xhtml" />
+    </url-mapping>-->
+
+    
+    <url-mapping id="FormularioPart">
+        <pattern value="/formulario/participante/#{idPart}" />
+        <view-id value="/faces/vistas/publico/form-participante.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="FormularioProfesor">
+        <pattern value="/formulario/profesor/#{idProf}" />
+        <view-id value="/faces/vistas/publico/form-profesor.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="FormularioMonitor">
+        <pattern value="/formulario/monitor/#{id}" />
+        <view-id value="/faces/vistas/publico/form-monitor.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="FormularioDirector">
+        <pattern value="/formulario/director/#{idDir}" />
+        <view-id value="/faces/vistas/publico/form-dprograma.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="FormularioParticipante">
+        <pattern value="/formulario/inpacto/parcial" />
+        <view-id value="/faces/vistas/publico/impacto-parcial.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="imparc-est">
+        <pattern value="/formulario/inpacto/parcial/estado" />
+        <view-id value="/faces/vistas/encuesta/imparc-informe.xhtml" />
+    </url-mapping>
+<!--    
+    <url-mapping id="inscripciones">
+        <pattern value="/inscripcion/postulantes" />
+        <view-id value="/faces/vistas/inscripcion/participante/participantes.xhtml" />
+    </url-mapping>-->
+    <url-mapping id="entrevista">
+        <pattern value="/inscripcion/entrevista" />
+        <view-id value="/faces/vistas/inscripcion/entrevista/entrevistas.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="pagos">
+        <pattern value="/inscripcion/pago" />
+        <view-id value="/faces/vistas/inscripcion/pago/pagos.xhtml" />
+    </url-mapping>  
+    
+    <!--***************************************
+                HTTP ERROR VIEWS
+    **************************************-->
+    <url-mapping id="404">
+        <pattern value="/page-not-found" />
+        <view-id value="/faces/vistas/error/404.xhtml" />
+    </url-mapping> 
+    
+</pretty-config>

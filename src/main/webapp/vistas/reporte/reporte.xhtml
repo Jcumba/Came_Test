@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+    <ui:composition template="./../template/TemplateMain.xhtml">
+        <ui:param name="active_reportes" value="active"/>
+
+        <ui:define name="header">
+            <h5 class="m-b-10">Reportes</h5>
+            <p class="m-b-0">Sistema Came 2018</p>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h:form>
+                <div class="card">
+                    <div class="card-block">
+
+                        <a><h3> REPORTE OUTLINE </h3></a><br/>
+
+                        <p:selectOneMenu id="oneMenuCoach" value="#{generateReportController.outLine}" class="input-block" required="true" requiredMessage="Seleccione Programa">
+                            <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                            <f:selectItems value="#{sesionC.listaCbGen}" var="cbProg" itemLabel="#{cbProg.nomProg}" itemValue="#{cbProg.codDetProg}"/>  
+                        </p:selectOneMenu>
+                        <br/>
+                        <p:commandButton value="Descargar" ajax="false" actionListener="#{generateReportController.descargarPDFOutLine()}"/>
+
+                    </div>
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</body>
+</html>

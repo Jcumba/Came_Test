@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_sesiones" value="active"/>
+            <ui:param name="active_trigger_programa" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Configuración</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+            <ui:define name="content">
+                <style type="text/css">
+                    .ui-column-title {
+                        font-size: 12px;
+
+                    }
+
+                    .label-green {
+                        background: greenyellow;
+                    }
+
+                    .label-cerrado {
+                        color: #afb5bb !important;
+                        font-weight: bold !important;
+                    }
+                </style>
+                <div class="card">
+                    <div class="card-header">
+                        <h5 style="font-weight: bold ; font-size: 1.3em">CREACIÓN Y CONFIGURACIÓN DE SESIONES</h5>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <h:form id="frmConfig">
+
+                                    <p:outputLabel value="PROGRAMA Y GENERACIÓN"/>
+                                    <p:selectOneMenu id="oneMenuConfig" value="#{sesionC.CODDETPROG}" style="width: 100%"
+                                                     required="true" requiredMessage="Seleccione Programa">
+                                        <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                        <f:selectItems value="#{sesionC.listaCbGen}" var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                                       itemValue="#{cbProg.codDetProg}"/>
+                                        <p:ajax event="change" listener="#{sesionC.listarSes()}" update="data"/>
+                                        <p:ajax event="change" listener="#{bibliotecaC.listarDocs(sesionC.CODDETPROG)}"
+                                                update=":formanexo data"/>
+                                    </p:selectOneMenu>
+
+                                    <br/><br/><br/>
+
+                                    <p:dataTable id="data" value="#{sesionC.lstsesion}" var="ses"
+                                                 paginator="false"
+                                                 sortBy="#{ses.fase.NOMFASE}" expandableRowGroups="true"  >
+
+                                        <f:facet name="header">
+                                            <p:commandButton value="Agregar Sesión" actionListener="#{sesionC.limpiarSesion()}"
+                                                             oncomplete="PF('agregarSesion').show();"
+                                                             class="teal"
+                                                             update=":frmAgregarSesion"
+                                                             disabled="#{sesionC.CODDETPROG == null ? true:false}"
+                                                             rendered="#{sessionService.administrador || sessionService.operaciones}"/>
+                                        </f:facet>
+
+                                        <p:headerRow>
+                                            <p:column
+                                                colspan="#{sessionService.administrador || sessionService.operaciones ? '8':'7'}">
+                                                <h:outputText value="#{ses.fase.NOMFASE}"/>
+                                            </p:column>
+                                        </p:headerRow>
+
+                                        <p:column headerText="SESIÓN" width="40%">
+                                            <p:commandLink disabled="#{ses.fase.ESTFASE != 'A' ? true:false}" id="cantdoc"
+                                                           value="#{ses.NOMSES}"
+                                                           class="pcoded-badge label #{ses.CANTDOC=='0' ? 'label-danger':'label-info'}"
+                                                           actionListener="#{bibliotecaC.listardocanexados(ses.CODSES)}"
+                                                           oncomplete="PF('ViewDocument').show();" update=":viewDoc"/>
+                                            <p:outputLabel id="decses" value="#{ses.DECSES}"
+                                                           class="#{ses.fase.ESTFASE != 'A' ? 'label-cerrado':null}"/>
+                                            <p:tooltip for="cantdoc" value="#{ses.CANTDOC}"
+                                                       showEffect="clip" hideEffect="explode" position="left"/>
+                                            <p:tooltip for="decses" value="#{ses.FECHASES}"
+                                                       showEffect="clip" hideEffect="explode" position="right"
+                                                       rendered="#{ses.fase.ESTFASE !='A' ? false:true}"/>
+                                        </p:column>
+                                        <p:column headerText="CASO " class="center" width="70">
+                                            <p:selectBooleanCheckbox value="#{ses.CASO}"
+                                                                     disabled="#{!sessionService.administrador and !sessionService.operaciones ? true:ses.pesos.PESOCASO =='0' ? true:fase.ESTFASE != 'A' ? true:false}">
+                                                <p:ajax event="change" listener="#{sesionC.actualizarConfig(ses)}"
+                                                        update="data"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+
+                                        <p:column headerText="PARTICIPACIÓN" class="center" width="70">
+                                            <p:selectBooleanCheckbox value="#{ses.PARTICIPACION}"
+                                                                     disabled="#{!sessionService.administrador and !sessionService.operaciones ? true:ses.pesos.PESOPART =='0' ? true:ses.fase.ESTFASE != 'A' ? true:false}">
+                                                <p:ajax event="change" listener="#{sesionC.actualizarConfig(ses)}"
+                                                        update="data"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+                                        <p:column headerText="CASO 2" class="center" width="70">
+                                            <p:selectBooleanCheckbox value="#{ses.CASO2}"
+                                                                     disabled="#{!sessionService.administrador and !sessionService.operaciones ? true:ses.pesos.PESOCASO =='0' ? true:ses.fase.ESTFASE != 'A' ? true:false}">
+                                                <p:ajax event="change" listener="#{sesionC.actualizarConfig(ses)}"
+                                                        update="data"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+                                        <p:column headerText="EX. PARCIAL" class="center" width="70">
+                                            <p:selectBooleanCheckbox value="#{ses.EXAMPARC}"
+                                                                     disabled="#{!sessionService.administrador and !sessionService.operaciones ? true:ses.pesos.PESOPARC =='0' ? true:ses.fase.ESTFASE != 'A' ? true:false}">
+                                                <p:ajax event="change" listener="#{sesionC.actualizarConfig(ses)}"
+                                                        update="data"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+                                        <p:column headerText="EX. FINAL" class="center" width="70">
+                                            <p:selectBooleanCheckbox value="#{ses.EXAMFINAL}"
+                                                                     disabled="#{!sessionService.administrador and !sessionService.operaciones ? true:ses.pesos.PESOFINAL == '0' ? true:ses.fase.ESTFASE != 'A' ? true:false}">
+                                                <p:ajax event="change" listener="#{sesionC.actualizarConfig(ses)}"
+                                                        update="data"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+                                        <p:column headerText="TRABAJO" class="center" width="70">
+                                            <p:selectBooleanCheckbox value="#{ses.TRABAJO}"
+                                                                     disabled="#{!sessionService.administrador and !sessionService.operaciones ? true:ses.pesos.PESOTRA == '0' ? true:ses.fase.ESTFASE != 'A' ? true:false}">
+                                                <p:ajax event="change" listener="#{sesionC.actualizarConfig(ses)}"
+                                                        update="data"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+                                        <p:column headerText="OPCIONES" class="center" width="65"
+                                                  rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                            <p:menuButton icon="ui-icon-plusthick"
+                                                          disabled="#{ses.fase.ESTFASE != 'A' ? true:false}">
+                                                <p:menuitem id="btnEditSes" value="Editar sesión" icon="ui-icon-pencil"
+                                                            oncomplete="PF('actualizarSesion').show();" update="formactualizarSesion">
+                                                    <f:setPropertyActionListener value="#{ses}" target="#{sesionC.selected}"/>
+                                                </p:menuitem>
+
+
+                                                <p:menuitem value="Documentos"
+                                                            actionListener="#{sesionC.selecciondatos(ses.CODSES,ses.fase.CODFASE)}"
+                                                            icon="ui-icon-document" oncomplete="PF('anexarDocumentos').show();"
+                                                            update=":formanexo"/>
+                                                <p:menuitem value="Actividades"
+                                                            actionListener="#{sesionC.listarActividades(ses.CODSES, ses.NOMSES)}"
+                                                            icon="ui-icon-flag"
+                                                            oncomplete="PF('agregarActividadDialog').show();"
+                                                            update=":frmAgregarAct agregarActividadDlg"/>
+                                                <p:menuitem value="Asistencia" ajax="false" icon="ui-icon-check"
+                                                            actionListener="#{generateReportController.descargarPDFAsistenciaPorSesion(ses.CODSES)}"/>
+                                                <p:separator/>
+                                                <p:menuitem id="btndelete" value="Eliminar"
+                                                            actionListener="#{sesionC.eliminarSesion(ses.CODSES)}"
+                                                            icon="ui-icon-trash" update="data" style="color: red;"
+                                                            oncomplete="blkdelete();">
+                                                    <p:confirm header="Confirmación"
+                                                               message="¿Seguro que quieres ELIMINAR la sesión?"
+                                                               icon="ui-icon-alert"/>
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:remoteCommand id="delete" name="blkdelete"/>
+                                    <p:blockUI block="frmConfig" trigger="delete">
+                                        LOADING<br/>
+                                        <img width="50" height="50"
+                                             src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                                    </p:blockUI>
+                                    <p:blockUI block="frmConfig" trigger="oneMenuConfig">
+                                        LOADING<br/>
+                                        <img width="50" height="50"
+                                             src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                                    </p:blockUI>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ui:include src="../sesion/sesion.xhtml"/>
+                <ui:include src="../sesion/update.xhtml"/>
+                <ui:include src="../sesion/actividades.xhtml"/>
+                <ui:include src="../biblioteca/ViewDocument.xhtml"/>
+                <ui:include src="../biblioteca/BibSes.xhtml"/>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

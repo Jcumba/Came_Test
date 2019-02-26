@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Came | Formulario de evaluación al Director del Programa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
+    <h:outputStylesheet name="css/themify-icons.css"/>
+    <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+    <h:outputStylesheet name="css/style.css"/>
+    <h:outputStylesheet name="css/components.css"/>
+    <h:outputStylesheet name="css/theme-dark-green.css"/>
+    <h:outputStylesheet name="css/bootstrap.min.css"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <!--<link href="../../resources/css/materialize.css" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+    <h:outputScript library="js" name="jsfcrud.js"/>
+</h:head>
+<h:body>
+
+    <p:idleMonitor timeout="600000">
+        <p:ajax event="idle" onstart="location.reload();"/>
+    </p:idleMonitor>
+
+    <style type="text/css">
+        body {
+            font-size: .875em;
+            overflow-x: hidden;
+            color: #455a64;
+        }
+    </style>
+
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="page-body">
+                            <div class="container">
+                                <div class="card">
+                                    <div class="row invoice-contact">
+                                        <div class="col-md-12">
+                                            <div class="invoice-box row">
+                                                <div class="col-md-4 col-sm-12">
+                                                    <table class="table table-responsive invoice-table table-borderless">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png"
+                                                                     class="m-b-10" alt=""/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>CAME</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Jr. Costa Rica 157, Jesús María
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a target="_top">
+                                                                    <span class="__cf_email__">came@came.edu.pe</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Telf. (511) 461-6050</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-8 col-sm-12">
+                                                    <table class="table table-responsive invoice-table table-borderless">
+                                                        <tbody>
+                                                        <tr>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Sesión 23: Creación y desarrollo de equipos de trabajo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Diploma Semi-presencial en Competencias Directivas y Liderazgo - Generación 11
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Fecha de evaluación: 23/06/2018
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Director de programa: Ricardo Gálvez Ñañez
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Profesor: Emilio Ginocchio Escudero
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h:form>
+                                        <ul class="collapsible popout">
+                                            <li>
+                                                <div class="collapsible-header">
+                                                    <img src="../../resources/img/avatar-2.jpg"
+                                                         style="width: 35px; height: 35px; border-radius: 10%"/>
+                                                    <label style="margin-left: 1em; font-weight: bold;">Maria Avellaneda Avalos</label>
+                                                </div>
+                                                <div class="collapsible-body">
+                                                    <div class="margen-div">
+                                                        <h:panelGroup>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h6>1. Participante</h6>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-4">
+                                                                            <label>Asistencia</label>
+                                                                        </div>
+                                                                        <div class="col-md-8" align="center">
+                                                                            <p:selectOneRadio id="rdQ1"
+                                                                                              layout="responsive"
+                                                                                              columns="5">
+                                                                                <f:selectItem itemLabel="SI"
+                                                                                              itemValue="S"/>
+                                                                                <f:selectItem itemLabel="NO"
+                                                                                              itemValue="N"/>
+                                                                            </p:selectOneRadio>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-4">
+                                                                            <label>Entregó caso</label>
+                                                                        </div>
+                                                                        <div class="col-md-8" align="center">
+                                                                            <p:selectOneRadio id="rdQ2"
+                                                                                              layout="responsive"
+                                                                                              columns="5">
+                                                                                <f:selectItem itemLabel="SI"
+                                                                                              itemValue="S"/>
+                                                                                <f:selectItem itemLabel="NO"
+                                                                                              itemValue="N"/>
+                                                                            </p:selectOneRadio>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h6>2. Estudio</h6>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-3">
+                                                                            <label>Únicamente SOLO si entregó caso</label>
+                                                                        </div>
+                                                                        <div class="col-md-9" align="center">
+                                                                            <p:selectOneRadio id="rdQ3"
+                                                                                              layout="responsive"
+                                                                                              columns="6">
+                                                                                <f:selectItem itemLabel="Hechos"
+                                                                                              itemValue="H"/>
+                                                                                <f:selectItem itemLabel="Problemas"
+                                                                                              itemValue="P"/>
+                                                                                <f:selectItem itemLabel="Soluciones"
+                                                                                              itemValue="S"/>
+                                                                                <f:selectItem itemLabel="Vent. y Desv."
+                                                                                              itemValue="V"/>
+                                                                                <f:selectItem itemLabel="Acciones"
+                                                                                              itemValue="A"/>
+                                                                                <f:selectItem itemLabel="Decisión final"
+                                                                                              itemValue="D"/>
+                                                                            </p:selectOneRadio>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h6>3. Puntualidad</h6>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-3">
+                                                                            <label>Puntualidad</label>
+                                                                        </div>
+                                                                        <div class="col-md-9" align="center">
+                                                                            <p:selectOneRadio id="rdQ4"
+                                                                                              layout="responsive"
+                                                                                              columns="4">
+                                                                                <f:selectItem
+                                                                                        itemLabel="Más de 10' tarde"
+                                                                                        itemValue="1"/>
+                                                                                <f:selectItem
+                                                                                        itemLabel="Más de 6' tarde"
+                                                                                        itemValue="2"/>
+                                                                                <f:selectItem
+                                                                                        itemLabel="Menos de 5' tarde"
+                                                                                        itemValue="3"/>
+                                                                                <f:selectItem itemLabel="A tiempo"
+                                                                                              itemValue="4"/>
+                                                                            </p:selectOneRadio>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h6>4. Participación</h6>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-3">
+                                                                            <label>Participación</label>
+                                                                        </div>
+                                                                        <div class="col-md-9" align="center">
+                                                                            <p:selectOneRadio id="rdQ5"
+                                                                                              layout="responsive"
+                                                                                              columns="4">
+                                                                                <f:selectItem itemLabel="Nula"
+                                                                                              itemValue="N"/>
+                                                                                <f:selectItem itemLabel="Baja"
+                                                                                              itemValue="B"/>
+                                                                                <f:selectItem itemLabel="Regular"
+                                                                                              itemValue="R"/>
+                                                                                <f:selectItem itemLabel="Alta"
+                                                                                              itemValue="A"/>
+                                                                            </p:selectOneRadio>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h6>5. Observaciones</h6>
+                                                                    <div class="row" style="padding-top: 1em">
+                                                                        <div class="col-md-9" align="center">
+                                                                            <p:inputTextarea placeholder="Tu respuesta"
+                                                                                             counter="count"
+                                                                                             counterTemplate="{0}/200 caracteres"
+                                                                                             maxlength="200"
+                                                                                             style="width: 100%"/>
+                                                                            <p:outputLabel id="count"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems, options);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.collapsible').collapsible();
+        });
+
+    </script>
+
+    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+    <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head"/>
+    <script src="../../resources/js/materialize.js" type="text/javascript"></script>
+</h:body>
+</html>

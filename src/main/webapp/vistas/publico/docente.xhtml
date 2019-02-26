@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+    <title>Came | Ficha de Inscripción</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+    <h:outputStylesheet name="css/components.css"/>
+    <h:outputStylesheet name="css/theme-dark-green.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+    <h:outputStylesheet name="css/bootstrap.min.css"/>
+    <link href="#{sessionService.linkProyecto}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+    <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+    <link href="#{sessionService.linkProyecto}/resources/css/Styles_2.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<body>
+
+<p:idleMonitor timeout="600000">
+    <p:ajax event="idle" onstart="location.reload();"/>
+</p:idleMonitor>
+
+<h:form enctype="multipart/form-data" id="formpostulante">
+    <p:growl id="msg" showDetail="true"><p:autoUpdate/></p:growl>
+    <div class="pcoded-main-container">
+        <div class="pcoded-inner-content">
+            <div class="card" style="height:   auto">
+                <div class="card-block">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png"
+                                     class="m-b-10" alt=""/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <center><h4>FICHA DE INSCRIPCIÓN</h4></center>
+                            <br/>
+
+                            <ul class="nav nav-tabs tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tab1"
+                                       role="tab">INFORMACIÓN PERSONAL</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab2"
+                                       role="tab">INFORMACIÓN DE LA FAMILIA</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab3" role="tab">DATOS ACADEMICOS</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab4" role="tab">DATOS LABORALES</a>
+
+                                </li>
+                            </ul>
+                            <div class="tab-content tabs-center-content card-body ">
+                                <div class="tab-pane active" id="tab1" role="tabpanel">
+                                    <br/>
+
+                                    <h:panelGroup>
+                                        <div class="card" style="border: none">
+                                            <div class="card-body"
+                                                 style="padding-left: 300px;padding-right: 300px;padding: auto">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Foto:"/>
+                                                            <p:fileUpload value="#{participanteC.foto}" mode="simple"
+                                                                          skinSimple="true" label="Foto" required="true"
+                                                                          requiredMessage="Eliga una foto"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Iniciales:"/>
+                                                            <p:inputText value="#{participanteC.par.iniPer}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese sus iniciales"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Nombres :"/>
+                                                            <p:inputText class="form-control"
+                                                                         value="#{participanteC.par.nomPer}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese sus Nombres"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Apellidos :"/>
+                                                            <p:inputText class="form-control"
+                                                                         value="#{participanteC.par.apePer}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese su Apellidos"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="DNI / CE :"/>
+                                                            <p:inputText maxlength="8" class="form-control"
+                                                                         value="#{participanteC.par.dniPer}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese su DNI">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                            </p:inputText>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Sexo :"/>
+                                                            <p:selectOneMenu class="form-control"
+                                                                             value="#{participanteC.par.sexPer}">
+                                                                <f:selectItem itemLabel="Seleccione :" itemValue=""
+                                                                              noSelectionOption="true"/>
+                                                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                                                <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                                            </p:selectOneMenu>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Celular :"/>
+                                                            <p:inputText maxlength="9" class="form-control"
+                                                                         value="#{participanteC.celular}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese su N° de celular">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                            </p:inputText>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Teléfono :"/>
+                                                            <p:inputText maxlength="8" class="form-control"
+                                                                         value="#{participanteC.telefono}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese su Telefono">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                            </p:inputText>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Correo Electrónico :"/>
+                                                            <p:inputText class="form-control"
+                                                                         value="#{participanteC.par.emailPer}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese su Correo Electronico"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel value="RUC :"/>
+                                                            <p:inputText maxlength="11"
+                                                                         value="#{participanteC.emp.RUCEMP}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese su RUC">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                            </p:inputText>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Nacionalidad :"/>
+                                                            <p:inputText class="form-control"
+                                                                         value="#{participanteC.par.nacnlPer}"
+                                                                         required="true"
+                                                                         requiredMessage="Ingrese su Nacionalidad"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="F. de Nacimiento :"/>
+                                                            <p:inputMask class="form-control"
+                                                                         value="#{participanteC.par.fecNac}"
+                                                                         mask="99/99/9999" required="true"
+                                                                         requiredMessage="Ingrese su Fecha de Nacimiento"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Distrito:"/>
+                                                            <p:autoComplete maxResults="10"
+                                                                            value="#{participanteC.par.codUbi}"
+                                                                            completeMethod="#{personaC.autocompleteUbigeo}"
+                                                                            emptyMessage="No existe"
+                                                                            required="true"
+                                                                            requiredMessage="Se requiere el Distrito"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Domicilio :"/>
+                                                            <p:inputText class="form-control capital" required="true"
+                                                                         requiredMessage="Ingrese su Domicilio"
+                                                                         value="#{participanteC.par.dirPer}"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                                <div class="tab-pane " id="tab2">
+                                    <br/>
+                                    <h:panelGroup>
+                                        <div class="card" style="border: none">
+                                            <div class="card-body"
+                                                 style="padding-left: 300px;padding-right: 300px;padding: auto">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next"
+                                                                           value="Nombre Completo del Cónyuge :"/>
+                                                            <p:inputText value="#{participanteC.pardet.CONYUGE}"
+                                                                         class="form-control"
+                                                                         requiredMessage="Ingrese sus Nombres Completos"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <center>
+                                                            <h:panelGroup>
+                                                                <p:outputLabel for="@next"
+                                                                               value="Nro. de Hijos Varones:"/>
+                                                                <p:inputText value="#{participanteC.numhijos}"
+                                                                             maxlength="2" required="true"
+                                                                             requiredMessage="Ingrese la cantidad de Hijos">
+                                                                    <p:ajax event="keyup"
+                                                                            listener="#{participanteC.listahijos()}"
+                                                                            update="pnlhijos"/>
+                                                                </p:inputText>
+                                                            </h:panelGroup>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h:panelGroup id="pnlhijos">
+                                                            <ui:repeat value="#{participanteC.pardet.hijos}" var="hijo"
+                                                                       rendered="#{participanteC.pardet.hijos.size() > 0 ? true:false}">
+                                                                <center>
+                                                                    <p:panelGrid columns="4">
+                                                                        <p:outputLabel for="@next"
+                                                                                       value="Fecha de nacimiento de Hijo"/>
+                                                                        <p:inputMask value="#{hijo.FECNACHIJ}"
+                                                                                     mask="99/99/9999"/>
+
+                                                                        <p:outputLabel for="@next" value="Sexo"/>
+                                                                        <p:selectOneMenu value="#{hijo.SEXHIJ}"
+                                                                                         style="width: 100%">
+                                                                            <f:selectItem itemLabel="Selecciona:"
+                                                                                          itemValue=""/>
+                                                                            <f:selectItem itemLabel="Masculino"
+                                                                                          itemValue="M"/>
+                                                                            <f:selectItem itemLabel="Femenino"
+                                                                                          itemValue="F"/>
+                                                                        </p:selectOneMenu>
+                                                                    </p:panelGrid>
+                                                                </center>
+                                                            </ui:repeat>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+
+                                <div class="tab-pane" id="tab3">
+                                    <br/>
+                                    <h:panelGroup>
+                                        <div class="card" style="border: none">
+                                            <div class="card-body"
+                                                 style="padding-left: 300px;padding-right: 300px;padding: auto">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Curriculum Vitae:"/>
+                                                            <p:fileUpload style="width:  auto"
+                                                                          value="#{participanteC.cv}" mode="simple"
+                                                                          skinSimple="true" label="Foto" required="true"
+                                                                          requiredMessage="Carge su Curriculum Vitae"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Nivel Jerárquico :"/>
+                                                            <p:inputText value="#{participanteC.pardet.NIVEJER}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese su Nivel Jerárquico"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Profesión :"/>
+                                                            <p:inputText value="#{participanteC.par.profPer}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese su Profesión"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next"
+                                                                           value="  Resumen de Curriculum Vitae:"/>
+                                                            <p:inputTextarea value="#{participanteC.pardet.RESCUV}"
+                                                                             requiredMessage="Ingrese el Resumen de su Curriculum Vitae"
+                                                                             class="form-control"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                                <div class="tab-pane" id="tab4">
+                                    <br/>
+                                    <h:panelGroup>
+                                        <div class="card" style="border: none">
+                                            <div class="card-body"
+                                                 style="padding-left: 300px;padding-right: 300px;padding: auto">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Nombre de la Empresa :"/>
+                                                            <p:inputText value="#{participanteC.emp.NOMBEMP}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese el Nombre de la Empresa"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Teléfono oficina :"/>
+                                                            <p:inputText maxlength="8"
+                                                                         value="#{participanteC.pardet.TELFTRAB}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese el Telefono de Oficina">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                            </p:inputText>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="E-mail Oficina :"/>
+                                                            <p:inputText value="#{participanteC.pardet.EMAILTRAB}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese el Email de Oficina"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next" value="Puesto Actual :"/>
+                                                            <p:inputText value="#{participanteC.par.cargPer}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese su Puesto Actual"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h:panelGroup>
+                                                            <p:outputLabel for="@next"
+                                                                           value="Nro. de Personas a su Cargo:"/>
+                                                            <p:inputText value="#{participanteC.pardet.NUMPERCARGO}"
+                                                                         class="form-control" required="true"
+                                                                         requiredMessage="Ingrese el N° de Persoonas a su Cargo"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <p:outputLabel for="@next"
+                                                                   value="Autorizo a recibir información académica y publicitaria del CAME   "
+                                                                   style="font-weight: bold"/>
+                                                    <p:selectBooleanCheckbox
+                                                            value="#{participanteC.pardet.ENVIODATOS}"/>
+                                                </center>
+
+                                                <br/>
+                                                <center><p:commandButton value="Enviar" ajax="false" id="ingreDocente"
+                                                                         actionListener="#{participanteC.addInscripcionDocente()}"
+                                                                         update="formpostulante"/></center>
+                                                <p:blockUI block="formpostulante" trigger="ingreDocente">
+                                                    LOADING<br/>
+                                                    <img width="50" height="50"
+                                                         src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                                                </p:blockUI>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</h:form>
+
+<h:outputScript name="js/jquery-ui.min.js"/>
+<h:outputScript name="js/bootstrap.min.js"/>
+<h:outputScript name="js/jquery.slimscroll.js"/>
+<h:outputScript name="js/vertical-layout.min.js"/>
+<h:outputScript name="js/jquery.mCustomScrollbar.concat.min.js"/>
+<h:outputScript name="js/pcoded.min.js"/>
+<h:outputScript name="js/script.js"/>
+</body>
+</html>
+
+

@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <title>Came</title>
+        <h:outputStylesheet name="css/components.css"/>
+        <h:outputStylesheet name="css/theme-dark-green.css"/>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <h:outputStylesheet name="css/style.css"/>
+        <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+        <style type="text/css">
+            body .ui-widget-content{
+                background-color: #ffffff;
+                font-size: 16px;
+                border: 1px solid #ffffff;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" onstart="location.reload();"/>
+        </p:idleMonitor>
+
+        <p:growl><p:autoUpdate/></p:growl>
+
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="page-body">
+                                <div class="container">
+                                    <div>
+                                        <div class="card">
+                                            <div class="row invoice-contact">
+                                                <div class="col-md-8">
+                                                    <div class="invoice-box row">
+                                                        <div class="col-sm-12">
+                                                            <table class="table table-responsive invoice-table table-borderless">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <center><img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png" class="m-b-10" alt="" /></center>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <h:form id="frmImpParc">
+                                                <p:growl id="growl" showDetail="true">
+                                                    <p:autoUpdate/>
+                                                </p:growl>
+                                                <ui:fragment rendered="#{evalImpParcC.validarDNI}">
+                                                    <center><h3 style="margin-top:0">#{evalImpParcC.lstSesiones.get(0).NOMPROG}</h3></center>
+                                                    <center><h3 style="margin-top:0">#{evalImpParcC.lstSesiones.get(0).NOMFASE}</h3></center>
+                                                </ui:fragment>
+                                                <ui:fragment rendered="#{!evalImpParcC.validarDNI}">
+                                                    <center><h3 style="margin-top:0">EVALUACIÓN DE IMPACTO PARCIAL</h3></center>
+                                                </ui:fragment>
+                                                <center>
+                                                    <br/><br/>
+                                                    <p:inputText value="#{evalImpParcC.dniPer}" placeholder="Ingrese DNI" maxlength="8" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <p:ajax event="blur" update="@this"/> 
+                                                    </p:inputText>
+                                                    <br/><br/>
+                                                    <p:commandButton value="Ingresar" actionListener="#{evalImpParcC.listarTablasEvImParc()}"
+                                                                     update="tbSesiones frmImpParc" immediate="true"/>
+                                                    <br/><br/>
+                                                </center>
+                                                <p:accordionPanel id="tbSesiones" rendered="#{evalImpParcC.validarDNI}">
+                                                    <p:tab title="1. ¿Consideras que se han cumplido los objetivos en esta parte del Programa?">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:selectOneRadio id="p01" value="#{evalImpParcC.evImParc.RPTA01}" required="true" requiredMessage="Resolver Pregunta N°1">
+                                                                <f:selectItem itemLabel="SÍ" itemValue="1" />
+                                                                <f:selectItem itemLabel="NO" itemValue="2" />
+                                                            </p:selectOneRadio>
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="2. ¿Cómo valoras el Programa?">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:selectOneRadio id="p02" value="#{evalImpParcC.evImParc.RPTA02}" required="true" requiredMessage="Resolver Pregunta N°2">
+                                                                <f:selectItem itemLabel="Muy Enriquecedor" itemValue="5" />
+                                                                <f:selectItem itemLabel="Enriquecedor" itemValue="4" />
+                                                                <f:selectItem itemLabel="Ni pobre ni enriquecedor" itemValue="3" />
+                                                                <f:selectItem itemLabel="Pobre" itemValue="2" />
+                                                                <f:selectItem itemLabel="Muy pobre" itemValue="1" />
+                                                            </p:selectOneRadio>
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="3. Indica 3 aspectos de tu gestión, que consideras te está ayudando en esta parte del Programa">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:inputTextarea rows="5" cols="22" counter="display1" maxlength="200" counterTemplate="{0} caracteres" autoResize="false" value="#{evalImpParcC.evImParc.RPTA03}" required="true" requiredMessage="Resolver Pregunta N°3"/>
+                                                            <h:outputText id="display1" />
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="4. Evalúa a los profesores en esta parte del Programa">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:repeat value="#{evalImpParcC.lstProfesores}" var="prof">
+                                                                <div>
+                                                                    <h:outputLabel value="#{prof.PROFESOR} - #{prof.DECSES}"/>
+                                                                    <p:selectOneRadio id="p04" value="#{prof.RPTA04}" required="true" requiredMessage="Resolver Pregunta N°4">
+                                                                        <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                        <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                        <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                        <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                        <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                    </p:selectOneRadio>
+                                                                    <br/>
+                                                                </div>
+                                                            </p:repeat>
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="4.1 Evalúa al Director en esta parte del Programa">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:repeat value="#{evalImpParcC.lstDirector}" var="direc">
+                                                                <div>
+                                                                    <h:outputLabel value="#{direc.DIRECTOR}" />
+                                                                    <p:selectOneRadio id="p04_1" value="#{direc.RPTA04_1}" required="true" requiredMessage="Resolver Pregunta N°4.1">
+                                                                        <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                        <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                        <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                        <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                        <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                    </p:selectOneRadio>
+                                                                    <br/>
+                                                                </div>
+                                                            </p:repeat>
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="5. Marca las sesiones de mayor o menor valor" id="tbSesioness">
+                                                        <h:panelGrid columns="2" cellpadding="10" id="pnlg">
+                                                            <p:repeat value="#{evalImpParcC.lstSesiones}" var="prof">
+                                                                <div>
+                                                                    <h:outputLabel value=" #{prof.NOMSES} #{prof.DECSES}"/>
+                                                                    <p:selectOneRadio id="p04" value="#{prof.RPTA05}" required="true" requiredMessage="Resolver Pregunta N°5">
+                                                                        <f:selectItem itemLabel="Mayor valor" itemValue="2" />
+                                                                        <f:selectItem itemLabel="Menor valor" itemValue="1" />
+                                                                    </p:selectOneRadio>
+                                                                    <br/>
+                                                                </div>
+                                                            </p:repeat>
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="6. ¿Qué opinión nos puedes dar? en relación a">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <h:outputText value="Los temas vistos:" />
+                                                            <h:panelGrid columns="2" cellpadding="10">
+                                                                <p:selectOneRadio id="p06_1" value="#{evalImpParcC.evImParc.RPTA06_1}" required="true" requiredMessage="Resolver Pregunta N°6.1">
+                                                                    <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                    <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                    <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                    <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                    <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                </p:selectOneRadio>
+                                                            </h:panelGrid>
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <h:outputText value="Material Académico:" />
+                                                            <h:panelGrid columns="2" cellpadding="10">
+                                                                <p:selectOneRadio id="p06_2" value="#{evalImpParcC.evImParc.RPTA06_2}" required="true" requiredMessage="Resolver Pregunta N°6.2">
+                                                                    <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                    <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                    <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                    <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                    <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                </p:selectOneRadio>
+                                                            </h:panelGrid>
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <h:outputText value="Aulas e instalaciones:" />
+                                                            <h:panelGrid columns="2" cellpadding="10">
+                                                                <p:selectOneRadio id="p06_3" value="#{evalImpParcC.evImParc.RPTA06_3}" required="true" requiredMessage="Resolver Pregunta N°6.3">
+                                                                    <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                    <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                    <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                    <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                    <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                </p:selectOneRadio>
+                                                            </h:panelGrid>
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <h:outputText value="Servicios de Cafetería:" />
+                                                            <h:panelGrid columns="2" cellpadding="10">
+                                                                <p:selectOneRadio id="p06_4" value="#{evalImpParcC.evImParc.RPTA06_4}" required="true" requiredMessage="Resolver Pregunta N°6.4">
+                                                                    <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                    <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                    <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                    <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                    <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                </p:selectOneRadio>
+                                                            </h:panelGrid>
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <h:outputText value="Atención del personal CAME:" />
+                                                            <h:panelGrid columns="2" cellpadding="10">
+                                                                <p:selectOneRadio id="p06_5" value="#{evalImpParcC.evImParc.RPTA06_5}" required="true" requiredMessage="Resolver Pregunta N°6.5">
+                                                                    <f:selectItem itemLabel="Excelente" itemValue="5" />
+                                                                    <f:selectItem itemLabel="Muy Bueno" itemValue="4" />
+                                                                    <f:selectItem itemLabel="Bueno" itemValue="3" />
+                                                                    <f:selectItem itemLabel="Regular" itemValue="2" />
+                                                                    <f:selectItem itemLabel="Malo" itemValue="1" />
+                                                                </p:selectOneRadio>
+                                                            </h:panelGrid>
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                    <p:tab title="7. Consideras que se están cumpliendo con los horarios establecidos Si respondes NO explica ¿Por qué?">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:selectOneRadio id="p07" value="#{evalImpParcC.evImParc.RPTA07}" required="true" requiredMessage="Resolver Pregunta N°7">
+                                                                <f:selectItem itemLabel="SÍ" itemValue="1" />
+                                                                <f:selectItem itemLabel="NO" itemValue="2" />
+                                                                <p:ajax event="change" update="p07_txt-up"/>
+                                                            </p:selectOneRadio>                                                           
+                                                        </h:panelGrid>
+                                                        <h:panelGroup id="p07_txt-up">
+                                                            <h:panelGrid id="p07tab" columns="2" cellpadding="10" rendered="#{evalImpParcC.evImParc.RPTA07 == '2' ? true:false}">
+                                                                <p:inputTextarea rows="5" cols="22" counter="p07-txt" maxlength="200" value="#{evalImpParcC.evImParc.RPTA07_1}"
+                                                                                 counterTemplate="{0} caracteres." autoResize="false"/>
+                                                                <h:outputText id="p07-txt" />
+                                                            </h:panelGrid>
+                                                        </h:panelGroup>
+                                                    </p:tab>
+                                                    <p:tab title="8. ¿Qué aspectos sugieres que podrían mejorarse en esta parte del Programa?">
+                                                        <h:panelGrid columns="2" cellpadding="10">
+                                                            <p:inputTextarea rows="5" cols="22" counter="display3" maxlength="200" required="true" requiredMessage="Resolver Pregunta N°8"
+                                                                             counterTemplate="{0} caracteres." autoResize="false" value="#{evalImpParcC.evImParc.RPTA08}"/>
+                                                            <h:outputText id="display3" />
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                </p:accordionPanel>
+                                                <br/>
+                                                <p:remoteCommand name="ocularAcordion" update="frmImpParc" ignoreAutoUpdate="true" immediate="true"/>
+                                                <center><p:commandButton value="Enviar Respuestas" actionListener="#{evalImpParcC.addEvalImpParc()}" 
+                                                                         update="tbSesiones frmImpParc" rendered="#{evalImpParcC.validarDNI}" oncomplete="ocularAcordion();"/></center>
+                                                <br/>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="styleSelector">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <h:outputScript name="js/jquery-ui.min.js"/>
+        <h:outputScript name="js/bootstrap.min.js"/>
+        <h:outputScript name="js/jquery.slimscroll.js"/>
+        <h:outputScript name="js/vertical-layout.min.js"/>
+        <h:outputScript name="js/jquery.mCustomScrollbar.concat.min.js"/>
+        <h:outputScript name="js/pcoded.min.js"/>
+        <h:outputScript name="js/script.js"/>
+    </h:body>
+</html>
+

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:dialog id="agregarActividadDlg"
+                  widgetVar="agregarActividadDialog"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Actividades - #{sesionC.selected.NOMSES}"
+                  responsive="true"
+                  closeOnEscape="true"
+                  >
+            <h:form id="frmAgregarAct">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:column>
+                        <p:outputLabel value="H. Inicio"/>
+                        <br/>
+                        <p:inputMask value="#{sesionC.selected.iniAct}" mask="99:99" placeholder="Hora de inicio" required="true" requiredMessage="Ingresa hora de inicio" style="text-transform: uppercase"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="H. Fin"/>
+                        <br/>
+                        <p:inputMask value="#{sesionC.selected.finAct}" mask="99:99" placeholder="Hora de finalización" required="true" requiredMessage="Ingresa hora de fin" style="text-transform: uppercase"/>
+                    </p:column>
+                </h:panelGrid>
+                <p:inputTextarea value="#{sesionC.selected.descAct}" placeholder="Actividad a realizar" style="width: 100%" required="true" requiredMessage="Ingresa una actividad"/>
+                <p:separator/>
+                <p:commandButton value="Agregar" 
+                                 actionListener="#{sesionC.agregarActividad()}" update="frmAgregarAct"/>
+                
+                <p:commandButton value="Reporte" actionListener="#{generateReportController.descargarPDFSesiones(sesionC.selected.CODSES)}" ajax="false" immediate="true"/>
+
+                <p:dataList id="tblActividades" value="#{sesionC.lstActividades}" var="act" type="ordered"
+                            emptyMessage="No se ha registrado ninguna actividad."
+                            paginator="true" rows="10" styleClass="paginated">
+                    <div style="padding-top: 10px;"/>
+                    <h:panelGroup style="line-height: 1.5em;" class="container-fluid">
+                        <h:outputText value=" #{act.iniAct} - #{act.finAct}" style="font-weight: bold"/>
+                        <h:outputText value="| #{act.descAct}"/>
+                        <p:commandLink actionListener="#{sesionC.eliminarActividad(act.codSesAct)}" update="tblActividades"
+                                       immediate="true" style="float: right;margin-right: 15px;margin-left: 15px;">
+                            <i class="ti ti-trash delete"></i>
+                        </p:commandLink>
+                    </h:panelGroup>
+                </p:dataList>
+            </h:form>
+        </p:dialog>
+        <style>
+            .delete{
+                font-weight: bold;
+                font-size: 1.2em;
+                color: #000000;
+            }
+            .delete:hover{
+                color: #ffffff;
+                background: #FF5252;
+                border: #FF5252 solid;
+                border-radius: 2em;
+            }
+        </style>
+    </ui:composition>
+</html>
+

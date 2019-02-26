@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <style type="text/css">
+            .ui-selectonemenu.ui-state-error{
+                background-image: linear-gradient(to bottom, #ff1e00, #ff1e00), linear-gradient(to bottom, #ea7a6b, #ea7a6b) !important;
+            }
+        </style>
+
+        <p:dialog id="agregarSesionID"
+                  widgetVar="agregarSesion"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Agregar Sesión"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="frmAgregarSesion">
+                <p:panelGrid columns="2" rendered="#{sesionC.selected.MODOSES == null ? true:false }">
+                    <p:outputLabel value="Número" />
+                    <p:inputNumber value="#{sesionC.selected.NOMSES}" required="true" requiredMessage="Se requiere Número" minValue="0"/>
+                    <p:outputLabel value="Descripción"/>
+                    <p:inputText value="#{sesionC.selected.DECSES}" required="true" requiredMessage="Se requiere Descripción">
+                        <p:ajax event="blur" update="txtFase" listener="#{sesionC.listarFases()}" />
+                    </p:inputText>
+                    <p:outputLabel value="Tipo Sesión"/>
+                    <p:selectOneMenu value="#{sesionC.selected.MODOSES}" style="width: 70px " required="true" requiredMessage="Se requiere Tipo de sesión">
+                        <f:selectItem itemLabel="Presencial" itemValue="P"/>
+                        <f:selectItem itemLabel="No Presencial" itemValue="N"/>
+                        <f:selectItem itemLabel="Semi Presencial" itemValue="S"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Competencia y Areas"/>
+                    <p:selectCheckboxMenu  value="#{sesionC.CODCOM}" label="Competencias" multiple="true"
+                                           filter="true" filterMatchMode="contains" style="width:350px">
+                        <f:selectItems value="#{sesionC.lstcomp}" var="comp" itemLabel="#{comp.NOMCOM}"  itemValue="#{comp.CODCOM}"/>
+                    </p:selectCheckboxMenu>
+                    <p:commandButton value="Ingresar" update="frmAgregarSesion"/>
+                </p:panelGrid>
+                <p:panelGrid columns="4" rendered="#{sesionC.selected.MODOSES == null ? false:true}">
+                    <p:outputLabel value="Módulo" for="txtFase"/>
+                    <p:selectOneMenu value="#{sesionC.selected.fase.CODFASE}" id="txtFase" 
+                                     required="true" requiredMessage="Seleccionar Módulo" >
+                        <f:selectItem itemLabel="Seleccione"/>
+                        <f:selectItems value="#{sesionC.lstFase}"
+                                       var="fase"
+                                       itemLabel="#{fase.NOMFASE}"
+                                       itemValue="#{fase.CODFASE}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Profesor" for="txtProf"/>
+                    <p:selectOneMenu value="#{sesionC.selected.CODPROF}" id="txtProf" style="width: 100%"
+                                     required="true" requiredMessage="Seleccionar Profesor">
+                        <f:selectItem itemLabel="Seleccione"/>
+                        <f:selectItems value="#{sesionC.lstProfes}"
+                                       var="prof"
+                                       itemLabel="#{prof.PROFESORES}"
+                                       itemValue="#{prof.CODPROF}"/>
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel value="Fecha"/>
+                    <p:inputMask mask="99/99/9999" value="#{sesionC.selected.FECHASES}" required="true" requiredMessage="Se requiere Fecha"/>
+                    <p:column colspan="1">
+                        <p:outputLabel value="H. INICIO"/>
+                        <p:inputMask mask="99:99" value="#{sesionC.selected.HORA_INI}" style="width: 70px!important" required="true" requiredMessage="Se requiere H.Inicio"/>          
+                    </p:column>
+                    <p:column colspan="1">
+                        <p:outputLabel value="H. FIN"/>
+                        <p:inputMask mask="99:99" value="#{sesionC.selected.HORA_FIN}" required="true" requiredMessage="Se requiere H.Fin"/>
+                    </p:column>
+                    <p:commandButton id="guardars" value="Ingresar" actionListener="#{sesionC.agregarSesion()}" 
+                                     update=":frmConfig frmAgregarSesion"
+                                     oncomplete="handleSubmit(args,'agregarSesion');"/>
+                </p:panelGrid>
+                <br/>
+                <p:blockUI block="frmAgregarSesion" trigger="guardars" >
+                    LOADING<br />
+                    <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                </p:blockUI>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

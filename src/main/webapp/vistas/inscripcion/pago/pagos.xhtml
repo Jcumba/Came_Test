@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../template/TemplateMain.xhtml">
+            <ui:param name="active_administrativo" value="active"/>
+            <ui:param name="active_trigger_participante" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Pago</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 ">
+
+                        <ul class="nav nav-tabs tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabA" role="tab">CREAR</a>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabB" role="tab">ACTUALIZAR</a>
+
+                            </li>
+                        </ul>
+                        <div class="tab-content tabs-center-content card-block ">
+                            <div class="tab-pane active" id="tabA" role="tabpanel">
+                                <ui:include src="list.xhtml"/>
+                                <ui:include src="form-administracion.xhtml"/>
+                            </div>
+                            <div class="tab-pane" id="tabB" role="tabpanel">
+                                <h:form id="listarPagos">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Participantes</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row">
+
+                                                <div class="col-md-12 animation fadeIn">
+                                                    <div class="card">
+                                                        <div class="card-content">
+
+                                                            <p:dataTable
+                                                                id="dataPagos"
+                                                                value="#{pagosC.listPagos}" 
+                                                                var="lstPag" 
+                                                                rowKey="#{lstPag.CODPAG}"
+                                                                selection="#{pagosC.select}"
+                                                                style="text-align: center"
+                                                                emptyMessage="No hay registros">
+                                                                <p:column headerText="PARTICIPANTE" width="25%">
+                                                                    <p:outputLabel value="#{lstPag.CODPER}" />
+                                                                </p:column>
+                                                                <p:column headerText="CONDICIÓN" width="20%">
+                                                                    <p:outputLabel value="#{lstPag.CONDPAG}" />
+                                                                </p:column>
+                                                                <p:column headerText="OBSERVACIÓN" width="25%">
+                                                                    <p:outputLabel value="#{lstPag.CONDPAG}" />
+                                                                </p:column>
+                                                                <p:column headerText="ENCARGADO DE PAGAR" width="20%">
+                                                                    <p:outputLabel value="#{lstPag.ENCPAG}" />
+                                                                </p:column>
+                                                                <p:column style="text-align: center" width="10%">
+                                                                    <p:commandButton update="updatePagos" oncomplete="PF('updatePago').show()" icon="ui-icon-pencil">
+                                                                        <f:setPropertyActionListener value="#{lstPag}" target="#{pagosC.select}" />
+                                                                    </p:commandButton>
+                                                                </p:column>
+                                                                <f:facet name="footer">
+                                                                    <p:commandButton   value="Listar" actionListener="#{pagosC.listarPagos}" update="listarPagos" />
+                                                                </f:facet>
+                                                            </p:dataTable> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h:form>
+                                <ui:include src="update.xhtml"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

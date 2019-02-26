@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:dialog  id="anexarbib"
+                   widgetVar="anexarDocumentos"
+                   modal="true"
+                   resizable="false"
+                   header="Anexar Documentos"
+                   responsive="true"
+                   closeOnEscape="true" width="700px" height="400px">
+            <h:form id="formanexo">
+                <p:panelGrid columns="2" style="width: 100%" id="pnlguardar">
+                    <p:outputLabel value="Documentos"/>
+                    <p:selectCheckboxMenu id="especial" value="#{sesionC.CODBIB}" label="Documentos" multiple="true"
+                                          filter="true" filterMatchMode="contains" style="width:100%" >
+                        <f:selectItems value="#{bibliotecaC.lstDocs}" var="docs" itemLabel="#{docs.privilegio}-#{docs.nomb}" itemValue="#{docs.cod}" />
+                    </p:selectCheckboxMenu>
+                    <p:column colspan="2">
+                        <p:commandButton id="guardar" value="Guardar" actionListener="#{sesionC.anexarBib()}" oncomplete="handleSubmit(args,'anexarDocumentos');" update=":frmConfig:data formanexo"/>
+                    </p:column>
+                </p:panelGrid>
+                <p:blockUI block="formanexo" trigger="guardar" >
+                    LOADING<br />
+                    <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                </p:blockUI>
+            </h:form>
+        </p:dialog>  
+
+    </ui:composition>
+</html>

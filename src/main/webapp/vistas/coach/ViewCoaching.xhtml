@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_coach_Viewcoaching" value="active"/>
+            <ui:param name="active_trigger_coach" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Dashboard</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Vista de Coaching </h5>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h:form>
+                                    <p:outputLabel value="PROGRAMA Y GENERACIÓN"/>
+                                    <p:selectOneMenu value="#{coachC.coach.CODDETPROG}" effect="fold">
+                                        <f:selectItem itemLabel="Seleccione" itemDisabled="true" noSelectionOption="true"/>
+                                        <f:selectItems value="#{coachC.lstprogram}" var="programa" itemLabel="#{programa.PROGRAMA}" itemValue="#{programa.CODDETPROG}"  />
+                                        <p:ajax event="change" listener="#{coachC.listarcoachrealizados(personaC.usuario.codPer)}" update="data"/>
+                                    </p:selectOneMenu>
+                                    <br/><br/>
+                                    <p:dataTable id="data" value="#{coachC.lstvwcoach}" var="coachines"  sortBy="#{coachines.persona.nomPer}" expandableRowGroups="true">
+                                        <p:headerRow>
+                                            <p:column headerText="Participante" colspan="4">
+                                                <p:outputLabel value="#{coachines.persona.nomPer}"/>
+                                            </p:column>
+                                        </p:headerRow>
+                                        <p:column headerText="FECHA">
+                                            <p:outputLabel value="#{coachines.FECHA}"/>
+                                        </p:column>
+                                        <p:column headerText="H.INICIO">
+                                            <p:outputLabel value="#{coachines.HORINI}"/>
+                                        </p:column>
+                                        <p:column headerText="H.FIN">
+                                            <p:outputLabel value="#{coachines.HORFIN}"/>
+                                        </p:column>
+
+                                        <p:column headerText="OBSERVACIÓN">
+                                            <p:outputLabel value="#{coachines.DESCRI}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+
+        <h4>Nuevo programa</h4>
+        <h:form id="agregarProgDet">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Fecha de inicio</label>
+                        <p:inputMask class="form-control" mask="99/99/9999" id="inputFechIni"  value="#{progDetC.progdet.fechIni}" required="true" requiredMessage="Ingrese la Fecha Inicial"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Fecha de fin</label>
+                        <p:inputMask class="form-control" mask="99/99/9999" id="inputFechFin" value="#{progDetC.progdet.fechFin}" required="true" requiredMessage="Ingrese la Fecha Final"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Director</label>
+                        <p:autoComplete id="autComplete" 
+                                        value="#{progDetC.progdet.codPer}"
+                                        emptyMessage="No se encontró ningún registro"
+                                        completeMethod="#{personaC.autocompleteDirector}"
+                                        forceSelection="true" maxlength="50"
+                                        dropdown="true"
+                                        scrollHeight="300"
+                                        style="width: 100%" required="true" requiredMessage="Ingrese el director"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Programa</label>
+                        <p:selectOneMenu value="#{progDetC.progdet.codProg}"  required="true" requiredMessage="Seleccione el programa" style="width: 100%">
+                            <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                            <f:selectItems value="#{programaC.listCbProg}" var="cbProg" itemLabel="#{cbProg.nomProg}" itemValue="#{cbProg.codProg}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-form-label">Generación</label>
+                        <p:inputText class="form-control" id="inputGen"  value="#{progDetC.progdet.genDetProg}" required="true" requiredMessage="Ingrese la Generación" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-form-label">Frecuencia</label>
+                        <p:selectCheckboxMenu value="#{progDetC.progdet.frecDetProg}" label="Seleccione" required="true" requiredMessage="Seleccione la frecuencia" style="width: 100%;">
+                            <f:selectItem itemLabel="Lunes" itemValue="Lunes"/>
+                            <f:selectItem itemLabel="Martes" itemValue="Martes"/>
+                            <f:selectItem itemLabel="Miércoles" itemValue="Miércoles"/>
+                            <f:selectItem itemLabel="Jueves" itemValue="Jueves"/>
+                            <f:selectItem itemLabel="Viernes" itemValue="Viernes"/>
+                            <f:selectItem itemLabel="Sábado" itemValue="Sábado"/>
+                            <f:selectItem itemLabel="Domingo" itemValue="Domingo"/>
+                        </p:selectCheckboxMenu>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-form-label">Hora</label>
+                        <p:inputMask mask="99:99 - 99:99" class="form-control" id="inputHora"  value="#{progDetC.progdet.horIniFin}" required="true" requiredMessage="Ingrese la hora de inicio y fin" />
+                    </div>
+                </div>
+            </div>
+            <p:commandButton value="Ingresar" class="btn btn-primary btn-block" actionListener="#{progDetC.agregarProgDet()}" update="agregarProgDet :formListProdet" oncomplete="listarComboPrograma();listarComboProgramaParticipante();"/>         
+        </h:form>
+    </ui:composition>      
+</html>
+

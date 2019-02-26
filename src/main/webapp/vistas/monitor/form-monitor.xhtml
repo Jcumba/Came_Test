@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_sesion_monitor" value="active"/>
+            <ui:param name="active_trigger_monitor" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Ficha de monitoreo</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formCombos">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label">PROGRAMA Y GENERACIÓN</label><br/>
+                                        <p:selectOneMenu value="#{monitorC.codDetPrograma}" id="cbGeneracion" style="width: 100%" required="true" requiredMessage="Ingresar un programa">
+                                            <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                            <f:selectItems value="#{encuestaC.lstprogGen}" var="cbProg" itemLabel="#{cbProg.nomProg}" itemValue="#{cbProg.codDetProg}"/>  
+                                            <p:ajax event="change" listener="#{sesionC.listarCbSesion(monitorC.codDetPrograma)}" update="cbSesiones"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Sesión</label><br/>
+                                        <p:selectOneMenu value="#{monitorC.codSes}" id="cbSesiones" style="width: 100%" required="true" requiredMessage="Ingresar una sesión">
+                                            <f:selectItem itemLabel="Seleccione una sesión" noSelectionOption="true"/>
+                                            <f:selectItems value="#{sesionC.listaCbSes}" var="cbSes" itemLabel="#{cbSes.nomSes}" itemValue="#{cbSes.codSes}"/>
+                                            <p:ajax event="change" listener="#{monitorC.listarPersonasPorMonitorear()}" update="formListPxM"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div style="display: inline-block;" class="cuadradoLeyendaVerde"/>
+                                    <span style="display: inline-block;">Formulario rellando</span>
+                                    <div style="display: inline-block;" class="cuadradoLeyendaRojo"/>
+                                    <span style="display: inline-block;">Formulario sin rellenar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p:messages autoUpdate="true" showDetail="true" closable="true"/>
+                </h:form>
+
+                <h:form id="formListPxM">
+                    <h:panelGroup id="pngPxM" rendered="#{monitorC.lstPersonasPorMonitorear.size() > 0}">
+                        <p:accordionPanel id="tbSesiones" value="#{monitorC.lstPersonasPorMonitorear}" var="pxm">
+                            <p:tab title="#{pxm.nomPer}" titleStyle="#{pxm.codFmon == null ? 'background: #c85108;':'background: green;'}">
+                                <h:panelGroup>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h6 style="font-weight: bold;">1. Participante</h6>
+                                            <div class="row" style="padding-top: 0.7em">
+                                                <div class="col-md-4">
+                                                    <label>Asistencia</label>
+                                                </div>
+                                                <div class="col-md-8" align="center">
+                                                    <p:selectOneRadio id="rdQ1" layout="responsive" columns="5" value="#{pxm.asistencia}">
+                                                        <f:selectItem itemLabel="SI" itemValue="1" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="NO" itemValue="0" itemDisabled="#{pxm.codFmon != null}"/>
+                                                    </p:selectOneRadio>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-top: 1em">
+                                                <div class="col-md-4">
+                                                    <label>Entregó caso</label>
+                                                </div>
+                                                <div class="col-md-8" align="center">
+                                                    <p:selectOneRadio id="rdQ2" layout="responsive" columns="5" value="#{pxm.entCaso}">
+                                                        <f:selectItem itemLabel="SI" itemValue="1" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="NO" itemValue="0" itemDisabled="#{pxm.codFmon != null}"/>
+                                                    </p:selectOneRadio>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h6>2. Estudio</h6>
+                                            <div class="row" style="padding-top: 1em">
+                                                <div class="col-md-3">
+                                                    <label>Únicamente SOLO si entregó caso</label>
+                                                </div>
+                                                <div class="col-md-9" align="center">
+                                                    <p:selectOneRadio id="rdQ3" layout="responsive" columns="6" value="#{pxm.ussec}">
+                                                        <f:selectItem itemLabel="Hechos" itemValue="1" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Problemas" itemValue="2" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Soluciones" itemValue="3" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Vent. y Desv." itemValue="4" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Acciones" itemValue="5" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Decisión final" itemValue="6" itemDisabled="#{pxm.codFmon != null}"/>
+                                                    </p:selectOneRadio>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h6>3. Puntualidad</h6>
+                                            <div class="row" style="padding-top: 1em">
+                                                <div class="col-md-3">
+                                                    <label>Puntualidad</label>
+                                                </div>
+                                                <div class="col-md-9" align="center">
+                                                    <p:selectOneRadio id="rdQ4" layout="responsive" columns="4" value="#{pxm.puntualidad}">
+                                                        <f:selectItem itemLabel="Más de 10' tarde" itemValue="1" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Más de 6' tarde" itemValue="2" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Menos de 5' tarde" itemValue="3" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="A tiempo" itemValue="4" itemDisabled="#{pxm.codFmon != null}"/>
+                                                    </p:selectOneRadio>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h6>4. Participación</h6>
+                                            <div class="row" style="padding-top: 1em">
+                                                <div class="col-md-3">
+                                                    <label>Participación</label>
+                                                </div>
+                                                <div class="col-md-9" align="center">
+                                                    <p:selectOneRadio id="rdQ5" layout="responsive" columns="4" value="#{pxm.participacion}">
+                                                        <f:selectItem itemLabel="Nula" itemValue="1" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Baja" itemValue="2" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Regular" itemValue="3" itemDisabled="#{pxm.codFmon != null}"/>
+                                                        <f:selectItem itemLabel="Alta" itemValue="4" itemDisabled="#{pxm.codFmon != null}"/>
+                                                    </p:selectOneRadio>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h6>5. Observaciones</h6>
+                                            <div class="row" style="padding-top: 1em">
+                                                <div class="col-md-12">
+                                                    <p:inputTextarea value="#{pxm.observacion}" placeholder="Tu respuesta" counter="count" counterTemplate="{0}/200 caracteres" maxlength="200" style="width: 100%" readonly="#{pxm.observacion == null ? false:true}"/>
+                                                    <p:outputLabel id="count"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:separator/>
+                                    <p:commandButton value="Registrar" actionListener="#{monitorC.agregarMonitoreo(pxm)}" update=":formCombos" rendered="#{pxm.codFmon == null ? true:false}"/>
+                                </h:panelGroup>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </h:panelGroup>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

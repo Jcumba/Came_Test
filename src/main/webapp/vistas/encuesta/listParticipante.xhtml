@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:carousel id="carRespPart"
+                    value="#{fParticipanteC.listRespFParticipante}"
+                    headerText="Participante" var="carPart"
+                    numVisible="1" style="width:100%" 
+                    circular="true" responsive="true">
+            <div class="container-fluid">
+                <div style="padding-bottom: 30px"/>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>1. Profesor</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Profesor</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio id="rdQ1" layout="responsive" columns="5" value="#{carPart.profRpt}" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carPart.profRpt != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carPart.profRpt != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carPart.profRpt != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carPart.profRpt != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carPart.profRpt != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Sugerencias</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p id="rdQ2">
+                                                #{carPart.profSug}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>2. Tema</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Tema</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.temRpt}" id="rdQ3" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carPart.temRpt != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carPart.temRpt != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carPart.temRpt != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carPart.temRpt != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carPart.temRpt != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Sugerencias</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p id="rdQ4">
+                                                #{carPart.temSug}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>3. Sesión en su conjunto</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Sesión en conjunto</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.seCoRpt}" id="rdQ5" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carPart.seCoRpt != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carPart.seCoRpt != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carPart.seCoRpt != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carPart.seCoRpt != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carPart.seCoRpt != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>¿Por qué?</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p id="rdQ6">
+                                                #{carPart.seCoRpt1}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>¿Cómo aplicarías los aprendizajes de esta sesión en tu trabajo?</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p id="rdQ7">
+                                                #{carPart.seCoRpt2}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>4. Caso/Ejercicio</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Análisis personal del caso/Ejercicio</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.casoRpt1}" id="rdQ8" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carPart.casoRpt1 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carPart.casoRpt1 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carPart.casoRpt1 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carPart.casoRpt1 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carPart.casoRpt1 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Calidad de discusión en equipo</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.casoRpt2}" id="rdQ9" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carPart.casoRpt2 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carPart.casoRpt2 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carPart.casoRpt2 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carPart.casoRpt2 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carPart.casoRpt2 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top: 1em">
+                                <div class="col-md-12">
+                                    <h5 style="font-size: 1.2em">Estudio del caso/Ejercicio</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Tiempo dedicado</h6>    
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.casoRpt3}" id="rdQ10" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Menos de 1 hora" itemValue="1" itemDisabled="#{carPart.casoRpt3 != '1'}"/>
+                                                <f:selectItem itemLabel="1 hora" itemValue="2" itemDisabled="#{carPart.casoRpt3 != '2'}"/>
+                                                <f:selectItem itemLabel="2 horas" itemValue="3" itemDisabled="#{carPart.casoRpt3 != '3'}"/>
+                                                <f:selectItem itemLabel="Más de 2 horas" itemValue="4" itemDisabled="#{carPart.casoRpt3 != '4'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>5. Autoevaluación</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Puntualidad</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.autRpt1}" id="rdQ11" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Más de 15' tarde" itemValue="1" itemDisabled="#{carPart.autRpt1 != '1'}"/>
+                                                <f:selectItem itemLabel="Hasta 10' tarde" itemValue="2" itemDisabled="#{carPart.autRpt1 != '2'}"/>
+                                                <f:selectItem itemLabel="Más de 5' tarde" itemValue="3" itemDisabled="#{carPart.autRpt1 != '3'}"/>
+                                                <f:selectItem itemLabel="A tiempo" itemValue="4" itemDisabled="#{carPart.autRpt1 != '4'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top: 1em">
+                                <div class="col-md-12">
+                                    <h5 style="font-size: 1.2em">Participación en la sesión</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Participación</h6>    
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.autRpt2}" id="rdQ12" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Nula" itemValue="1" itemDisabled="#{carPart.autRpt2 != '1'}"/>
+                                                <f:selectItem itemLabel="Baja" itemValue="2" itemDisabled="#{carPart.autRpt2 != '2'}"/>
+                                                <f:selectItem itemLabel="Media" itemValue="3" itemDisabled="#{carPart.autRpt2 != '3'}"/>
+                                                <f:selectItem itemLabel="Alta" itemValue="4" itemDisabled="#{carPart.autRpt2 != '4'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <hr/>
+
+                        <h:panelGroup>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5>6. Servicios</h5>
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Coffee Break:</h6>
+                                        </div>
+                                        <div class="col-md-8" align="center">
+                                            <p:selectOneRadio value="#{carPart.servRpt1}" id="rdQ13" layout="responsive" columns="5" >
+                                                <f:selectItem itemLabel="Mal" itemValue="1" itemDisabled="#{carPart.servRpt1 != '1'}"/>
+                                                <f:selectItem itemLabel="Regular" itemValue="2" itemDisabled="#{carPart.servRpt1 != '2'}"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="3" itemDisabled="#{carPart.servRpt1 != '3'}"/>
+                                                <f:selectItem itemLabel="Muy bien" itemValue="4" itemDisabled="#{carPart.servRpt1 != '4'}"/>
+                                                <f:selectItem itemLabel="Excelente" itemValue="5" itemDisabled="#{carPart.servRpt1 != '5'}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Sugerencias</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p id="rdQ14">
+                                                #{carPart.sugerencias}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="padding-top: 1em">
+                                        <div class="col-md-4">
+                                            <h6>Quejas</h6>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p id="rdQ15">
+                                                #{carPart.quejas}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                    </div> 
+                </div>
+            </div>
+        </p:carousel>
+        
+    </ui:composition>
+</html>
+

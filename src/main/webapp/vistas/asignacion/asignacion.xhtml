@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:define name="header">
+                <h5 class="m-b-10">Asignación</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+            <ui:define name="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Asignación de Alumnos</h5>
+
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h:form id="form">
+                                    <br/>
+                                    <div class="col-md-12">
+                                        <label class="col-form-label">PROGRAMA Y GENERACIÓN:</label>
+                                        <br/><br/>
+                                        <p:selectOneMenu value="#{personaC.CODDETPROG}" style="width: 80%">
+                                            <f:selectItem itemLabel="Seleccione Progama - Generacion" noSelectionOption="true" itemDisabled="true"/>
+                                            <f:selectItems value="#{programaC.lstprogygen}" var="prog" itemLabel="#{prog.nomProg}" itemValue="#{prog.codProg}"/>
+                                        </p:selectOneMenu>
+
+                                        <p:commandButton value="refresh"  actionListener="#{programaC.listarprogygen()}" update="form"/>
+
+                                    </div>
+                                    <br/><br/><br/>
+                                    <p:dataTable id="data" var="alu" value="#{personaC.lstAlumno}" selection="#{personaC.lstselect}"  rowKey="#{alu.codPer}" >
+                                        <f:facet name="header">
+                                            PARTICIPANTES
+                                        </f:facet>
+                                        <p:column selectionMode="multiple" style="width:51px;text-align:center" />
+                                        <p:column headerText="DNI">
+                                            <h:outputText value="#{alu.dniPer}" />
+                                        </p:column>
+                                        <p:column headerText="NOMBRE">
+                                            <h:outputText value="#{alu.nomPer}" />
+                                        </p:column>
+                                        <p:column headerText="CELULAR">
+                                            <h:outputText value="#{alu.celPer}" />
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:commandButton   value="Matricular" actionListener="#{personaC.asignar()}" update="form" />
+                                        </f:facet>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </ui:composition>
+
+    </body>
+</html>

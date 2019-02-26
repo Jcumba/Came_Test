@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <body>
+
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_evaluaciones" value="active"/>
+            <ui:param name="active_trigger_evaluaciones" value="active pcoded-trigger"/>
+            <ui:define name="header">
+                <h5 class="m-b-10">Evaluaciones</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formRespuesta">
+
+                    <h:panelGroup id="pngCombos">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Evaluaciones</h5>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-form-label">PROGRAMA Y GENERACIÓN</label><br/>
+                                            <p:selectOneMenu value="#{sesionC.CODDETPROG}" id="cbGeneracion" style="width: 100%"
+                                                             required="true" requiredMessage="Ingresar un programa">
+                                                <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                                <f:selectItems value="#{encuestaC.lstprogGen}" var="cbProg"
+                                                               itemLabel="#{cbProg.nomProg}" itemValue="#{cbProg.codDetProg}"/>
+                                                <p:ajax event="change" listener="#{sesionC.listarCbSesion(sesionC.CODDETPROG)}"
+                                                        update="cbSesiones"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Sesión</label><br/>
+                                            <p:remoteCommand name="pasoDeDatos" actionListener="#{sesionC.pasoDeDatos()}"/>
+                                            <p:remoteCommand name="listarDetSesion"
+                                                             actionListener="#{encuestaC.listarDetSesion(sesionC.selected.CODSES)}"
+                                                             update="carRespPart dataSesion" process="@form"/>
+                                            <p:remoteCommand name="listarRespFParticipante"
+                                                             actionListener="#{fParticipanteC.listarRespFParticipante(sesionC.selected.CODSES)}"
+                                                             update="carRespPart dataSesion"/>
+                                            <p:selectOneMenu value="#{sesionC.CODSES}" id="cbSesiones" style="width: 100%"
+                                                             required="true" requiredMessage="Ingresar una sesión">
+                                                <f:selectItem itemLabel="Seleccione una sesión" noSelectionOption="true"/>
+                                                <f:selectItems value="#{sesionC.listaCbSes}" var="cbSes"
+                                                               itemLabel="#{cbSes.nomSes}" itemValue="#{cbSes.codSes}"/>
+                                                <p:ajax event="itemSelect"
+                                                        onstart="pasoDeDatos();listarDetSesion();listarRespFParticipante()"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12" style="margin-top: 22px;">
+                                        <p:commandButton value="Generar formulario" class="btn btn-block" id="btnGenrateLink"
+                                                         actionListener="#{encuestaC.generarLink(sesionC.selected.CODSES)}"
+                                                         update="dataSesion"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <ui:fragment>
+                        <h:panelGroup id="dataSesion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-4">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-12">
+                                                    <h6 style="font-weight: bold; display: inline-block;">Director de programa: &ensp;</h6>
+                                                    <p:outputLabel value="#{encuestaC.encuesta.director}"/>
+                                                </div>
+                                                <div class="col-12 col-lg-12">
+                                                    <h6 style="font-weight: bold; display: inline-block;">Profesor: &ensp;</h6>
+                                                    <p:outputLabel value="#{encuestaC.encuesta.profesor}"/>
+                                                </div>
+                                                <div class="col-12 col-lg-12">
+                                                    <h6 style="font-weight: bold; display: inline-block;">Fecha: &ensp;</h6>
+                                                    <p:outputLabel value="#{encuestaC.encuesta.fechaSes}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-8">
+                                            <p:repeat value="#{encuestaC.listLinks}" var="link">
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-12">
+                                                        <h6 style="font-weight: bold; display: inline-block;">Form. Director: &ensp;</h6>
+                                                        <h:link target="_blank" outcome="pretty:FormularioDirector" id="linkFrmDirector"
+                                                                value="#{link.linkDirec == null ? '':sessionService.linkProyectoPretty}#{link.linkDirec == null ? '':'/formulario/director/'}#{link.linkDirec}">
+                                                            <f:param name="idDir" value="#{link.CODSES}"/>
+                                                        </h:link>
+                                                        <h:panelGroup rendered="#{link.linkDirec == null ? false:true}">
+                                                            <p:commandLink class="badge badge-primary" id="btn_copyLinkFrmDirector" value="Copiar" style="margin-left: 15px; font-size: 1em"/>
+                                                            <pe:clipboard id="clipCopy_Director" trigger="btn_copyLinkFrmDirector" action="copy" target="linkFrmDirector"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-12 col-lg-12">
+                                                        <h6 style="font-weight: bold; display: inline-block;">Form. Profesor: &ensp;</h6>
+                                                        <h:link target="_blank" outcome="pretty:FormularioProfesor" id="linkFrmProfesor"
+                                                                value="#{link.linkProf == null ? '':sessionService.linkProyectoPretty}#{link.linkProf == null ? '':'/formulario/profesor/'}#{link.linkProf}">
+                                                            <f:param name="idProf" value="#{link.CODSES}"/>
+                                                        </h:link>
+                                                        <h:panelGroup rendered="#{link.linkProf == null ? false:true}">
+                                                            <p:commandLink class="badge badge-primary" id="btn_copyLinkFrmProfesor" value="Copiar" style="margin-left: 15px; font-size: 1em"/>
+                                                            <pe:clipboard id="clipCopy_Profesor" trigger="btn_copyLinkFrmProfesor" action="copy" target="linkFrmProfesor"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="col-12 col-lg-12">
+                                                        <h6 style="font-weight: bold; display: inline-block;">Form. Participante: &ensp;</h6>
+                                                        <h:link target="_blank" outcome="pretty:FormularioPart" id="linkFrmParticipante"
+                                                                value="#{link.linkPart == null ? '':sessionService.linkProyectoPretty}#{link.linkPart == null ? '':'/formulario/participante/'}#{link.linkPart}">
+                                                            <f:param name="idPart" value="#{link.CODSES}"/>
+                                                        </h:link>
+                                                        <h:panelGroup rendered="#{link.linkPart == null ? false:true}">
+                                                            <p:commandLink class="badge badge-primary" id="btn_copyLinkFrmParticipante" value="Copiar" style="margin-left: 15px; font-size: 1em"/>
+                                                            <pe:clipboard id="clipCopy_Participante" trigger="btn_copyLinkFrmParticipante" action="copy" target="linkFrmParticipante"/>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                            </p:repeat>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </ui:fragment>
+
+                    <h:panelGroup>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tab-header card">
+                                    <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
+                                        <li class="nav-item">
+                                            <p:remoteCommand id="listPart" name="listResPar"
+                                                             actionListener="#{fParticipanteC.listarRespFParticipante(sesionC.selected.CODSES)}"
+                                                             update="carRespPart"/>
+                                            <a class="nav-link active" onclick="listResPar()" data-toggle="tab"
+                                               href="#partipante" role="tab">Participante</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <p:remoteCommand name="listResProfe"
+                                                             actionListener="#{fProfesorC.listarRespFProfesor(sesionC.selected.CODSES)}"
+                                                             update="carRespProfe"/>
+                                            <a class="nav-link" onclick="listResProfe()" data-toggle="tab" href="#profesor"
+                                               role="tab">Profesor</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <p:remoteCommand name="listResDirec"
+                                                             actionListener="#{fDProgramaC.listarRespFDPrograma(sesionC.selected.CODSES)}"
+                                                             update="carRespDirec"/>
+                                            <a class="nav-link" onclick="listResDirec()" data-toggle="tab" href="#director"
+                                               role="tab">Director</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="partipante" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-xl-2">
+                                                <div class="card">
+                                                    <ul class="nav nav-tabs list-group list-contacts" role="tablist">
+                                                        <li class="nav-item list-group-item justify-content-between active">
+                                                            <a data-toggle="tab" href="#ind-part" role="tab">Individual</a>
+                                                        </li>
+                                                        <li class="nav-item list-group-item justify-content-between">
+                                                            <p:remoteCommand id="botonPart" name="listBarFPar"
+                                                                             actionListener="#{fParticipanteC.createBarModels(sesionC.selected.CODSES)}"
+                                                                             update="BarPA1:panel BarPA2:panel BarPA3:panel BarPA4:panel BarPA5:panel BarPA6:panel BarPA7:panel BarPA8:panel"/>
+                                                            <a onclick="listBarFPar()" data-toggle="tab" href="#res-part"
+                                                               role="tab">Resumen</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-10">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card tab-content">
+                                                            <div class="tab-pane active" id="ind-part" role="tabpanel">
+                                                                <div class="data_table_main table-responsive dt-responsive">
+                                                                    <ui:include src="listParticipante.xhtml"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="res-part" role="tabpanel">
+                                                                <p:panel id="panelParticipante">
+                                                                    <h:commandLink value="Descargar PDF"
+                                                                                   class="btn btn-danger btn-block"
+                                                                                   actionListener="#{fParticipanteC.pdfRFParticipante(sesionC.selected.CODSES)}">
+                                                                        <i class="zmdi zmdi-download"></i>
+                                                                    </h:commandLink>
+                                                                     <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA1">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_P}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_P != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"/>
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA2">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_T}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_T != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA3">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_SE}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_SE != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA4">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_CA}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_CA != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA5">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_TD}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_TD != null}"
+                                                                                     style="margin: 0 auto" 
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA6">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_PUNT}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_PUNT != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA7">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_PART}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_PART != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                    <h:form id="BarPA8">
+                                                                        <h:panelGroup id="panel" layout="block">
+                                                                            <p:chart type="bar"
+                                                                                     model="#{fParticipanteC.barModelRFPAR_CB}"
+                                                                                     rendered="#{fParticipanteC.barModelRFPAR_CB != null}"
+                                                                                     style="margin: 0 auto"
+                                                                                     responsive="true"
+                                                                                     />
+                                                                        </h:panelGroup>
+                                                                    </h:form>
+                                                                     <div style="padding-bottom: 50px"/>
+                                                                </p:panel>
+                                                                <p:blockUI block="panelParticipante" trigger="botonPart">
+                                                                    LOADING<br/>
+                                                                    <img width="50" height="50"
+                                                                         src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                                                                </p:blockUI>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="profesor" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-xl-2">
+                                                <div class="card">
+                                                    <ul class="nav nav-tabs list-group list-contacts" role="tablist">
+                                                        <li class="nav-item list-group-item justify-content-between active">
+                                                            <a data-toggle="tab" href="#ind-prof" role="tab">Individual</a>
+                                                        </li>
+                                                        <li class="nav-item list-group-item justify-content-between">
+                                                            <p:remoteCommand id="botonProf" name="listBarFP"
+                                                                             actionListener="#{fProfesorC.createBarModels(sesionC.selected.CODSES)}"/>
+                                                            <a onclick="listBarFP()" data-toggle="tab" href="#res-prof"
+                                                               role="tab">Resumen</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-10">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card tab-content">
+                                                            <div class="tab-pane active" id="ind-prof" role="tabpanel">
+                                                                <div class="data_table_main table-responsive dt-responsive">
+                                                                    <ui:include src="listProfesor.xhtml"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="res-prof" role="tabpanel">
+                                                                <p:panel id="panelProfesor">
+                                                                    <h:commandLink value="Descargar PDF"
+                                                                                   class="btn btn-danger btn-block"
+                                                                                   actionListener="#{fProfesorC.pdfRFProfesor(sesionC.selected.CODSES)}">
+                                                                        <i class="zmdi zmdi-download"></i>
+                                                                    </h:commandLink>
+                                                                    
+                                                                    <div style="padding-bottom: 50px"/>
+                                                                </p:panel>
+                                                                <p:blockUI block="panelProfesor" trigger="botonProf">
+                                                                    LOADING<br/>
+                                                                    <img width="50" height="50"
+                                                                         src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                                                                </p:blockUI>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="director" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-xl-2">
+                                                <div class="card">
+                                                    <ul class="nav nav-tabs list-group list-contacts" role="tablist">
+                                                        <li class="nav-item list-group-item justify-content-between active">
+                                                            <a data-toggle="tab" href="#ind-direc" role="tab">Individual</a>
+                                                        </li>
+                                                        <li class="nav-item list-group-item justify-content-between">
+                                                            <p:remoteCommand id="botonDirec" name="listBarFD"
+                                                                             actionListener="#{fDProgramaC.createBarModels(sesionC.selected.CODSES)}"
+                                                                           />
+                                                            <a onclick="listBarFD()" data-toggle="tab" href="#res-direc"
+                                                               role="tab">Resumen</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-10">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card tab-content">
+                                                            <div class="tab-pane active" id="ind-direc" role="tabpanel">
+                                                                <div class="data_table_main table-responsive dt-responsive">
+                                                                    <ui:include src="listDirector.xhtml"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="res-direc" role="tabpanel">
+                                                                <p:panel id="panelDirector">
+
+                                                                    <h:commandLink value="Descargar PDF"
+                                                                                   class="btn btn-danger btn-block"
+                                                                                   actionListener="#{fDProgramaC.pdfRFParticipante(sesionC.selected.CODSES)}">
+                                                                        <i class="zmdi zmdi-download"></i>
+                                                                    </h:commandLink>
+                                                                </p:panel>
+                   
+                                                                                                                                  
+
+                                                    
+                    
+                                                                <p:blockUI block="panelDirector" trigger="botonDirec">
+                                                                    LOADING<br/>
+                                                                    <img width="50" height="50"
+                                                                         src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                                                                </p:blockUI>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+
+                </h:form>
+                <p:blockUI block="formRespuesta" trigger=":formRespuesta:cbSesiones">
+                    LOADING<br/>
+                    <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                </p:blockUI>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

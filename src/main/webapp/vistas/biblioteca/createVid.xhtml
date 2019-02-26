@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form id="formCreateVideo" >
+            <div class="card">
+                <div class="card-header">
+                    <h5>Registrar</h5>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Nombre:</label><br/>
+                                <p:inputText value="#{bibliotecaC.model.nombVid}" required="true" requiredMessage="Se necesita un nombre" style="width: 100%"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de Contenido:</label><br/>
+                                <p:selectOneMenu value="#{bibliotecaC.model.tipoVid}" style="width: 100%">
+                                    <f:selectItem itemLabel="Seleccione:" itemValue=""/>
+                                    <f:selectItem itemLabel="Video" itemValue="Video"/>
+                                    <f:selectItem itemLabel="Pelicula" itemValue="Pelicula"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Duración:</label><br/>
+                                <p:inputMask value="#{bibliotecaC.model.durVid}" required="true" requiredMessage="Se necesita la duración del video" style="width: 100%" mask="99:99:99" placeholder="HH:MM:SS"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de Programa:</label><br/>
+                                <p:selectOneMenu value="#{bibliotecaC.model.progVid}"  required="true" requiredMessage="Seleccione tipo de programa" style="width: 100%">
+                                    <f:selectItem itemLabel="Seleccione un tipo de programa" noSelectionOption="true"/>
+                                    <f:selectItems value="#{programaC.listCbTipoPg}" var="cbProg" itemLabel="#{cbProg.nomTipPg}" itemValue="#{cbProg.codTipPg}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="offset-md-5 col-md-2 col-sm-12 center">
+                            <br/>
+                            <p:commandButton class="btn-block" value="Guardar" actionListener="#{bibliotecaC.guardarVideo()}" update="formCreateVideo" oncomplete="cleanrSesion();"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+   </ui:composition>
+</html>
+

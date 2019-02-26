@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UpdateEmp"
+                  header="Actualizar Empresa"
+                  widgetVar="UpEmp"
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  resizable="false"
+                  responsive="true"
+                  modal="true"  
+                  showEffect="fade"
+                  hideEffect="fade"
+                  onHide="clearEmpre()">
+            <h:form id="formActualizarEmp">
+                <p:panelGrid columns="2" >
+                    <div class="form-group form-default">
+                        <label class="col-form-label">RUC Empresa</label>
+                        <p:inputText class="form-control" value="#{empresaC.empresa.RUCEMP}" required="true" requiredMessage="RUC obligatorio" maxlength="11">
+                            <p:keyFilter regEx="/[0-9]/i"/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group form-default">
+                        <label class="col-form-label">Nombre</label>
+                        <p:inputText class="form-control" value="#{empresaC.empresa.NOMBEMP}" required="true" requiredMessage="Ingresar el nombre de la empresa" />
+                    </div>
+                    <div class="form-group form-default">
+                        <label class="col-form-label">Distrito</label>
+                        <p:autoComplete dropdown="true" maxResults="10"
+                                        value="#{empresaC.empresa.UBIGEO}"
+                                        completeMethod="#{empresaC.completeTextUbi}" emptyMessage="No existe"
+                                        style="width: 100%" required="true" requiredMessage="Se requiere el Distrito"/>
+                    </div>
+                    <div class="form-group form-default">
+                        <label class="col-form-label">Dirección</label>
+                        <p:inputText class="form-control" value="#{empresaC.empresa.DIREMP}"/>
+                    </div>
+                    <div class="form-group form-default">
+                        <label class="col-form-label">Actividad</label>
+                        <p:inputText class="form-control" value="#{empresaC.empresa.ACTEMP}" required="true" requiredMessage="Especificar Actividad de la empresa" />
+                    </div>
+                </p:panelGrid>
+                <br/>
+                <p:remoteCommand name="clearEmpre" actionListener="#{empresaC.limpiar()}" immediate="true"/>
+                <p:commandButton class="btn btn-primary btn-block" value="Actualizar" 
+                                 actionListener="#{empresaC.updateEmpresa()}" 
+                                 update="formActualizarEmp formListaEmp :formCreate" 
+                                 oncomplete="updateFormEmp();handleSubmit(args,'UpEmp');"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

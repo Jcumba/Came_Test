@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../template/TemplateMain.xhtml">
+            <ui:param name="active_coach_coaching" value="active"/>
+            <ui:param name="active_trigger_coach" value="active pcoded-trigger"/>
+
+            <ui:define name="header">
+                <h5 class="m-b-10">Dashboard</h5>
+                <p class="m-b-0">Sistema Came 2018</p>
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Coaching</h5>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h:form id="form">
+                                    <label class="col-form-label">Programa y Generacion</label><br/>
+                                    <p:selectOneMenu value="#{coachC.coach.CODDETPROG}" effect="fold" style="width: 100%">
+                                        <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemDisabled="true"/>
+                                        <f:selectItems  value="#{coachC.lstprogram}" var="prog" itemLabel="#{prog.PROGRAMA}" itemValue="#{prog.CODDETPROG}" />
+                                        <p:ajax event="change" listener="#{coachC.listarAlumnos()}" update="cbParticipante form"/>
+                                    </p:selectOneMenu>
+                                    <br/>
+                                    <br/>
+                                    <label class="col-form-label">Participante</label><br/>
+                                    <p:selectOneMenu id="cbParticipante" value="#{coachC.coach.CODASICOA}" effect="fold" required="true" requiredMessage="SELECCIONE PARTICIPANTE">
+                                        <f:selectItem itemLabel="Seleccione" itemDisabled="true" noSelectionOption="true"/>
+                                        <f:selectItems value="#{coachC.lstAlumno}" var="alu" itemLabel="#{alu.nomPer}" itemValue="#{alu.codPer}"/>
+                                                   <p:ajax event="change" update="form"/>
+                                    </p:selectOneMenu>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <ui:fragment rendered="#{coachC.coach.CODASICOA== null ? false:true}" >
+
+                                        <div class="row">
+                                            <div class="col-md-1 col-sm-1">
+                                                <label class="col-form-label">Fecha:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <p:inputMask mask="99/99/9999" placeholder="DD/MM/YYYY" value="#{coachC.coach.FECHA}" required="true" requiredMessage="INSERTE FECHA"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-1">
+                                                <label class="col-form-label">Hr.Inicio:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <p:inputMask mask="99:99aa" placeholder="12:00AM" value="#{coachC.coach.HORINI}" required="true" requiredMessage="INSERTE HR.INICIO"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-1">
+                                                <label class="col-form-label">Hr.Fin:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div class="form-group">
+                                                    <p:inputMask mask="99:99aa" placeholder="12:00PM" value="#{coachC.coach.HORFIN}" required="true" requiredMessage="INSERTE HR.FIN"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label">Lugar</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%;"  value="#{coachC.coach.LUGAR}" required="true" requiredMessage="INSERTE LUGAR"/>  
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label">Observación</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%;" required="true" value="#{coachC.coach.DESCRI}"  requiredMessage="INSERTE OBSERVACIÓN"/>  
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <center>
+                                                    <p:commandButton  value="Agregar" actionListener="#{coachC.insertarCoach()}" update="form"/>
+                                                </center>
+                                            </div>
+                                        </div>
+
+                                    </ui:fragment>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

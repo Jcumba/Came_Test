@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UpdateProgDet"
+                  header="Actualizar Detalle del Programa"
+                  widgetVar="UpProgDet"
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  resizable="false"
+                  responsive="true"
+                  modal="true"  
+                  showEffect="fade"
+                  hideEffect="fade"
+                  onHide="clearProgDet()">
+            <h:form id="formActualizarProgDet">
+                <p:panelGrid columns="2">
+                    
+                  
+                                <label class="col-form-label">Fecha de inicio</label>
+                                <p:inputMask  mask="99/99/9999" id="inputFechIni"  value="#{progDetC.progdet.fechIni}" required="true" requiredMessage="Ingrese la Fecha Inicial"/>
+                       
+                    
+                                <label class="col-form-label">Fecha de fin</label>
+                                <p:inputMask class="form-control" mask="99/99/9999" id="inputFechFin" value="#{progDetC.progdet.fechFin}" required="true" requiredMessage="Ingrese la Fecha Final"/>
+                        
+                      
+                                <label class="col-form-label">Director</label>
+                                <p:autoComplete id="autComplete" 
+                                                value="#{progDetC.progdet.nomPer}"
+                                                emptyMessage="No se encontro ningún registro"
+                                                completeMethod="#{personaC.autocompleteDirector}"
+                                                forceSelection="true" maxlength="50"
+                                                dropdown="true"
+                                                scrollHeight="300"
+                                                style="width: 100%" required="true" requiredMessage="Ingrese el director"/>
+                          
+                      
+                                <label class="col-form-label">Programa</label>
+                                <p:outputLabel value="#{progDetC.progdet.nomProg}"/>
+                         
+                     
+                                <label class="col-form-label">Generación</label>
+                                <p:inputText class="form-control" id="inputGen"  value="#{progDetC.progdet.genDetProg}" required="true" requiredMessage="Ingrese la Generación" />
+                        
+                     
+                                <label class="col-form-label">Frecuencia</label>
+                                <p:selectCheckboxMenu value="#{progDetC.progdet.frecDetProg}" label="Seleccione" multiple="true" required="true" requiredMessage="Seleccione la frecuencia" style="width: 100%;">
+                                    <f:selectItem itemLabel="Lunes" itemValue="Lunes"/>
+                                    <f:selectItem itemLabel="Martes" itemValue="Martes"/>
+                                    <f:selectItem itemLabel="Miércoles" itemValue="Miércoles"/>
+                                    <f:selectItem itemLabel="Jueves" itemValue="Jueves"/>
+                                    <f:selectItem itemLabel="Viernes" itemValue="Viernes"/>
+                                    <f:selectItem itemLabel="Sábado" itemValue="Sábado"/>
+                                    <f:selectItem itemLabel="Domingo" itemValue="Domingo"/>
+                                </p:selectCheckboxMenu>
+                  
+                                <label class="col-form-label">Hora</label>
+                                <p:inputMask mask="99:99 - 99:99"  id="inputHora"  value="#{progDetC.progdet.horIniFin}" required="true" requiredMessage="Ingrese la hora de inicio y fin" />
+                     
+                 
+               </p:panelGrid>
+                <br/>
+
+                <p:remoteCommand name="clearProgDet" actionListener="#{progDetC.limpiar()}" immediate="true"/>
+                <p:commandButton class="btn btn-primary btn-block" value="Actualizar" 
+                                 actionListener="#{progDetC.updateProgDet()}" 
+                                 update="formActualizarProgDet formListProdet :agregarProgDet" 
+                                 oncomplete="updateFormProgDet();handleSubmit(args,'UpProgDet');"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

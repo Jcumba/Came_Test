@@ -1,0 +1,540 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <h:form id="formCreateEntrevista">
+            <h:panelGroup rendered="#{entrevistaC.CODPER == null ? false:true}">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Preguntas al candidato</h5>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12 ">
+
+                                <ul class="nav nav-tabs tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab">ENTREVISTA</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab2" role="tab">INFORMACIÓN PERSONAL</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab3" role="tab">INFORMACIÓN LABORAL</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab4" role="tab">INFORMACIÓN ACADÉMICA</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab5" role="tab">EMERGENCIA</a>
+
+                                    </li>
+                                </ul>
+                                <div class="tab-content tabs-center-content card-block ">
+
+                                    <div class="tab-pane active" id="tab1" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <label class="col-form-label">Entrevistado por:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <h:outputLabel style="font-weight: bold" value="#{personaC.usuario.nomPer} #{personaC.usuario.apePer}"/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <label class="col-form-label">Fecha:</label><br/>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12 text-center">
+                                                <p:clock pattern="dd/MM/yyyy" />
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label">¿Cómo se enteró del programa?</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{entrevistaC.en.PRE1}" maxlength="250"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label">¿Por qué desea seguir el programa?</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{entrevistaC.en.PRE2}" maxlength="250"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label">Comentarios</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:inputText style="width: 100%" value="#{entrevistaC.en.COMENT}" maxlength="250"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <p:selectBooleanCheckbox value="#{entrevistaC.en.ESTENT}" />
+                                                    <p:outputLabel value=" El participante está apto para el programa:" style="font-weight: bold"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12" align="center">
+
+                                                <p:commandButton value="Registrar" class="btn btn-primary btn-block" actionListener="#{entrevistaC.addEntrevista(personaC.usuario.codPer)}" update="formCreateEntrevista :formListEntrevista"/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab2" role="tabpanel">
+
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Foto:</label><br/>
+                                                    <img src="#{sessionService.dominioBib}/RepositorioCAME/img/#{entrevistaC.listabloqent.FOTO}" height="200" width="200"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">DNI:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.DNI}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Nombres:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.NOMBRE}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Apellidos:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.APELLIDO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Fecha Nacimiento</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.NACIMIENTO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Lugar Nacimiento:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.LUGARNAC}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Estado Civil:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.ESTADOCIVIL}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Sexo:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.SEXO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Celular/Teléfono:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.CELULAR}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Domicilio:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.DOMICILIO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Distrito:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.DISTRITO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Nombre del cónyuge:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.CONYUGE}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Profesión del cónyuge:</label><br/>
+                                                            <h:outputLabel value="#{entrevistaC.listabloqent.PROFCONYUGE}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane text-center" id="tab3" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Empresa:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.EMPRESA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">RUC:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.RUC}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Domicilio Fiscal:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.DOMICILIOFISCAL}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.TELETRAB}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email trabajo:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.EMAILTRABA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Actividad Empresa:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.ACTIEMP}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Área:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.AREA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Puesto:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.PUESTO}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Años en el puesto:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.YEARPUES}"/>                                              
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">N° Personas:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.NPERSONAS}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Jefe:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.JEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Cargo Jefe:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.CARGOJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono Jefe:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.TELFJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email Jefe:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.EMAILJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Actividades:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.ACTIVIDADPER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Auto:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.AUTO}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Marca:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.MARCA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Placa:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.PLACA}"/>
+                                                </div>
+                                            </div>
+                                            <h:panelGroup rendered="#{entrevistaC.listatipoProg.tipoProg == '2'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '1'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '3'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '5'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '9'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '10'?
+                                                                      false:true}">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" style="font-weight: bold">Organigrama:</label><br/>
+                                                        <img src="#{sessionService.dominioBib}/RepositorioCAME/org/#{entrevistaC.listabloqent.ORGANIGRAMA}" height="500" width="500"/>
+
+                                                    </div>
+                                                </div>
+                                            </h:panelGroup>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane text-center" id="tab4" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Grado Académico:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.GRADOACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Universidad:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.UNIVACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Especialidad:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.ESPACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">1.Programa:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.PRO1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.DURA1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.INST1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">2.Programa:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.PRO2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.DURA2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.INST2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">3.Programa:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.PRO3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.DURA3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.INST3}"/>
+                                                </div>
+                                            </div>
+                                            <h:panelGroup rendered="#{entrevistaC.listatipoProg.tipoProg == '2'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '1'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '3'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '5'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '9'?
+                                                                      false:entrevistaC.listatipoProg.tipoProg == '10'?
+                                                                      false:true}">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="title" style="font-weight: bold">GRADO DE CONOCIMIENTO E INTERÉS POR ÁREAS:  (1-5),  1 = Menor,  5 = Mayor  y  0 = NULO</div>
+                                                </div>
+                                                <br/><br/>
+                                                <div class="col-md-4 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Comercial/Marketing:</label><br/><br/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Operaciones/Logística:</label><br/><br/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Recursos Humanos:</label><br/><br/><br/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Contabilidad/Finanzas:</label><br/><br/><br/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Dirección/Liderazgo:</label><br/><br/><br/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-8 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.CON1}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.INTE1}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.CON2}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.INTE2}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.CON3}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.INTE3}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.CON4}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.INTE4}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.CON5}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                                <h:outputLabel value="#{entrevistaC.listabloqent.INTE5}"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </h:panelGroup>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane text-center" id="tab5" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Seguro:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.SEGUROPER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono Seguro:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.TELEFONOSEG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Persona en caso de Emergencia:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.PEREMER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono de la persona:</label><br/>
+                                                    <h:outputLabel value="#{entrevistaC.listabloqent.TELFEMER}"/>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>  
+                    </div>  
+
+                </div>
+            </h:panelGroup>
+
+        </h:form>
+
+    </ui:composition>
+</html>
+
+
+

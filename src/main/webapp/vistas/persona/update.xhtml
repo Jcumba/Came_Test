@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="UpdatePer"
+                  widgetVar="UpPer"
+                  appendTo="@(body)"
+                  closeOnEscape="flase"
+                  closable="false"
+                  resizable="false"
+                  responsive="true"
+                  modal="true"
+                  showEffect="fade"
+                  hideEffect="fade">
+            <h:form id="formActualizarPersona">
+            
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Nombres"/>
+                    <p:inputText id="inputNom" value="#{personaC.persona.nomPer}" required="true"
+                                 requiredMessage="Ingrese su Nombre"/>
+                    <p:outputLabel value="Apellidos"/>
+                    <p:inputText id="inputApe" value="#{personaC.persona.apePer}" required="true"
+                                 requiredMessage="Ingrese su Apellidos"/>
+                    <p:outputLabel value="Email"/>
+                    <p:inputText id="inputCorreo" value="#{personaC.persona.emailPer}" required="true"
+                                 requiredMessage="Ingrese su Correo"/>
+                    <p:outputLabel value="DNI"/>
+                    <p:inputText id="inputDni" value="#{personaC.persona.dniPer}" maxlength="8" required="true"
+                                 requiredMessage="Ingrese su DNI">
+                        <p:keyFilter regEx="/[\d]/"/>
+                    </p:inputText>
+                    <p:outputLabel value="Celular"/>
+                    <p:inputText id="inputCel" value="#{personaC.persona.celPer}" maxlength="9" required="true"
+                                 requiredMessage="Ingrese su Celular">
+                        <p:keyFilter regEx="/[\d]/"/>
+                    </p:inputText>
+                    <p:outputLabel value="Dirección"/>
+                    <p:inputText id="inputDire" value="#{personaC.persona.dirPer}" required="true"
+                                 requiredMessage="Ingrese su Direccion"/>
+                    <p:outputLabel value="Sexo"/>
+                    <p:selectOneMenu id="menuSexo" value="#{personaC.persona.sexPer}" style="width:100%" required="true"
+                                     requiredMessage="Ingrese su Sexo">
+                        <f:selectItem itemLabel="Seleccionar sexo" itemDisabled="true" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                        <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Usuario" for="@next"/>
+                    <p:inputText id="inputUsu" value="#{personaC.persona.userPer}" required="true"
+                                 requiredMessage="Ingrese su Usuario" autocomplete="off"/>
+                    <p:outputLabel for="@next" value="Tipos de Usuario"/>
+                    <p:selectManyCheckbox id="tipoPer" value="#{personaC.persona.rolesPer}" layout="grid" columns="3"
+                                          required="true" requiredMessage="Seleccione los Tipos de Usuarios">
+                        <f:selectItem itemLabel="Administrador" itemValue="AD"/>
+                        <f:selectItem itemLabel="Directores" itemValue="DI"/>
+                        <f:selectItem itemLabel="Director de Programa" itemValue="DP"/>
+                        <f:selectItem itemLabel="Operaciones" itemValue="OP"/>
+                        <f:selectItem itemLabel="Profesor" itemValue="PR"/>
+                        <f:selectItem itemLabel="Coach" itemValue="CO"/>
+                        <f:selectItem itemLabel="Monitor" itemValue="MO"/>
+                        <f:selectItem itemLabel="Entrevistador" itemValue="EN"/>
+                        <f:selectItem itemLabel="Administración" itemValue="AM"/>
+                        <f:selectItem itemLabel="Promoción" itemValue="PM"/>
+                    </p:selectManyCheckbox>
+                    <p:outputLabel value="Distrito"/>
+                    <p:autoComplete id="autComplete"
+                                    value="#{personaC.persona.codUbi}"
+                                    emptyMessage="No se encontro ningún registro"
+                                    completeMethod="#{personaC.autocompleteUbigeo}"
+                                    forceSelection="true" maxlength="50"
+                                    scrollHeight="300"
+                                    style="width: 100%" required="true" requiredMessage="Ingrese su Distrito"/>
+</h:panelGrid>
+
+                <p:commandButton class="btn btn-primary" value="Actualizar" actionListener="#{personaC.updatePersona()}"
+                                 update="formActualizarPersona :listarPersona"/>
+                <p:commandButton class="btn btn-danger" value="Cancelar" actionListener="#{personaC.cancelarPersona()}"
+                                 immediate="true" update="formActualizarPersona :agregarPersona"
+                                 oncomplete="PF('UpPer').hide();"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

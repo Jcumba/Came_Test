@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<body>
+
+<ui:composition template="./../../template/TemplateMain.xhtml">
+    <ui:param name="active_postulante" value="active"/>
+    <ui:param name="active_trigger_participante" value="active pcoded-trigger"/>
+
+    <ui:define name="header">
+        <h5 class="m-b-10">Participantes</h5>
+        <p class="m-b-0">Sistema Came 2018</p>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div class="row">
+            <div class="col-md-12 ">
+
+                <ul class="nav nav-tabs tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tabA"
+                           role="tab">PARTICIPANTES POR INSCRIBIR</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tabB" role="tab">PARTICIPANTES INSCRITOS</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tabC" role="tab">PARTICIPANTES NO ADMITIDOS</a>
+
+                    </li>
+                </ul>
+                <div class="tab-content tabs-center-content card-block ">
+                    <div class="tab-pane active" id="tabA" role="tabpanel">
+                        <ui:include src="listProgramas.xhtml"/>
+                        <h:form id="listarPostulante">
+                            <h:panelGroup rendered="#{participanteC.CODPROG == null ? false:true}">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Participantes</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+
+                                            <div class="col-md-12 animation fadeIn">
+                                                <div class="card">
+                                                    <div class="card-content">
+
+                                                        <p:dataTable id="dataPos"
+                                                                     value="#{participanteC.listParticipantes}"
+                                                                     var="lstPos"
+                                                                     selection="#{participanteC.lstselectPar}"
+                                                                     rowKey="#{lstPos.dniPer}"
+                                                                     style="text-align: center"
+                                                                     emptyMessage="No hay registros">
+                                                            <p:column selectionMode="multiple"
+                                                                      style="width:51px;text-align:center"/>
+                                                            <p:column headerText="DNI" width="10%">
+                                                                <p:outputLabel value="#{lstPos.dniPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="NOMBRES" width="20%">
+                                                                <p:outputLabel
+                                                                        value="#{lstPos.nomPer} #{lstPos.apePer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="CELULAR" width="15%">
+                                                                <p:outputLabel value="#{lstPos.celPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="DIRECCCIÓN" width="20%">
+                                                                <p:outputLabel value="#{lstPos.dirPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="NACIMIENTO" width="15%">
+                                                                <p:outputLabel value="#{lstPos.fecNac}"/>
+                                                            </p:column>
+                                                            <p:column width="10%">
+                                                                <p:commandButton icon="ui-icon-pencil"
+                                                                                 update="updateParticipantes"
+                                                                                 oncomplete="PF('updateParticipante').show()">
+                                                                    <f:setPropertyActionListener value="#{lstPos}"
+                                                                                                 target="#{participanteC.selectPer}"/>
+                                                                </p:commandButton>
+                                                            </p:column>
+                                                            <f:facet name="footer">
+                                                                <p:commandButton value="Inscribir"
+                                                                                 actionListener="#{participanteC.matricular()}"
+                                                                                 update="listarPostulante"/>
+                                                            </f:facet>
+                                                        </p:dataTable>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </h:form>
+                        <ui:include src="update.xhtml"/>
+                    </div>
+                    <div class="tab-pane" id="tabB" role="tabpanel">
+                        <h:form id="formListParticipanteI">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Programas</h5>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">PROGRAMA Y GENERACIÓN</label><br/>
+                                                <p:selectOneMenu value="#{participanteC.CODPROGI}" style="width: 100%">
+                                                    <f:selectItem itemLabel="Seleccione un programa"
+                                                                  noSelectionOption="true"/>
+                                                    <f:selectItems value="#{participanteC.listaCbGenPostulante}"
+                                                                   var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                                                   itemValue="#{cbProg.codDetProg}"/>
+                                                    <p:ajax event="change"
+                                                            listener="#{participanteC.listarParticipantesI()}"
+                                                            update=":listarPostulanteI"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </h:form>
+                        <h:form id="listarPostulanteI">
+                            <h:panelGroup rendered="#{participanteC.CODPROGI == null ? false:true}">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Participantes</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-md-12 animation fadeIn">
+                                                <div class="card">
+                                                    <div class="card-content">
+
+                                                        <p:dataTable id="dataParI"
+                                                                     value="#{participanteC.listParticipantesI}"
+                                                                     var="lstPar"
+                                                                     rowKey="#{lstPar.codPer}"
+                                                                     rowStyleClass="#{lstPar.tipoPer =='RE' ? 'component-participante-inscritos':false }"
+                                                                     style="text-align: center"
+                                                                     emptyMessage="No hay registros"
+                                                                     selectionMode="single"
+                                                                     selection="#{participanteC.par}">
+                                                            <p:column headerText="DNI" width="10%">
+                                                                <p:outputLabel id="dniPersona"
+                                                                               value="#{lstPar.dniPer}"/>
+                                                                <p:tooltip
+                                                                        rendered="#{lstPar.imgPer == null? false:true}"
+                                                                        for="dniPersona" position="bottom">
+                                                                    <img src="#{sessionService.linkRepositorioImg}/#{lstPar.imgPer}"
+                                                                         width="80" height="80" alt="Imagen"/>
+                                                                </p:tooltip>
+                                                            </p:column>
+                                                            <p:column headerText="NOMBRES" width="20%">
+                                                                <p:outputLabel
+                                                                        value="#{lstPar.nomPer} #{lstPar.apePer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="CELULAR" width="20%">
+                                                                <p:outputLabel value="#{lstPar.celPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="DIRECCCIÓN" width="20%">
+                                                                <p:outputLabel value="#{lstPar.dirPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="NACIMIENTO" width="15%">
+                                                                <p:outputLabel value="#{lstPar.fecNac}"/>
+                                                            </p:column>
+                                                            <p:column width="15%"
+                                                                      rendered="#{lstPar.tipoPer == 'RE' ? false:true}">
+                                                                <p:commandButton value="Retirar"
+                                                                                 actionListener="#{participanteC.retirarParticipante(lstPar.dniPer)}"
+                                                                                 update="listarPostulanteI"/>
+                                                            </p:column>
+                                                            <p:column width="15%"
+                                                                      rendered="#{lstPar.tipoPer == 'RE' ? true:false}">
+                                                                <p:commandButton value="Restablecer"
+                                                                                 actionListener="#{participanteC.restablecerParticipante(lstPar.dniPer)}"
+                                                                                 update="listarPostulanteI"/>
+                                                            </p:column>
+                                                        </p:dataTable>
+                                                        <p:contextMenu for="dataParI">
+                                                            <p:menuitem value="Cambiar contraseña"
+                                                                        oncomplete="PF('UpPass').show();"
+                                                                        update="formPassUserGlobal"/>
+                                                            <p:menuitem value="Cambiar imagen"
+                                                                        oncomplete="PF('modificarFoto').show();"
+                                                                        update="formFotoPersona"/>
+                                                            <p:menuitem value="Ver datos" actionListener="#{participanteC.listarDatosParticipante(participanteC.par.dniPer)}"
+                                                                        oncomplete="PF('datosParticipante').show();"
+                                                                        update=":datosPartic"/>
+                                                        </p:contextMenu>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </h:form>
+                        <ui:include src="actualizarContraseña.xhtml"/>
+                        <ui:include src="actualizarFoto.xhtml"/>
+                        <ui:include src="listParticipantes.xhtml"/>
+                    </div>
+                    <div class="tab-pane" id="tabC" role="tabpanel">
+                        <h:form id="formListParticipanteNoAd">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Programas</h5>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">PROGRAMA Y GENERACIÓN</label><br/>
+                                                <p:selectOneMenu value="#{participanteC.CODPROGNOAD}"
+                                                                 style="width: 100%">
+                                                    <f:selectItem itemLabel="Seleccione un programa"
+                                                                  noSelectionOption="true"/>
+                                                    <f:selectItems value="#{participanteC.listaCbGenPostulante}"
+                                                                   var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                                                   itemValue="#{cbProg.codDetProg}"/>
+                                                    <p:ajax event="change"
+                                                            listener="#{participanteC.listarParticipantesNoAdmitidos()}"
+                                                            update=":listarPostulanteNoAd"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                        <h:form id="listarPostulanteNoAd">
+                            <h:panelGroup rendered="#{participanteC.CODPROGNOAD == null ? false:true}">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Participantes no admitidos</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-md-12 animation fadeIn">
+                                                <div class="card">
+                                                    <div class="card-content">
+
+                                                        <p:dataTable id="dataParNoAd"
+                                                                     value="#{participanteC.listParticipantesNoAd}"
+                                                                     var="lstParNoAd"
+                                                                     rowKey="#{lstParNoAd.dniPer}"
+                                                                     style="text-align: center"
+                                                                     emptyMessage="No hay registros">
+                                                            <p:column headerText="DNI" width="10%">
+                                                                <p:outputLabel value="#{lstParNoAd.dniPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="NOMBRES" width="20%">
+                                                                <p:outputLabel
+                                                                        value="#{lstParNoAd.nomPer} #{lstParNoAd.apePer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="CELULAR" width="15%">
+                                                                <p:outputLabel value="#{lstParNoAd.celPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="DIRECCCIÓN" width="20%">
+                                                                <p:outputLabel value="#{lstParNoAd.dirPer}"/>
+                                                            </p:column>
+                                                            <p:column headerText="NACIMIENTO" width="15%">
+                                                                <p:outputLabel value="#{lstParNoAd.fecNac}"/>
+                                                            </p:column>
+                                                        </p:dataTable>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+</ui:composition>
+
+</body>
+</html>

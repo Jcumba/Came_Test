@@ -1,0 +1,566 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="datosParti"
+                  widgetVar="datosParticipante"
+                  modal="true"                  
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Participante"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="datosPartic">
+                <center>
+                    <p:panel style="width: 800px; height: 400px; border: none">
+                        <div class="row">
+                            <div class="col-md-12 ">
+
+                                <ul class="nav nav-tabs tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab">ENTREVISTA</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab2" role="tab">ADMINISTRACIÓN</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab3" role="tab">INFORMACIÓN PERSONAL</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab4" role="tab">INFORMACIÓN LABORAL</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab5" role="tab">INFORMACIÓN ACADÉMICA</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab6" role="tab">EMERGENCIA</a>
+
+                                    </li>
+                                </ul>
+                                <div class="tab-content tabs-center-content card-block ">
+
+                                    <div class="tab-pane active" id="tab1" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label" style="font-weight: bold">¿Cómo se enteró del programa?</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PREGUNTA1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label" style="font-weight: bold">¿Por qué desea seguir el programa?</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PREGUNTA2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label" style="font-weight: bold">Comentarios</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="#{participanteC.listabloqins.COMENTARIOS}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label class="col-form-label" style="font-weight: bold">Registrado</label><br/>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="#{participanteC.listabloqins.FECHAREGE}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane text-center" id="tab2" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">El costo del programa lo asume:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ASUMEPAG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Precio:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ESTADOPAG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Condiciones:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.CONDIPAG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Observaciones:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.OBSERPAG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Nombre y Cargo de la persona encargada del pago del Programa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ENCAPAG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ENCEMAIL}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ENCTELF}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Registrado:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.FECHAREGA}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab3" role="tabpanel">
+
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Foto:</label><br/>
+                                                    <img src="#{sessionService.dominioBib}/RepositorioCAME/img/#{participanteC.listabloqins.FOTO}" height="200" width="200"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">DNI:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.DNI}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Nombres:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.NOMBRE}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Apellidos:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.APELLIDO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Fecha Nacimiento</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.NACIMIENTO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Lugar Nacimiento:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.LUGARNAC}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Estado Civil:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.ESTADOCIVIL}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Sexo:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.SEXO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Celular/Teléfono:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CELULAR}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Domicilio:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.DOMICILIO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Distrito:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.DISTRITO}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Nombre del cónyuge:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CONYUGE}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Profesión del cónyuge:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.PROFCONYUGE}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane text-center" id="tab4" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Empresa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.EMPRESA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">RUC:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.RUC}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Domicilio Fiscal:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.DOMICILIOFISCAL}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.TELETRAB}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email trabajo:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.EMAILTRABA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Actividad Empresa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ACTIEMP}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Área:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.AREA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Puesto:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PUESTO}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Años en el puesto:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.YEARPUES}"/>                                              
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">N° Personas:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.NPERSONAS}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Jefe:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.JEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Cargo Jefe:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.CARGOJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono Jefe:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.TELFJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Email Jefe:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.EMAILJEFE}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Actividades:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ACTIVIDADPER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Auto:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.AUTO}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Marca:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.MARCA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Placa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PLACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Organigrama:</label><br/>
+                                                    <img src="#{sessionService.dominioBib}/RepositorioCAME/org/#{participanteC.listabloqins.ORGANIGRAMA}" height="500" width="500"/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane text-center" id="tab5" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Grado Académico:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.GRADOACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Universidad:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.UNIVACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Especialidad:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.ESPACA}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">1.Programa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PRO1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.DURA1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.INST1}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">2.Programa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PRO2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.DURA2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.INST2}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">3.Programa:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PRO3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Duración:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.DURA3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Institución:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.INST3}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="title" style="font-weight: bold">GRADO DE CONOCIMIENTO E INTERÉS POR ÁREAS:  (1-5),  1 = Menor,  5 = Mayor  y  0 = NULO</div>
+                                            </div>
+                                            <br/><br/>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Comercial/Marketing:</label><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Operaciones/Logística:</label><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Recursos Humanos:</label><br/><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Contabilidad/Finanzas:</label><br/><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Dirección/Liderazgo:</label><br/><br/><br/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CON1}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.INTE1}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CON2}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.INTE2}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CON3}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.INTE3}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CON4}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.INTE4}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Conocimiento:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.CON5}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label" style="font-weight: bold">Interés:</label><br/>
+                                                            <h:outputLabel value="#{participanteC.listabloqins.INTE5}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane text-center" id="tab6" >
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Seguro:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.SEGUROPER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono Seguro:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.TELEFONOSEG}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Persona en caso de Emergencia:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.PEREMER}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" style="font-weight: bold">Teléfono de la persona:</label><br/>
+                                                    <h:outputLabel value="#{participanteC.listabloqins.TELFEMER}"/>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>  
+                    </p:panel>
+                </center>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

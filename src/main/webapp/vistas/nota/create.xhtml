@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition>
+    <h:form id="formCreateNota">
+        <div class="card">
+            <div class="card-header">
+                <h5>Nuevo registro</h5>
+                <p:outputLabel id="lblNomFase" value="#{notasC.nota.nomFase}"/>
+                <div class="row">
+                    <div class="col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label">PROGRAMA Y GENERACIÓN</label><br/>
+                            <p:selectOneMenu value="#{sesionC.CODDETPROG}" id="cbGeneracion" style="width: 100%">
+                                <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                <f:selectItems value="#{sesionC.listaCbGen}" var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                               itemValue="#{cbProg.codDetProg}"/>
+                                <p:ajax event="itemSelect" listener="#{sesionC.listarCbSesion(sesionC.CODDETPROG)}"
+                                        update="cbSesiones"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Sesión</label><br/>
+                            <p:selectOneMenu value="#{sesionC.CODSES}" id="cbSesiones" style="width: 100%">
+                                <f:selectItem itemLabel="Seleccione una sesión" noSelectionOption="true"/>
+                                <f:selectItems value="#{sesionC.listaCbSes}" var="cbSes" itemLabel="#{cbSes.nomSes}"
+                                               itemValue="#{cbSes.codSes}"/>
+                                <p:ajax event="change" listener="#{sesionC.pasoDeDatos()}"/>
+                                <p:ajax event="change"
+                                        listener="#{notasC.viewRegistros(sesionC.selected.CODDETPROG, sesionC.selected.CODSES)}"
+                                        update="btnAdd :formListaNota :formCreateNota:lblNomFase"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <ui:fragment
+                            rendered="#{sessionService.administrador || sessionService.directorPrograma || sessionService.operaciones}">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="form-group" style="padding-top: 20px">
+                                <p:remoteCommand name="viewReg"
+                                                 actionListener="#{notasC.viewRegistros(sesionC.selected.CODDETPROG, sesionC.selected.CODSES)}"
+                                                 update="formCreateNota :formListaNota"/>
+                                <p:commandButton id="btnAdd" value="Registrar" class="btn teal btn-block"
+                                                 actionListener="#{notasC.agregarNuevasNotas(sesionC.selected.CODSES)}"
+                                                 oncomplete="viewReg()"
+                                                 disabled="#{notasC.verified == false or empty notasC.listNewNotas}"/>
+                            </div>
+                        </div>
+                    </ui:fragment>
+                    <div class="col-md-2 col-sm-12">
+                        <div class="form-group" style="padding-top: 20px">
+                            <p:commandButton value="Limpiar" class="btn btn-danger btn-block"
+                                             actionListener="#{notasC.limpiar()}"
+                                             update="formCreateNota :formListaNota">
+                                <p:ajax listener="#{sesionC.clean()}" update="formCreateNota" process="@form"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p:blockUI block="formCreateNota" trigger="cbSesiones">
+            LOADING<br/>
+            <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+        </p:blockUI>
+        <p:messages autoUpdate="true" showDetail="true"/>
+    </h:form>
+
+</ui:composition>
+</html>
+

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:dialog modal="true"
+                  widgetVar="NewNotificationDlg"
+                  header="Nueva notificación"
+                  closeOnEscape="true"
+                  appendTo="@(body)"
+                  onHide="limpiarNotificacion()">
+            <h:form id="frmCrearNotificacion">
+                <p:remoteCommand name="limpiarNotificacion" actionListener="#{notificacionC.limpiarNotificacion()}" update="frmCrearNotificacion" immediate="true"/>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p:outputLabel value="Mensaje:" for="c_menNot"/>
+                        <p:inputTextarea value="#{notificacionC.notificacion.menNot}" id="c_menNot" class="input-block"
+                                         placeholder="Escriba el mensaje" maxlength="100"
+                                         counter="display" counterTemplate="{0}/100"
+                                         required="true" requiredMessage="Ingrese el mensaje"/>
+                        <div align="right"><h:outputText id="display"/></div>
+                    </div>
+                </div>
+                <br/>
+                <div align="right">
+                    <p:commandButton value="Enviar a todos" actionListener="#{notificacionC.agregarNotificacion()}" update="frmCrearNotificacion frmListarNotificacion"/>
+                </div>
+            </h:form>
+
+            <p:separator/>
+            <h:form id="frmListarNotificacion">
+                <p:scrollPanel mode="native" style="height:200px">
+                    <div class="list-group">
+                        <p:repeat value="#{notificacionC.lstNotificacion}" var="noti">
+                            <a class="list-group-item list-group-item-action flex-column align-items-start pointer">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small>#{noti.fecNot}</small>
+                                </div>
+                                <p class="mb-1">#{noti.menNot}</p>
+                            </a>
+                        </p:repeat>
+                    </div>
+                </p:scrollPanel>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

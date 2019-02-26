@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+    <ui:composition template="./../template/TemplateMain.xhtml">
+
+        <ui:param name="active_programa" value="active"/>
+        <ui:param name="active_trigger_mantenimiento" value="active pcoded-trigger"/>
+        <ui:define name="header">
+            <h5 class="m-b-10">Programa</h5>
+            <p class="m-b-0">Sistema Came 2018</p>
+        </ui:define>
+        <ui:define name="content">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ui:include src="updatePrograma.xhtml"/>
+                            <ui:include src="updateTipoProg.xhtml"/>
+                        </div>
+
+                        <div class="col-lg-12 ">
+                            <div class="sub-title">Programa</div>
+                            <ul class="nav nav-tabs md-tabs b-none" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab">Programas</a>
+                                    <div class="slide"></div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tab2" role="tab">Tipos</a>
+                                    <div class="slide"></div>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content tabs-left-content card-block ">
+                                <div class="tab-pane active" id="tab1" role="tabpanel">
+                                    <div class="row">
+
+                                        <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                            <div class="col-md-4">
+                                                <ui:include src="create.xhtml"/>
+                                            </div>
+                                        </ui:fragment>
+
+                                        <div class="#{sessionService.administrador || sessionService.operaciones ? 'col-md-8':'col-md-12'}">
+                                            <h:form id="formLista">
+                                                <p:dataTable id="dataprog" value="#{programaC.listProgramas}" var="prog"
+                                                             filteredValue="#{programaC.listProgFiltr}"
+                                                             widgetVar="CbFilterProg"
+                                                             selectionMode="single"
+                                                             rowStyleClass="#{prog.estDetProg == 'E' ? 'component-prog-espera':null}"
+                                                             selection="#{programaC.programa}"
+                                                             rowKey="#{prog.codProg}"
+                                                             paginator="true"
+                                                             rows="5">
+                                                    <p:column headerText="N°" width="8%">
+                                                        <p:outputLabel
+                                                                value="#{programaC.listProgramas.indexOf(prog)+1}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Nombre" width="65%" filterBy="#{prog.nomProg}"
+                                                              filterMatchMode="contains" filterStyle="width:100%">
+                                                        <p:outputLabel value="#{prog.nomProg}" id="iniProg"/>
+                                                        <p:tooltip for="iniProg" position="top">
+                                                            <p:outputLabel value="#{prog.iniProg}"/>
+                                                        </p:tooltip>
+                                                    </p:column>
+                                                    <p:column filterBy="#{prog.nomTipPg}" width="22%"
+                                                              filterMatchMode="in">
+                                                        <f:facet name="filter">
+                                                            <p:selectCheckboxMenu label="Tipo"
+                                                                                  onchange="PF('CbFilterProg').filter()"
+                                                                                  style="width: 80%">
+                                                                <f:selectItems value="#{programaC.listTipoPg}"
+                                                                               var="tipos" itemLabel="#{tipos.nomTipPg}"
+                                                                               itemValue="#{tipos.nomTipPg}"/>
+                                                            </p:selectCheckboxMenu>
+                                                        </f:facet>
+                                                        <p:outputLabel value="#{prog.nomTipPg}" id="Empre"/>
+                                                        <p:tooltip for="Empre">
+                                                            <p:outputLabel value="#{prog.nombEmp}"/>
+                                                        </p:tooltip>
+                                                    </p:column>
+                                                </p:dataTable>
+                                                <p:contextMenu for="dataprog"
+                                                               rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                                    <p:menuitem value="Editar" oncomplete="PF('UpProg').show();"
+                                                                update="formActualizarPrograma" icon="ui-icon-pencil"/>
+                                                    <p:menuitem value="Eliminar" style="color: red;"
+                                                                actionListener="#{programaC.eliminarPrograma()}"
+                                                                update="formLista" icon="ui-icon-trash"
+                                                                oncomplete="updateTablaProg();listarComboPrograma();">
+                                                        <p:confirm header="Confirmación"
+                                                                   message="¿Seguro que quieres ELIMINAR el programa?"
+                                                                   icon="ui-icon-alert"/>
+                                                    </p:menuitem>
+                                                </p:contextMenu>
+                                                <p:remoteCommand name="updateTablaProg" immediate="true"
+                                                                 ignoreAutoUpdate="true" update="dataprog"/>
+                                                <p:remoteCommand name="updateformProg" immediate="true"
+                                                                 ignoreAutoUpdate="true" update=":formCreate"/>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab2">
+                                    <div class="row">
+                                        <ui:fragment
+                                                rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                            <div class="col-md-4">
+                                                <h4>Nuevo tipo de programa</h4>
+                                                <h:form id="formCreateTipPg">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="col-form-label">Nombre del tipo</label>
+                                                                <p:inputText class="form-control"
+                                                                             value="#{programaC.programa.nomTipPg}"
+                                                                             required="true"
+                                                                             requiredMessage="Nombre obligatorio"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p:commandButton class="btn btn-primary btn-block" value="Registrar"
+                                                                     actionListener="#{programaC.agregarTipoPg()}"
+                                                                     update="formCreateTipPg :formListaTipPg :formCreate"
+                                                                     oncomplete="updateFormTipo();"/>
+
+                                                </h:form>
+                                            </div>
+                                        </ui:fragment>
+                                        <div class="#{sessionService.administrador || sessionService.operaciones ? 'col-md-8':'col-md-12'}">
+                                            <h:form id="formListaTipPg">
+                                                <p:dataTable id="dataTipoProg" value="#{programaC.listTipoPg}" var="tpg"
+                                                             selection="#{programaC.programa}"
+                                                             selectionMode="single"
+                                                             rowKey="#{tpg.codTipPg}"
+                                                             paginator="true"
+                                                             rows="10">
+                                                    <p:column headerText="N°" width="15%">
+                                                        <p:outputLabel value="#{programaC.listTipoPg.indexOf(tpg)+1}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Nombre del tipo" width="85%">
+                                                        <p:outputLabel value="#{tpg.nomTipPg}"/>
+                                                    </p:column>
+                                                </p:dataTable>
+                                                <p:contextMenu for="dataTipoProg" rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                                    <p:menuitem value="Editar" oncomplete="PF('UpTipProg').show();"
+                                                                update="formActualizarTipoProg" icon="ui-icon-pencil"/>
+                                                    <p:menuitem value="Eliminar"
+                                                                actionListener="#{programaC.eliminarTipoProg()}"
+                                                                update=":formCreate formListaTipPg" icon="ui-icon-trash"
+                                                                oncomplete="updatetipo();">
+                                                        <p:confirm header="Confirmación"
+                                                                   message="¿Seguro que quieres ELIMINAR el tipo de programa?"
+                                                                   icon="ui-icon-alert"/>
+                                                    </p:menuitem>
+                                                </p:contextMenu>
+                                                <p:remoteCommand name="updateFormTipo" ignoreAutoUpdate="true"
+                                                                 global="true" update="formListaTipPg "/>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ui:define>
+    </ui:composition>
+
+</h:body>
+</html>

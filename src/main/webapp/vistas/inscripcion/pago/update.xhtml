@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="update"
+                  widgetVar="updatePago"
+                  modal="true"                  
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Actualizar Pago"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="updatePagos">
+                <center>
+                    <p:panel style="width: 800px; height: 400px; border: none">
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-form-label">Precio:</label><br/>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <p:selectOneRadio layout="responsive" columns="2"  value="#{pagosC.select.ESTPAG}">
+                                        <f:selectItem itemLabel="Normal" itemValue="N" />
+                                        <f:selectItem itemLabel="% de Descuento" itemValue="D" />
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-form-label">El costo del programa lo asume:</label><br/>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <p:selectOneRadio layout="responsive" columns="2"  value="#{pagosC.select.ASUMPAG}">
+                                    <f:selectItem itemLabel="Empresa" itemValue="E" />
+                                    <f:selectItem itemLabel="Participante" itemValue="P" />
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-form-label">Condiciones:</label><br/>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{pagosC.select.CONDPAG}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-form-label">Observaciones:</label><br/>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{pagosC.select.OBSEPAG}"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label class="col-form-label">Nombre y Cargo de la persona encargada del pago del Programa:</label><br/>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{pagosC.select.ENCPAG}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="col-form-label">Email:</label><br/>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{pagosC.select.EMAILENC}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="col-form-label">Teléfono:</label><br/>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{pagosC.select.TELFENC}"/>
+                                </div>                            
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="col-md-12 col-sm-12" align="center">
+
+                                <p:commandButton value="Actualizar" class="btn btn-primary btn-block" actionListener="#{pagosC.updatePagos()}" update=":listarPagos updatePagos" oncomplete="handleSubmit(args,'updatePago');"/>
+
+                            </div>
+                        </div>
+
+                    </p:panel>
+                </center>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

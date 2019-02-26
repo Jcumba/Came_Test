@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../template/TemplateMain.xhtml">
+        <ui:param name="active_detprog" value="active"/>
+        <ui:param name="active_trigger_programa" value="active pcoded-trigger"/>
+
+        <ui:define name="header">
+            <h5 class="m-b-10">Programa</h5>
+            <p class="m-b-0">Sistema Came 2018</p>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="row">
+
+                <ui:fragment rendered="#{sessionService.administrador || sessionService.operaciones}">
+                    <div class="col-12 col-lg-4">
+                        <ui:include src="create.xhtml"/>
+                    </div>
+                </ui:fragment>
+
+                <div class="col-12 #{sessionService.administrador || sessionService.operaciones ? 'col-lg-8':'col-lg-12'}">
+                    <h:form id="formListProdet">
+                        <p:dataTable id="tblListProdet" value="#{progDetC.listaProgDet}" var="prodet"
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15">
+                            <p:column headerText="Nombre" width="30%">
+                                <p:outputLabel value="#{prodet.nomProg}"/>
+                            </p:column>
+                            <p:column headerText="Director" width="20%">
+                                <p:outputLabel value="#{prodet.nomPer}"/>
+                            </p:column>
+                            <p:column headerText="Fech. Inicio" width="20%">
+                                <p:outputLabel value="#{prodet.fechIni}"/>
+                            </p:column>
+                            <p:column headerText="Fech. Final" width="20%">
+                                <p:outputLabel value="#{prodet.fechFin}"/>
+                            </p:column>
+                            <p:column headerText="Gen." width="10%">
+                                <p:outputLabel value="#{prodet.genDetProg}"/>
+                            </p:column>
+                            <p:column width="10%" headerText="Opc." rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                <p:menuButton>
+                                    <p:menuitem id="btnEditProg" value="Editar" icon="ui-icon-pencil"
+                                                oncomplete="PF('UpProgDet').show();" update="formActualizarProgDet">
+                                        <f:setPropertyActionListener value="#{prodet}" target="#{progDetC.progdet}"/>
+                                    </p:menuitem>
+                                    <p:menuitem value="Iniciar"
+                                                actionListener="#{progDetC.iniciarProgDet(prodet.codDetProg)}"
+                                                update="formListProdet" icon="ui-icon-check"
+                                                rendered="#{prodet.estDetProg == 'E' ? true:false}">
+                                        <p:confirm header="Confirmación"
+                                                   message="Para volver cerrar el programa se debe finalizar con notas finales"
+                                                   icon="ui-icon-alert"/>
+                                    </p:menuitem>
+                                    <p:menuitem id="btnNewNotification" value="Notificación" icon="ui-icon-comment"
+                                                actionListener="#{notificacionC.traerCodDetProg(prodet.codDetProg)}"
+                                                oncomplete="listarNotificacion();PF('NewNotificationDlg').show();" update="frmCrearNotificacion"/>
+                                    <p:separator/>
+                                    <p:menuitem value="Eliminar"
+                                                actionListener="#{progDetC.eliminarPrgDet(prodet.codDetProg)}"
+                                                update="formListProdet" icon="ui-icon-trash" style="color: red;">
+                                        <p:confirm header="Confirmación"
+                                                   message="¿Seguro que quieres ELIMINAR el detalle del programa?"
+                                                   icon="ui-icon-alert"/>
+                                    </p:menuitem>
+                                </p:menuButton>
+                            </p:column>
+                        </p:dataTable>
+                        <p:contextMenu for="tblListProdet">
+                        </p:contextMenu>
+                        <p:remoteCommand name="updateFormProgDet" actionListener="#{progDetC.listarCbGeneracion()}"
+                                         ignoreAutoUpdate="true" global="true" update="formListProdet"/>
+                        <p:remoteCommand name="listarNotificacion" actionListener="#{notificacionC.listarNotificacion()}" update="frmListarNotificacion"/>
+                    </h:form>
+                </div>
+
+                <ui:include src="updateProgDet.xhtml"/>
+                <ui:include src="../notificacion/create.xhtml"/>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

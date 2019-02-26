@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+<ui:composition template="./../template/TemplateMain.xhtml">
+    <ui:param name="active_modulo" value="active"/>
+    <ui:param name="active_trigger_programa" value="active pcoded-trigger"/>
+
+    <ui:define name="header">
+        <h5 class="m-b-10">Peso</h5>
+        <p class="m-b-0">Sistema Came 2018</p>
+    </ui:define>
+    <ui:define name="content">
+        <div class="card">
+            <div class="card-header">
+                <h5>Configuración de Módulos</h5>
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h:form id="frmPeso">
+                            <p:outputLabel value="PROGRAMA Y GENERACIÓN"/>
+                            <p:selectOneMenu id="oneMenuConfig" value="#{pesoC.CODDETPROG}" style="width: 100%"
+                                             required="true" requiredMessage="Seleccione Programa">
+                                <f:selectItem itemLabel="Seleccione un programa" noSelectionOption="true"/>
+                                <f:selectItems value="#{sesionC.listaCbGen}" var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                               itemValue="#{cbProg.codDetProg}"/>
+                                <p:ajax event="change" listener="#{pesoC.listarFase()}" update="data"/>
+                            </p:selectOneMenu>
+                            <br/> <br/>
+
+                            <ul class="nav nav-tabs md-tabs b-none" role="tablist">
+                                <div class="cuadradoLeyendaVerde"/>
+                                <div class="texto-espacio">Módulo cerrado, evaluación abierta</div>
+                                <p:separator title="Leyenda"/>
+                                <div class="cuadradoLeyendaRojo"/>
+                                <div class="texto-espacio">Módulo cerrado, evaluación cerrada</div>
+                            </ul>
+
+                            <p:dataTable
+                                    rowStyleClass="#{peso.fase.ESTFASE == 'I' ? 'component-encuesta':peso.fase.ESTFASE == 'E' ? 'component-disable':null}"
+                                    id="data" emptyMessage="No se encontró registros"
+                                    value="#{pesoC.lstPesoM}"
+                                    var="peso"
+                                    editable="#{sessionService.administrador || sessionService.operaciones ? 'true':'false'}"
+                                    editMode="cell"
+                                    rowKey="#{peso.CODCONFPES}">
+
+                                <p:ajax event="cellEdit" listener="#{pesoC.modificar(peso)}"/>
+                                
+                                <f:facet name="header">
+                                    Módulo
+                                </f:facet>
+                                <p:column headerText="MÓDULO">
+                                    <p:outputLabel value="#{peso.fase.NOMFASE}"/>
+                                </p:column>
+                                <p:column headerText="Peso de Participación">
+                                    <p:cellEditor disabled="#{peso.fase.ESTFASE != 'A' ? true:false}">
+                                        <f:facet name="output"><p:outputLabel value="#{peso.PESOPART}"/></f:facet>
+                                        <f:facet name="input"><p:inputNumber value="#{peso.PESOPART}" minValue="0"
+                                                                             maxValue="10"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Peso de Caso">
+                                    <p:cellEditor disabled="#{peso.fase.ESTFASE != 'A' ? true:false}">
+                                        <f:facet name="output"><p:outputLabel value="#{peso.PESOCASO}"/></f:facet>
+                                        <f:facet name="input"><p:inputNumber value="#{peso.PESOCASO}" minValue="0"
+                                                                             maxValue="10"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Peso Trabajo">
+                                    <p:cellEditor disabled="#{peso.fase.ESTFASE != 'A' ? true:false}">
+                                        <f:facet name="output"><p:outputLabel value="#{peso.PESOTRA}"/></f:facet>
+                                        <f:facet name="input"><p:inputNumber value="#{peso.PESOTRA}" minValue="0"
+                                                                             maxValue="10"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Peso Parcial">
+                                    <p:cellEditor disabled="#{peso.fase.ESTFASE != 'A' ? true:false}">
+                                        <f:facet name="output"><p:outputLabel value="#{peso.PESOPARC}"/></f:facet>
+                                        <f:facet name="input"><p:inputNumber value="#{peso.PESOPARC}" minValue="0"
+                                                                             maxValue="10"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Peso Final">
+                                    <p:cellEditor disabled="#{peso.fase.ESTFASE != 'A' ? true:false}">
+                                        <f:facet name="output"><p:outputLabel value="#{peso.PESOFINAL}"/></f:facet>
+                                        <f:facet name="input"><p:inputNumber value="#{peso.PESOFINAL}" minValue="0"
+                                                                             maxValue="10"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Cerrar"
+                                          rendered="#{sessionService.administrador || sessionService.operaciones}">
+                                    <p:menuButton icon="ui-icon-plusthick"
+                                                  disabled="#{ses.fase.ESTFASE == 'I' ? true:false}">
+                                        <p:menuitem id="btndelete" value="Eliminar"
+                                                    actionListener="#{faseC.eliminarModulo(peso.fase.CODFASE,peso.CODCONFPES)}"
+                                                    oncomplete="listarPeso();cleanrSesion();" icon="ui-icon-trash"
+                                                    update="data" style="color: red;"
+                                                    rendered="#{peso.fase.ESTFASE == 'A' ? true:false}"/>
+                                        <p:separator/>
+                                        <p:menuitem icon="ui-icon-cancel" value="Cerrar Módulo"
+                                                    actionListener="#{faseC.cerrarModulo(peso.fase.CODFASE)}"
+                                                    oncomplete="listarPeso();cleanrSesion();"
+                                                    rendered="#{peso.fase.ESTFASE == 'A' ? true:false}"/>
+                                        <p:menuitem icon="ui-icon-check" value="Activar Módulo"
+                                                    actionListener="#{faseC.activarModulo(peso.fase.CODFASE)}"
+                                                    oncomplete="listarPeso();cleanrSesion();"
+                                                    rendered="#{peso.fase.ESTFASE != 'A' ? true:false}"/>
+                                        <p:menuitem icon="ui-icon-cancel" value="Cerrar evaluación"
+                                                    actionListener="#{faseC.cerrarEcuesta(peso.fase.CODFASE)}"
+                                                    oncomplete="listarPeso();cleanrSesion();"
+                                                    rendered="#{peso.fase.ESTFASE == 'I' ? true:false}"/>
+                                    </p:menuButton>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton value="Agregar" class="teal" oncomplete="PF('Newmodulo').show();"
+                                                     actionListener="#{faseC.clear()}" update=":agregarmoduloid"
+                                                     rendered="#{sessionService.administrador || sessionService.operaciones}"/>
+                                </f:facet>
+                            </p:dataTable>
+
+                            <p:remoteCommand id="refresh" name="listarPeso" actionListener="#{pesoC.listarFase()}"
+                                             update="data"/>
+                            <p:remoteCommand id="refreshlstSes" name="cleanrSesion" actionListener="#{sesionC.clean()}"
+                                             update="data"/>
+                            <p:blockUI block="frmPeso" trigger="refresh">
+                                LOADING<br/>
+                                <img width="50" height="50"
+                                     src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                            </p:blockUI>
+                            <p:blockUI block="frmPeso" trigger="oneMenuConfig">
+                                LOADING<br/>
+                                <img width="50" height="50"
+                                     src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                            </p:blockUI>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <ui:include src="../fase/create.xhtml"/>
+    </ui:define>
+</ui:composition>
+
+</body>
+</html>

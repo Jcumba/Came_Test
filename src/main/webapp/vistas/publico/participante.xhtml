@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <title>Came | Ficha de Inscripción</title>
+        <link rel="icon" href="#{sessionService.linkProyecto}/resources/img/CAME-1.png" type="image/x-icon"/>
+        <h:outputStylesheet name="css/components.css"/>
+        <h:outputStylesheet name="css/theme-dark-green.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <link href="#{sessionService.linkProyecto}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+        <h:outputStylesheet name="css/jquery.mCustomScrollbar.css"/>
+        <link href="#{sessionService.linkProyecto}/resources/css/Styles_2.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" onstart="location.reload();"/>
+        </p:idleMonitor>
+
+        <h:form enctype="multipart/form-data" id="formpostulante">
+            <p:growl id="msg" showDetail="true"><p:autoUpdate/></p:growl>
+            <div class="pcoded-main-container">
+                <div class="pcoded-inner-content">
+                    <div class="card">
+                        <div class="card-block">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="http://came.edu.pe/wp-content/uploads/2017/02/Logo-CAME-web-.png"
+                                                 class="m-b-10" alt=""/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <center><h4>FICHA DE INSCRIPCIÓN</h4></center>
+                                    <br/>
+
+                                    <ul class="nav nav-tabs tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#tab1"
+                                               role="tab">INFORMACIÓN PERSONAL</a>
+
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tab2"
+                                               role="tab">INFORMACIÓN LABORAL</a>
+
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tab3"
+                                               role="tab">INFORMACIÓN ACADÉMICA</a>
+
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tab4"
+                                               role="tab">EN CASO DE EMERGENCIA</a>
+
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content tabs-center-content card-block ">
+
+                                        <p:dialog widgetVar="DialogAdvertencia"
+                                                  closable="false"
+                                                  resizable="false"
+                                                  closeOnEscape="false"
+                                                  modal="true"
+                                                  header="Advertencia">
+                                            <div class="row">
+                                                <div class="col-md-12 center">
+                                                    Este programa esta en marcha, ¿desea continuar?
+                                                </div>
+                                                <div class="col-md-6 center py-2">
+                                                    <p:commandButton value="Aceptar" immediate="true" ignoreAutoUpdate="true"
+                                                                     update="formpostulante"/>
+                                                </div>
+                                                <div class="col-md-6 center py-2">
+                                                    <p:commandButton value="Cancelar" immediate="true" ignoreAutoUpdate="true"
+                                                                     actionListener="#{participanteC.ins.setCODPROG('')}"
+                                                                     oncomplete="location.reload();"/>
+                                                </div>
+                                            </div>
+                                        </p:dialog>
+
+                                        <div class="tab-pane active" id="tab1" role="tabpanel">
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <center>
+                                                            <p:outputLabel value="Programa:" for="@next"
+                                                                           style="font-weight: bold"/>
+                                                            <p:selectOneMenu value="#{participanteC.ins.CODPROG}"
+                                                                             required="true">
+                                                                <f:selectItem itemLabel="Seleccione un programa"
+                                                                              noSelectionOption="true"/>
+                                                                <f:selectItems value="#{participanteC.listaCbGenPostulante}"
+                                                                               var="cbProg" itemLabel="#{cbProg.nomProg}"
+                                                                               itemValue="#{cbProg.codDetProg}"/>
+                                                                <p:ajax event="change"
+                                                                        listener="#{participanteC.validarPrograma()}"
+                                                                        update="formpostulante"/>
+                                                            </p:selectOneMenu>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h:panelGroup rendered="#{participanteC.ins.CODPROG.length() > 0 ? true:false}">
+                                                <p:panelGrid id="datos" columns="6" style="border: 1px solid white">
+
+                                                    <p:outputLabel for="@next" value="Foto:"/>
+                                                    <p:fileUpload value="#{participanteC.foto}" mode="simple" skinSimple="true"
+                                                                  label="Foto"/>
+
+                                                    <p:outputLabel for="@next" value="DNI:"/>
+                                                    <p:inputText value="#{participanteC.par.dniPer}" maxlength="8"
+                                                                 required="true" requiredMessage="Se necesista un DNI">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Nombres:"/>
+                                                    <p:inputText value="#{participanteC.par.nomPer}" style="width: 100%"
+                                                                 required="true" maxlength="100"
+                                                                 requiredMessage="Se necesita un nombre">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                        <p:keyFilter regEx="/[a-z\ ]/i"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Apellidos:"/>
+                                                    <p:inputText value="#{participanteC.par.apePer}" style="width: 100%"
+                                                                 required="true" maxlength="100"
+                                                                 requiredMessage="Se necesita un apellido">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                        <p:keyFilter regEx="/[a-z\ ]/i"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Fecha Nacimiento:"/>
+                                                    <p:inputMask value="#{participanteC.par.fecNac}" mask="99/99/9999"
+                                                                 required="true"
+                                                                 requiredMessage="Ingrese su Fecha de Nacimiento">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputMask>
+
+                                                    <p:outputLabel for="@next" value="Lugar Nacimiento:"/>
+                                                    <p:inputText value="#{participanteC.par.lugNac}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Estado Civil:"/>
+                                                    <p:selectOneMenu value="#{participanteC.par.estCivil}" style="width: 100%"
+                                                                     required="true" 
+                                                                     requiredMessage="Seleccione su estado civil">
+                                                        <f:selectItem itemLabel="Selecciona:" noSelectionOption="true" itemDisabled="true"/>
+                                                        <f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)"/>
+                                                        <f:selectItem itemLabel="Soltero(a)" itemValue="Soltero(a)"/>
+                                                        <f:selectItem itemLabel="Viudo(a)" itemValue="Viudo(a)"/>
+                                                        <f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)"/>
+                                                        <p:ajax event="change" update="datosconyuge"/>
+                                                        <f:ajax event="change" execute="@this"/>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel for="@next" value="Sexo:"/>
+                                                    <p:selectOneMenu value="#{participanteC.par.sexPer}" style="width: 100%"
+                                                                     required="true" requiredMessage="Se requiere el sexo">
+                                                        <f:selectItem itemLabel="Selecciona:" noSelectionOption="true" itemDisabled="true"/>
+                                                        <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                                        <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                                        <f:ajax event="change" execute="@this"/>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel for="@next" value="Email:"/>
+                                                    <p:inputText value="#{participanteC.par.emailPer}" maxlength="100"
+                                                                 required="true" requiredMessage="Se necesita el Email">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Celular:"/>
+                                                    <p:inputText value="#{participanteC.celular}" maxlength="9"
+                                                                 style="width: 100%" required="true"
+                                                                 requiredMessage="Se necesita el Celular">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Teléfono:"/>
+                                                    <p:inputText value="#{participanteC.telefono}" maxlength="20">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Domicilio:"/>
+                                                    <p:inputText value="#{participanteC.par.dirPer}" maxlength="200"
+                                                                 required="true" requiredMessage="Se requiere el domicilio">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Distrito:"/>
+                                                    <p:autoComplete dropdown="true" maxResults="10"
+                                                                    forceSelection="true"
+                                                                    value="#{participanteC.par.codUbi}"
+                                                                    completeMethod="#{personaC.autocompleteUbigeo}"
+                                                                    emptyMessage="No existe"
+                                                                    style="width: 100%" required="true"
+                                                                    requiredMessage="Se requiere el Distrito">
+                                                        <f:ajax event="itemSelect" execute="@this"/>
+                                                    </p:autoComplete>
+                                                    <p:outputLabel for="@next" value="Número de Hijos"/>
+                                                    <p:inputText value="#{participanteC.numhijos}" required="true" maxlength="2"
+                                                                 style="width: 100%">
+                                                        <p:ajax event="keyup" listener="#{participanteC.listahijos()}"
+                                                                update="pnlhijos"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </p:panelGrid>
+                                                <br/>
+                                                <p:panelGrid columns="4" id="datosconyuge">
+                                                    <p:outputLabel for="@next" value="Nombre del cónyuge:"
+                                                                   rendered="#{participanteC.par.estCivil == 'Casado(a)'? true:false}"/>
+                                                    <p:inputText value="#{participanteC.pardet.CONYUGE}" maxlength="100"
+                                                                 rendered="#{participanteC.par.estCivil == 'Casado(a)'? true:false}">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Profesión del cónyuge:"
+                                                                   rendered="#{participanteC.par.estCivil == 'Casado(a)'? true:false}"/>
+                                                    <p:inputText value="#{participanteC.pardet.PROFCONY}" maxlength="100"
+                                                                 rendered="#{participanteC.par.estCivil == 'Casado(a)'? true:false}">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                </p:panelGrid>
+                                                <br/>
+                                                <h:panelGroup id="pnlhijos">
+                                                    <ui:repeat value="#{participanteC.pardet.hijos}" var="hijo"
+                                                               rendered="#{participanteC.pardet.hijos.size() > 0 ? true:false}">
+
+                                                        <center><p:panelGrid columns="4">
+                                                                <p:outputLabel for="@next" value="Fecha de nacimiento de Hijo"/>
+                                                                <p:inputMask value="#{hijo.FECNACHIJ}" mask="99/99/9999">
+                                                                    <f:ajax event="blur" execute="@this"/>
+                                                                </p:inputMask>
+
+                                                                <p:outputLabel for="@next" value="Sexo"/>
+                                                                <p:selectOneMenu value="#{hijo.SEXHIJ}" style="width: 100%">
+                                                                    <f:selectItem itemLabel="Selecciona:" noSelectionOption="true" itemDisabled="true"/>
+                                                                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                                                    <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                                                    <f:ajax event="change" execute="@this"/>
+                                                                </p:selectOneMenu>
+                                                            </p:panelGrid>
+                                                        </center>
+                                                    </ui:repeat>
+                                                </h:panelGroup>
+                                                <p:panelGrid columns="6" id="carro">
+                                                    <p:outputLabel for="@next" value="Tiene auto(Participante):"/>
+                                                    <p:selectOneMenu value="#{participanteC.pardet.AUTOPER}"
+                                                                     style="width: 100%">
+                                                        <f:selectItem itemLabel="Selecciona:" noSelectionOption="true" itemDisabled="true"/>
+                                                        <f:selectItem itemLabel="Sí" itemValue="S"/>
+                                                        <f:selectItem itemLabel="No" itemValue="N"/>
+                                                        <f:ajax event="change" execute="@this"/>
+                                                        <p:ajax event="change" update="carro"/>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel for="@next" value="Marca:"
+                                                                   rendered="#{participanteC.pardet.AUTOPER == 'S' ? true:false}"/>
+                                                    <p:inputText value="#{participanteC.pardet.MARCAUT}" maxlength="30"
+                                                                 rendered="#{participanteC.pardet.AUTOPER == 'S' ? true:false}"
+                                                                 required="#{participanteC.pardet.AUTOPER == 'S' ? true:false}">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                    <p:outputLabel for="@next" value="Placa:"
+                                                                   rendered="#{participanteC.pardet.AUTOPER == 'S' ? true:false}"/>
+                                                    <p:inputText value="#{participanteC.pardet.PLACAUT}" maxlength="30"
+                                                                 rendered="#{participanteC.pardet.AUTOPER == 'S' ? true:false}"
+                                                                 required="#{participanteC.pardet.AUTOPER == 'S' ? true:false}">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </p:panelGrid>
+                                            </h:panelGroup>
+                                        </div>
+                                        <div class="tab-pane " id="tab2">
+                                            <br/>
+                                            <h:panelGroup rendered="#{participanteC.ins.CODPROG == null ? false:true}">
+                                                <p:panelGrid columns="6">
+                                                    <p:outputLabel for="@next" value="Nombre de la empresa:"/>
+                                                    <p:inputText value="#{participanteC.emp.NOMBEMP}" required="true"
+                                                                 maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="N° RUC:"/>
+                                                    <p:inputText value="#{participanteC.emp.RUCEMP}" required="true"
+                                                                 maxlength="11">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Dirección Laboral:"/>
+                                                    <p:inputText value="#{participanteC.emp.DIREMP}" maxlength="180">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Distrito:"/>
+                                                    <p:autoComplete dropdown="true" maxResults="10"
+                                                                    forceSelection="true"
+                                                                    value="#{participanteC.emp.CODUBI}"
+                                                                    completeMethod="#{personaC.autocompleteUbigeo}"
+                                                                    emptyMessage="No existe"
+                                                                    style="width: 100%" required="true"
+                                                                    requiredMessage="Se requiere el Distrito">
+                                                        <f:ajax event="itemSelect" execute="@this"/>
+                                                    </p:autoComplete>
+
+                                                    <p:outputLabel for="@next" value="Teléfono/Anexo:"/>
+                                                    <p:inputText value="#{participanteC.pardet.TELFTRAB}" maxlength="30">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Email trabajo:"/>
+                                                    <p:inputText value="#{participanteC.pardet.EMAILTRAB}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Actividad económica de la empresa:"/>
+                                                    <p:inputText value="#{participanteC.emp.ACTEMP}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Área en la empresa:"/>
+                                                    <p:inputText value="#{participanteC.pardet.AREATRAB}" maxlength="50">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Puesto del participante:"/>
+                                                    <p:inputText value="#{participanteC.par.cargPer}" required="true"
+                                                                 requiredMessage="Especifique su puesto" maxlength="120">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Años en el puesto:"/>
+                                                    <p:inputText value="#{participanteC.pardet.YEARPUESTO}" maxlength="2"
+                                                                 required="true"
+                                                                 requiredMessage="Especifique los años en su puesto">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Número de personas a cargo:"/>
+                                                    <p:inputText value="#{participanteC.pardet.NUMPERCARGO}" required="true"
+                                                                 requiredMessage="Especifique el número de personas que tiene a cargo"
+                                                                 maxlength="3">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Nombre del jefe:"/>
+                                                    <p:inputText value="#{participanteC.pardet.JEFEMP}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Cargo del jefe:"/>
+                                                    <p:inputText value="#{participanteC.pardet.JEFCARGO}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Teléfono del jefe:"/>
+                                                    <p:inputText value="#{participanteC.pardet.JEFTELF}" maxlength="30">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Email del jefe:"/>
+                                                    <p:inputText value="#{participanteC.pardet.JEFEMAIL}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </p:panelGrid>
+                                                <br/>
+                                                <p:panelGrid columns="2">
+                                                    <p:outputLabel for="@next" value="Funciones principales(Participante)"/>
+                                                    <p:inputTextarea rows="3" cols="100" value="#{participanteC.pardet.ACTPER}"
+                                                                     maxlength="450" style="width: 100%">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputTextarea>
+                                                </p:panelGrid>
+                                                <br/>
+                                                <h:panelGroup rendered="#{participanteC.listatipoProg.tipoProg == '2'?
+                                                                          false:participanteC.listatipoProg.tipoProg == '1'?
+                                                                          false:participanteC.listatipoProg.tipoProg == '3'?
+                                                                          false:participanteC.listatipoProg.tipoProg == '5'?
+                                                                          false:participanteC.listatipoProg.tipoProg == '9'?
+                                                                          false:participanteC.listatipoProg.tipoProg == '10'?
+                                                                          false:true}">
+                                                    <center>
+                                                        <div class="title"
+                                                             style="font-weight: bold">Dibuje el organigrama de su Área / Departamento / Gerencia y ubique su puesto jerárquico.Sea específico:Indique N° de GerenciasN° de Jefaturas, N° de Supervisores
+                                                        </div>
+                                                    </center>
+                                                    <br/>
+                                                    <center>
+                                                        <p:panelGrid columns="4">
+                                                            <p:outputLabel for="@next" value="Organigrama:"/>
+                                                            <p:fileUpload value="#{participanteC.organigrama}" mode="simple"
+                                                                          skinSimple="true" label="Organigrama"/>
+                                                            <p:outputLabel for="@next" value="Número de Gerencias:"/>
+                                                            <p:inputText value="#{participanteC.pardet.GERENCIA}" maxlength="2">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+                                                            <p:outputLabel for="@next" value="Número de Jefaturas:"/>
+                                                            <p:inputText value="#{participanteC.pardet.JEFATURA}" maxlength="2">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+                                                            <p:outputLabel for="@next" value="Número de Supervisores:"/>
+                                                            <p:inputText value="#{participanteC.pardet.SUPERVISOR}"
+                                                                         maxlength="2">
+                                                                <p:keyFilter regEx="/[0-9]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+                                                        </p:panelGrid>
+                                                    </center>
+                                                </h:panelGroup>
+                                            </h:panelGroup>
+                                        </div>
+
+                                        <div class="tab-pane" id="tab3">
+                                            <br/>
+                                            <h:panelGroup rendered="#{participanteC.ins.CODPROG == null ? false:true}">
+                                                <p:panelGrid columns="6">
+                                                    <p:outputLabel for="@next" value="Grado Académico"/>
+                                                    <p:inputText value="#{participanteC.pardet.GRAPER}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Nombre de la Universidad/Instituto"/>
+                                                    <p:inputText value="#{participanteC.pardet.UNIPER}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Especialidad"/>
+                                                    <p:inputText value="#{participanteC.pardet.ESPPER}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="1. Programa"/>
+                                                    <p:inputText value="#{participanteC.pardet.PROACA1}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Duración"/>
+                                                    <p:inputText value="#{participanteC.pardet.DURACA1}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Institución"/>
+                                                    <p:inputText value="#{participanteC.pardet.INSACA1}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="2. Programa"/>
+                                                    <p:inputText value="#{participanteC.pardet.PROACA2}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Duración"/>
+                                                    <p:inputText value="#{participanteC.pardet.DURACA2}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Institución"/>
+                                                    <p:inputText value="#{participanteC.pardet.INSACA2}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="3. Programa"/>
+                                                    <p:inputText value="#{participanteC.pardet.PROACA3}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Duración"/>
+                                                    <p:inputText value="#{participanteC.pardet.DURACA3}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel for="@next" value="Institución"/>
+                                                    <p:inputText value="#{participanteC.pardet.INSACA3}" maxlength="100">
+                                                        <f:ajax event="blur" execute="@this"/>
+                                                    </p:inputText>
+                                                </p:panelGrid>
+                                                <br/>
+                                                <h:panelGroup rendered="#{participanteC.listatipoProg.tipoProg == '2'?
+                                                                          false:participanteC.listatipoProg.tipoProg == '3'? 
+                                                                          false:participanteC.listatipoProg.tipoProg == '1'? 
+                                                                          false:participanteC.listatipoProg.tipoProg == '5'? 
+                                                                          false:participanteC.listatipoProg.tipoProg == '9'? 
+                                                                          false:participanteC.listatipoProg.tipoProg == '10'? 
+                                                                          false:true}">
+                                                    <center>
+                                                        <div class="title"
+                                                             style="font-weight: bold">GRADO DE CONOCIMIENTO E INTERÉS POR ÁREAS: (1-5), 1 = Menor, 5 = Mayor y 0 = NULO
+                                                        </div>
+                                                    </center>
+                                                    <br/>
+                                                    <center>
+                                                        <p:panelGrid columns="5">
+                                                            <p:outputLabel for="@next" value="Comercial/Marketing"
+                                                                           style="font-weight: bold"/>
+                                                            <p:outputLabel for="@next" value="Conocimiento"/>
+                                                            <p:inputText value="#{participanteC.pardet.CO1}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Interés"/>
+                                                            <p:inputText value="#{participanteC.pardet.INT1}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Operaciones/Logística"
+                                                                           style="font-weight: bold"/>
+                                                            <p:outputLabel for="@next" value="Conocimiento"/>
+                                                            <p:inputText value="#{participanteC.pardet.CO2}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Interés"/>
+                                                            <p:inputText value="#{participanteC.pardet.INT2}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Recursos Humanos"
+                                                                           style="font-weight: bold"/>
+                                                            <p:outputLabel for="@next" value="Conocimiento"/>
+                                                            <p:inputText value="#{participanteC.pardet.CO3}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Interés"/>
+                                                            <p:inputText value="#{participanteC.pardet.INT3}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Contabilidad/Finanzas"
+                                                                           style="font-weight: bold"/>
+                                                            <p:outputLabel for="@next" value="Conocimiento"/>
+                                                            <p:inputText value="#{participanteC.pardet.CO4}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Interés"/>
+                                                            <p:inputText value="#{participanteC.pardet.INT4}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Dirección/Liderazgo"
+                                                                           style="font-weight: bold"/>
+                                                            <p:outputLabel for="@next" value="Conocimiento"/>
+                                                            <p:inputText value="#{participanteC.pardet.CO5}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+
+                                                            <p:outputLabel for="@next" value="Interés"/>
+                                                            <p:inputText value="#{participanteC.pardet.INT5}" maxlength="1">
+                                                                <p:keyFilter regEx="/[0-5]/i"/>
+                                                                <f:ajax event="blur" execute="@this"/>
+                                                            </p:inputText>
+                                                        </p:panelGrid>
+
+                                                    </center>
+                                                </h:panelGroup>
+                                            </h:panelGroup>
+                                        </div>
+                                        <div class="tab-pane" id="tab4">
+                                            <br/>
+                                            <h:panelGroup rendered="#{participanteC.ins.CODPROG == null ? false:true}">
+                                                <center>
+
+                                                    <p:panelGrid columns="4">
+                                                        <p:outputLabel for="@next" value="Seguro Particular:"/>
+                                                        <p:inputText value="#{participanteC.pardet.SEGURO}" maxlength="100">
+                                                            <f:ajax event="blur" execute="@this"/>
+                                                        </p:inputText>
+
+                                                        <p:outputLabel for="@next" value="Teléfono del Seguro:"/>
+                                                        <p:inputText value="#{participanteC.pardet.TELFSEGURO}" maxlength="30">
+                                                            <p:keyFilter regEx="/[0-9]/i"/>
+                                                            <f:ajax event="blur" execute="@this"/>
+                                                        </p:inputText>
+
+                                                        <p:outputLabel for="@next"
+                                                                       value="Nombre de la persona para llamar en caso de emergencia:"/>
+                                                        <p:inputText value="#{participanteC.pardet.EMERNOMB}" maxlength="100">
+                                                            <f:ajax event="blur" execute="@this"/>
+                                                        </p:inputText>
+
+                                                        <p:outputLabel for="@next" value="Teléfono de la persona:"/>
+                                                        <p:inputText value="#{participanteC.pardet.EMERTELF}" maxlength="30">
+                                                            <p:keyFilter regEx="/[0-9]/i"/>
+                                                            <f:ajax event="blur" execute="@this"/>
+                                                        </p:inputText>
+                                                    </p:panelGrid>
+
+                                                </center>
+                                                <br/>
+                                                <center>
+                                                    <p:selectBooleanCheckbox value="#{participanteC.pardet.ENVIODATOS}"/>
+                                                    <p:outputLabel for="@next"
+                                                                   value="Autorizo a CAME a enviarme información sobre sus Seminarios Internacionales, Nuevos Diplomados y Programas de Pefeccionamiento Directivo"
+                                                                   style="font-weight: bold"/>
+                                                </center>
+
+                                                <br/>
+                                                <center>
+                                                    <p:commandButton value="Enviar" ajax="false" oncomplete="refresh();"
+                                                                     actionListener="#{participanteC.addInscripcion()}"
+                                                                     update="formpostulante"/>
+                                                    <p:remoteCommand name="refresh" oncomplete="location.reload();"/>
+                                                    <p:commandButton value="Descargar reporte"
+                                                                     actionListener="#{participanteC.descargarPDFInscripcion()}"
+                                                                     ajax="false" rendered="#{participanteC.verificar}"
+                                                                     immediate="true" update="formpostulante"/>
+                                                </center>
+                                                <br/>
+                                            </h:panelGroup>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:outputScript name="js/jquery-ui.min.js"/>
+        <h:outputScript name="js/bootstrap.min.js"/>
+        <h:outputScript name="js/jquery.slimscroll.js"/>
+        <h:outputScript name="js/vertical-layout.min.js"/>
+        <h:outputScript name="js/jquery.mCustomScrollbar.concat.min.js"/>
+        <h:outputScript name="js/pcoded.min.js"/>
+        <h:outputScript name="js/script.js"/>
+    </body>
+</html>
+
+

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:dialog id="actSesion"
+                  widgetVar="actualizarSesion"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Actualizar Sesion"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="formactualizarSesion">
+                <div class="row">
+                    <div class="col-12">
+                        <label>Descripción:</label><br/>
+                        <label>#{sesionC.selected.DECSES}</label>
+                        <div class="form-group form-default">
+                            <label class="col-form-label">Profesor</label>
+                            <p:selectOneMenu value="#{sesionC.selected.CODPROF}" id="txtProf" style="width: 100%"
+                                             required="true" requiredMessage="Seleccionar Profesor">
+                                <f:selectItem itemLabel="Seleccione"/>
+                                <f:selectItems value="#{sesionC.lstProfes}"
+                                               var="prof"
+                                               itemLabel="#{prof.PROFESORES}"
+                                               itemValue="#{prof.CODPROF}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="form-group form-default">
+                            <label class="col-form-label">N° Sesión</label>
+                            <p:inputText value="#{sesionC.selected.NOMSES}" required="true" requiredMessage="Se requiere Número"/>
+                        </div>
+                        <div class="form-group form-default">
+                            <label class="col-form-label">Fecha</label>
+                            <p:inputMask mask="99/99/9999" value="#{sesionC.selected.FECHASES}" required="true" requiredMessage="Se requiere Fecha"/>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <center>
+                    <p:commandButton id="add" value="Actualizar" actionListener="#{sesionC.actualizarSesion()}" update=":frmConfig" oncomplete="handleSubmit(args,'actualizarSesion');"/>
+                </center>
+                <p:blockUI block="formactualizarSesion" trigger="add" >
+                    LOADING<br />
+                    <img width="50" height="50" src="#{sessionService.linkProyecto}/resources/img/loading_n.gif"/>
+                </p:blockUI>
+          
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

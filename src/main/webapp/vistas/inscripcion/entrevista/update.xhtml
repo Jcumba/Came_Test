@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="Update"
+                  widgetVar="updateEntrevista"
+                  modal="true"                  
+                  resizable="false"
+                  appendTo="@(body)"
+                  header="Actualizar Entrevista"
+                  responsive="true"
+                  closeOnEscape="true">
+            <h:form id="updateEntrevistas">
+                <center>
+                    <p:panel style="width: 800px; height: 400px; border: none">
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="col-form-label">¿Cómo se enteró del programa?</label><br/>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{entrevistaC.select.PRE1}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="col-form-label">¿Por qué desea seguir el programa?</label><br/>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{entrevistaC.select.PRE2}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="col-form-label">Comentarios</label><br/>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <p:inputText style="width: 100%" value="#{entrevistaC.select.COMENT}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12" align="cselectter">
+
+                                <p:commandButton value="Actualizar" class="btn btn-primary btn-block" 
+                                                 actionListener="#{entrevistaC.updateEntrevista()}" update=":listarEntrevista updateEntrevistas"
+                                                 oncomplete="handleSubmit(args,'updateEntrevista');"/>
+
+                            </div>
+                        </div>
+
+                    </p:panel>
+                </center>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

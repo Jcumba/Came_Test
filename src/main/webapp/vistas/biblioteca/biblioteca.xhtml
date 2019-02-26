@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<body>
+
+<ui:composition template="./../template/TemplateMain.xhtml">
+    <ui:param name="active_biblioteca" value="active"/>
+
+    <ui:define name="header">
+        <h5 class="m-b-10">Intranet</h5>
+        <p class="m-b-0">Sistema Came 2018</p>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-md-12 ">
+
+                <ul class="nav nav-tabs tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" style="font-weight: bold" data-toggle="tab" href="#tabA"
+                           role="tab">DOCUMENTOS</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="font-weight: bold" data-toggle="tab" href="#tabB"
+                           role="tab">VIDEOS</a>
+
+                    </li>
+                </ul>
+                <div class="tab-content tabs-center-content card-block ">
+
+                    <div class="tab-pane active" id="tabA" role="tabpanel">
+                        <ui:fragment rendered="#{sessionService.administrador || sessionService.operaciones}">
+                            <ui:include src="createDoc.xhtml"/>
+                        </ui:fragment>
+                        <ui:include src="listDoc.xhtml"/>
+                    </div>
+
+                    <div class="tab-pane" id="tabB" role="tabpanel">
+                        <ui:fragment rendered="#{sessionService.administrador || sessionService.operaciones}">
+                            <ui:include src="createVid.xhtml"/>
+                        </ui:fragment>
+                        <ui:include src="listVid.xhtml"/>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</body>
+</html>
